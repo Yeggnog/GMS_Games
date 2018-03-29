@@ -153,16 +153,13 @@ depth = -6;
 //score total screen
 if(progress = 1 || progress = 2){
     //draw_sprite(sprite9, 4, view_xview[0], view_yview[0]);
-    draw_set_colour_write_enable(24,24,24,1);
-    draw_set_alpha(0.4);
+    draw_set_color(c_white);
+    draw_set_alpha(0.6);
     draw_rectangle(view_xview[0]+62, view_yview[0]+53, view_xview[0]+113, view_yview[0]+73, false);
     draw_set_alpha(1.0);
-    draw_text(view_xview[0]+65, view_yview[0]+56, "TOTAL");
-    draw_text(view_xview[0]+65, view_yview[0]+65, dummypoints);
-    draw_set_colour(c_white);
+    draw_set_colour(make_color_rgb(24,24,24));
     draw_text(view_xview[0]+64, view_yview[0]+55, "TOTAL");
     draw_text(view_xview[0]+64, view_yview[0]+64, dummypoints);
-    draw_set_colour_write_enable(24,24,24,1);
     //test for high score ------ ------ ------ ------ ------ ------ ------ ------ ------
     if(Surfer.pts &gt;= 
     HighScoreCounter.highscores[array_height_2d(HighScoreCounter.highscores)-1,1]){

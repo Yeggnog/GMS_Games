@@ -409,14 +409,29 @@ if(instance_exists(level_end_menu)){
     }
 }
 draw_sprite(sprite9,8,view_xview[0],view_yview[0]);
+//oneself
 if(wiped = 0){
     draw_self();
+}
+for(var i=0; i&lt;90; i+=10){
+    if(i+10 &lt;= 90){
+        draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 4);
+        draw_set_color(c_aqua);
+        draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 2);
+        draw_set_colour(make_color_rgb(24,24,24));
+        if(i == 0){
+        draw_line_width(x+lengthdir_x(14,(225+i)), y+lengthdir_y(14,(225+i)), x+lengthdir_x(18,(225+i)), y+lengthdir_y(18,(225+i)), 1);
+        }
+        if(i == 80){
+        draw_line_width(x+lengthdir_x(14,(235+i)), y+lengthdir_y(14,(235+i)), x+lengthdir_x(18,(235+i)), y+lengthdir_y(18,(235+i)), 1);
+        }
+    }
 }
 
 //set up
 fnt = font_add_sprite(sprite13, ord(" "), true, 1);
 draw_set_font(fnt);
-draw_set_colour_write_enable(24,24,24,1);
+draw_set_colour(make_color_rgb(24,24,24));
 
 //score counter
 draw_text(view_xview[0]+4, view_yview[0]+4, "SCORE:");
@@ -428,7 +443,9 @@ draw_sprite(sprite16, 0, view_xview[0]+(46+markerx), view_yview[0]+13);
 
 //combo counter
 draw_text(view_xview[0]+48+sprite_get_width(sprite15), view_yview[0]+4, "COMBO");
-draw_text(view_xview[0]+4, view_yview[0]+12, string(pts));
+if(flips != 0){
+draw_text(view_xview[0]+56+sprite_get_width(sprite15), view_yview[0]+12, "X"+string(flips));
+}
 
 //game over text
 if(wiped = 1){
