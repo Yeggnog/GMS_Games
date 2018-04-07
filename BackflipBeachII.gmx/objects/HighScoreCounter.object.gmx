@@ -47,6 +47,15 @@ if(file_exists(file)){
 }*/
 
 var int1 = 0;
+if(!file_exists(working_directory + "/Sample.txt")){
+    var fil = file_text_open_write(working_directory + "/Sample.txt");
+    file_text_write_string(fil, "LUCCA");
+    file_text_write_string(fil, "LAIKA");
+    file_text_write_string(fil, "MIKU");
+    file_text_write_string(fil, "NOXUS");
+    file_text_write_string(fil, "SYLUX");
+    file_text_close(fil);
+}
 file = file_text_open_read(working_directory + "/Sample.txt");
 while (!file_text_eof(file)){
 highscores[int1++,0] = file_text_readln(file);
@@ -54,6 +63,13 @@ highscores[int1++,0] = file_text_readln(file);
 file_text_close(file);
 
 int1 = 0;
+if(!file_exists(working_directory + "/HighScores.txt")){
+    var fil = file_text_open_write(working_directory + "/HighScores.txt");
+    for(i=0; i&lt;5; i++){
+        file_text_write_real(fil, 00000);
+    }
+    file_text_close(fil);
+}
 file = file_text_open_read(working_directory + "/HighScores.txt");
 while (!file_text_eof(file)){
 highscores[int1++,1] = real(file_text_readln(file));

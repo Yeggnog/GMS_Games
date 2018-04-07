@@ -413,6 +413,8 @@ draw_sprite(sprite9,8,view_xview[0],view_yview[0]);
 if(wiped = 0){
     draw_self();
 }
+//landing angle gague
+draw_sprite(sprite13,6,x+lengthdir_x(16, 360*(animbuffer/70)),y+lengthdir_y(16, 360*(animbuffer/70)));
 for(var i=0; i&lt;90; i+=10){
     if(i+10 &lt;= 90){
         draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 4);
