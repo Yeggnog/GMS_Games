@@ -7,10 +7,10 @@ flips = argument3;
 //test for sprite
 if(instance_exists(Surfer) && bouncing = 1){
     //if(facing = 0){
-    Surfer.sprite_index = sprite3;
+    //Surfer.sprite_index = sprite3;
     //}
     //if(facing = 180){
-    //Surfer.sprite_index = sprite4;
+    Surfer.sprite_index = sprite4;
     //}
 }
 

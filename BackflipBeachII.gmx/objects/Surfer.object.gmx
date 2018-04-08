@@ -435,7 +435,7 @@ if(wiped = 0){
 for(var i=0; i&lt;90; i+=10){
     if(i+10 &lt;= 90){
         draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 4);
-        draw_set_color(c_aqua);
+        draw_set_color(make_color_rgb(90,189,255));
         draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 2);
         draw_set_colour(make_color_rgb(24,24,24));
         if(i == 0){
@@ -446,7 +446,7 @@ for(var i=0; i&lt;90; i+=10){
         }
     }
 }
-draw_sprite_ext(sprite13,6,x+lengthdir_x(16, spriteangle-90),y+lengthdir_y(16, spriteangle-90),1,1,spriteangle,c_white,1.0);
+draw_sprite_ext(sprite13,6,x+lengthdir_x(16, spriteangle-90)+lengthdir_x(4, spriteangle-180),y+lengthdir_y(16, spriteangle-90)+lengthdir_y(4, spriteangle-180),1,1,spriteangle,c_white,1.0);
 
 //set up
 fnt = font_add_sprite(sprite13, ord(" "), true, 1);
