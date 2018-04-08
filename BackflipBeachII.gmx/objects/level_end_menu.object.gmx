@@ -163,7 +163,7 @@ if(progress = 1 || progress = 2){
     //test for high score ------ ------ ------ ------ ------ ------ ------ ------ ------
     if(Surfer.pts &gt;= 
     HighScoreCounter.highscores[array_height_2d(HighScoreCounter.highscores)-1,1]){
-        draw_text(view_xview[0]+48, view_yview[0]+74, "HIGH SCORE!");
+        draw_text(view_xview[0]+52, view_yview[0]+74, "HIGH SCORE!");
     }
 }
 
