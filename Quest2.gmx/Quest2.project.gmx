@@ -16,10 +16,16 @@
   </scripts>
   <objects name="objects">
     <object>objects\TextBox</object>
+    <object>objects\AbstractTextBox</object>
+    <object>objects\MessageBox</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
   </rooms>
+  <constants number="2">
+    <constant name="SCREEN_WIDTH">36</constant>
+    <constant name="SCREEN_HEIGHT">32</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>
