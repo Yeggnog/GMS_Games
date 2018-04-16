@@ -33,19 +33,25 @@
 //variables (width and height in units of 8x8 tiles)
 width = 8;
 height = 5;
+title = "THIS IS A SAMPLE ABSTRACT TEXTBOX.";
 depth = 0;
 
 //constrain the box
 // keep from going off the screen
-if(width &gt; SCREEN_WIDTH){
-    width = SCREEN_WIDTH;
+if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
+    width = SCREEN_WIDTH - (x/UI_TILE_SIZE);
 }
-if(height &gt; SCREEN_HEIGHT){
-    height = SCREEN_HEIGHT;
+if(((y/UI_TILE_SIZE) + height) &gt; SCREEN_HEIGHT){
+    height = SCREEN_HEIGHT - (y/UI_TILE_SIZE);
 }
 // keep within normal bounds:
 // - min width/height for a MessageBox is &lt;3,3&gt;
 // - min width/height for an OptionBox is &lt;4,3&gt;
+
+//constrain the title
+if(string_length(title) &gt; (width-3)){
+    title = string_copy(title, 0, width-3);
+}
 </string>
           </argument>
         </arguments>
@@ -70,30 +76,37 @@ if(height &gt; SCREEN_HEIGHT){
             <kind>1</kind>
             <string>//----[Event: draw]----
 //set color
+draw_set_color(c_black);
+//draw_box background
+draw_rectangle(x,y,x+(width*UI_TILE_SIZE),y+(height*UI_TILE_SIZE),false);
+//reset color
 draw_set_color(c_white);
 //draw corners
 draw_sprite(spr_textBox,0,x,y);
-draw_sprite(spr_textBox,3,x,y+(height-1)*8);
-draw_sprite(spr_textBox,1,x+(width-1)*8,y);
-draw_sprite(spr_textBox,2,x+(width-1)*8,y+(height-1)*8);
+draw_sprite(spr_textBox,3,x,y+(height-1)*UI_TILE_SIZE);
+draw_sprite(spr_textBox,1,x+(width-1)*UI_TILE_SIZE,y);
+draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
 //add remaining outline
-//if(width &gt; 2){
     for(i=1; i&lt;width-1; i++){
-    draw_sprite(spr_textBox,5,x+(i*8),y+(height-1)*8);
-    draw_sprite(spr_textBox,6,x+(i*8),y);
+    draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y+(height-1)*UI_TILE_SIZE);
+    draw_sprite(spr_textBox,6,x+(i*UI_TILE_SIZE),y);
     }
     for(i=1; i&lt;height-1; i++){
-    draw_sprite(spr_textBox,4,x+(width-1)*8,y+(i*8));
-    draw_sprite(spr_textBox,4,x,y+(i*8));
+    draw_sprite(spr_textBox,4,x+(width-1)*UI_TILE_SIZE,y+(i*UI_TILE_SIZE));
+    draw_sprite(spr_textBox,4,x,y+(i*UI_TILE_SIZE));
     }
-//}
-    //draw_sprite(spr_textBox,5,x+8,y);
-    //if(width-string_length(title) &gt; 2){
-        //for(i=1; i&lt;(width-string_length(title)-1); i++){
-        //draw_sprite(spr_textBox,5,x+((i+string_length(title))*8),y);
-        //}
-    //}
-
+    //initialize font
+    fnt_monospace = font_add_sprite(spr_font, ord(" "), false, 0);
+    draw_set_font(fnt_monospace);
+    //add title
+    draw_text(x+(2*UI_TILE_SIZE), y, title);
+    draw_sprite(spr_textBox,5,x+UI_TILE_SIZE,y);
+    if(width-string_length(title) &gt; 3){
+        for(i=1; i&lt;(width-string_length(title)-1); i++){
+        draw_sprite(spr_textBox,5,x+((i+string_length(title))*UI_TILE_SIZE),y);
+        }
+    }
+    font_delete(fnt_monospace);
 </string>
           </argument>
         </arguments>

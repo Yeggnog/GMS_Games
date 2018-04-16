@@ -13,6 +13,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\textboxParse.gml</script>
+    <script>scripts\neoParse.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\TextBox</object>
@@ -22,9 +23,10 @@
   <rooms name="rooms">
     <room>rooms\room0</room>
   </rooms>
-  <constants number="2">
+  <constants number="3">
     <constant name="SCREEN_WIDTH">36</constant>
     <constant name="SCREEN_HEIGHT">32</constant>
+    <constant name="UI_TILE_SIZE">8</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

@@ -28,12 +28,14 @@
             <string>//----[Event: create]----
 
 //variables (width and height in units of 8x8 tiles)
-width = 8;
-height = 5;
+width = 38;
+height = 10;
 depth = 0;
-rawText = "";
+rawText = "THOU HAST DONE WELL IN DEFEATING THE SLIME. THY EXPERIENCE GROWS BY 1.";
+title = "FIGHT ";
 var exploretemp = 1;
-var displaysize = 0;
+displaysize = 0;
+fillLine = 0;
 
 //fix height if it's odd
 if(height%2 != 0){
@@ -42,11 +44,11 @@ if(height%2 != 0){
 
 //constrain the box
 // keep from going off the screen
-if(width &gt; SCREEN_WIDTH){
-    width = SCREEN_WIDTH;
+if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
+    width = SCREEN_WIDTH - (x/UI_TILE_SIZE);
 }
-if(height &gt; SCREEN_HEIGHT){
-    height = SCREEN_HEIGHT;
+if(((y/UI_TILE_SIZE) + height) &gt; SCREEN_HEIGHT){
+    height = SCREEN_HEIGHT - (y/UI_TILE_SIZE);
 }
 // keep within normal bounds:
 // - min width/height for a MessageBox is &lt;3,3&gt;
@@ -66,6 +68,98 @@ while(exploretemp &lt; (height-1)){
 for(var i=0; i&lt;displaysize; i++){
     display[i] = "";
 }
+//constrain the title
+if(string_length(title) &gt; (width-3)){
+    title = string_copy(title, 0, width-3);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(keyboard_check_pressed(vk_enter)){
+    if(string_length(rawText) &gt; 0 &amp;&amp; fillLine &lt; displaysize){
+        display[fillLine] = neoParse(rawText, width-2, id);
+        fillLine += 1;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//----[Event: draw]----
+//set color
+draw_set_color(c_black);
+//draw_box background
+draw_rectangle(x,y,x+(width*UI_TILE_SIZE),y+(height*UI_TILE_SIZE),false);
+//reset color
+draw_set_color(c_white);
+//draw corners
+draw_sprite(spr_textBox,0,x,y);
+draw_sprite(spr_textBox,3,x,y+(height-1)*UI_TILE_SIZE);
+draw_sprite(spr_textBox,1,x+(width-1)*UI_TILE_SIZE,y);
+draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
+//add remaining outline
+    for(i=1; i&lt;width-1; i++){
+    draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y+(height-1)*UI_TILE_SIZE);
+    draw_sprite(spr_textBox,6,x+(i*UI_TILE_SIZE),y);
+    }
+    for(i=1; i&lt;height-1; i++){
+    draw_sprite(spr_textBox,4,x+(width-1)*UI_TILE_SIZE,y+(i*UI_TILE_SIZE));
+    draw_sprite(spr_textBox,4,x,y+(i*UI_TILE_SIZE));
+    }
+    //initialize font
+    fnt_monospace = font_add_sprite(spr_font, ord(" "), false, 0);
+    draw_set_font(fnt_monospace);
+    //add title
+    draw_text(x+(2*UI_TILE_SIZE), y, title);
+    draw_sprite(spr_textBox,5,x+UI_TILE_SIZE,y);
+    if(width-string_length(title) &gt; 3){
+        for(i=1; i&lt;(width-string_length(title)-1); i++){
+        draw_sprite(spr_textBox,5,x+((i+string_length(title))*UI_TILE_SIZE),y);
+        }
+    }
+    //draw text
+    draw_text(x+UI_TILE_SIZE,y-UI_TILE_SIZE,rawText);
+    for(i=0; i&lt;array_length_1d(display); i++){
+        draw_text(x+UI_TILE_SIZE,y+(UI_TILE_SIZE*(i+1)),display[i]);
+    }
+    font_delete(fnt_monospace);
 </string>
           </argument>
         </arguments>
