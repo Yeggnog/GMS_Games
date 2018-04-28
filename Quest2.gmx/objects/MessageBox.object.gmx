@@ -96,7 +96,7 @@ if(string_length(title) &gt; (width-3)){
             <kind>1</kind>
             <string>if(keyboard_check_pressed(vk_enter)){
     if(string_length(rawText) &gt; 0 &amp;&amp; fillLine &lt; displaysize){
-        display[fillLine] = neoParse(rawText, width-2, id);
+        display[fillLine] = rbParse(id, rawText, width-2);
         fillLine += 1;
     }
 }
