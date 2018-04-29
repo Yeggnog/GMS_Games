@@ -13,12 +13,20 @@ var i = string_length(temp);
 
 // code
 
-while(i>0 && string_char_at(temp,i) != ' '){
+while(i>0 && string_char_at(temp,i) != ' ' && string_char_at(temp,i) != '!'
+&& string_char_at(temp,i) != '.' && string_char_at(temp,i) != '?'){
     i--;
 }
-
 if(boxIndex.object_index == MessageBox){
-    boxIndex.rawText = string_copy(text,i,string_length(text));
+    if(i < string_length(text)){
+        boxIndex.rawText = string_copy(text,i,string_length(text));
+    }else{
+        boxIndex.rawText = "";
+    }
 }
+if(i != 0){
+    temp = string_copy(temp,0,i);
+}
+//temp = markup(temp);
 
 return temp;
