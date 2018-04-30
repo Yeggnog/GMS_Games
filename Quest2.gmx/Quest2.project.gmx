@@ -15,7 +15,8 @@
     <script>scripts\textboxParse.gml</script>
     <script>scripts\neoParse.gml</script>
     <script>scripts\rbParse.gml</script>
-    <script>scripts\markup.gml</script>
+    <script>scripts\newMessageBox.gml</script>
+    <script>scripts\newOptionBox.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\TextBox</object>
