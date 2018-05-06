@@ -171,7 +171,7 @@ draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
         }
     }
     //draw text
-    draw_text(x+UI_TILE_SIZE,y-UI_TILE_SIZE,rawText);
+    //draw_text(x+UI_TILE_SIZE,y-UI_TILE_SIZE,rawText);
     for(i=0; i&lt;array_length_1d(display); i++){
         draw_text(x+UI_TILE_SIZE,y+(UI_TILE_SIZE*(i+1)*2),display[i]);
     }

@@ -32,8 +32,9 @@ width = 38;
 height = 10;
 depth = 0;
 rawText = "COMMAND?";
-title = "FIGHT ";
+title = "FIGHTA";
 cursorPos = 0;
+ancestor = -1;
 
 //fix height if it's odd
 if(height%2 != 0){
@@ -41,18 +42,11 @@ if(height%2 != 0){
 }
 //start option arrays
 for(var i=0; i&lt;((height-2)/2); i++){
-    optionText[i] = "";
+    optionText[i] = "SAMPLE";
     optionIndex[i] = 0;
 }
 
 //constrain the box
-// keep from going off the screen
-if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
-    width = SCREEN_WIDTH - (x/UI_TILE_SIZE);
-}
-if(((y/UI_TILE_SIZE) + height) &gt; SCREEN_HEIGHT){
-    height = SCREEN_HEIGHT - (y/UI_TILE_SIZE);
-}
 // keep within normal bounds:
 // - min width/height for an OptionBox is &lt;4,3&gt;
 if(width &lt; 4){
@@ -60,6 +54,27 @@ if(width &lt; 4){
 }
 if(height &lt; 3){
     height = 3;
+}
+// keep it from cutting off text, if possible
+var tmp = 0;
+for(var i=0; i&lt;array_length_1d(optionText); i++){
+    if(string_length(optionText[i]) &gt; tmp){
+        tmp = string_length(optionText[i]);
+    }
+}
+tmp += 3;
+if(width &lt; tmp){
+    width = tmp;
+}
+if(height &lt; (2*(array_length_1d(optionText)+1))+2){
+    height = (2*(array_length_1d(optionText)+1))+2;
+}
+// keep from going off the screen
+if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
+    width = SCREEN_WIDTH - (x/UI_TILE_SIZE);
+}
+if(((y/UI_TILE_SIZE) + height) &gt; SCREEN_HEIGHT){
+    height = SCREEN_HEIGHT - (y/UI_TILE_SIZE);
 }
 //constrain the title
 if(string_length(title) &gt; (width-3)){
@@ -89,21 +104,13 @@ if(string_length(title) &gt; (width-3)){
           <argument>
             <kind>1</kind>
             <string>if(keyboard_check_pressed(vk_enter)){
-    if(string_length(rawText) &gt; 0){
-        if(fillLine &lt; displaysize){
-            display[fillLine] = rbParse(id, rawText, width-2);
-            fillLine += 1;
-        }else{
-            for(var i=0; i&lt;array_length_1d(display)-1; i++){
-                display[i] = display[i+1];
-            }
-            fillLine -= 1;
-            display[fillLine] = rbParse(id, rawText, width-2);
-        }
-    }else{
-        //*Close animation goes here*
-        instance_destroy();
+    if(optionIndex[cursorPos] != 0){
+        //*doAction(optionIndex[cursorPos]);*
+    }else if(ancestor != -1){
+        //newOptionBox() / newMessageBox() for ancestor with params
     }
+    //*Close animation goes here*
+    instance_destroy();
 }
 if(keyboard_check_pressed(vk_down)){
     if(cursorPos &lt; array_length_1d(optionText)-1){
@@ -119,6 +126,71 @@ if(keyboard_check_pressed(vk_up)){
         cursorPos = array_length_1d(optionText)-1;
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//----[Event: draw]----
+//set color
+draw_set_color(c_black);
+//draw_box background
+draw_rectangle(x,y,x+(width*UI_TILE_SIZE),y+(height*UI_TILE_SIZE),false);
+//reset color
+draw_set_color(c_white);
+//draw corners
+draw_sprite(spr_textBox,0,x,y);
+draw_sprite(spr_textBox,3,x,y+(height-1)*UI_TILE_SIZE);
+draw_sprite(spr_textBox,1,x+(width-1)*UI_TILE_SIZE,y);
+draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
+    //add remaining outline
+    for(i=1; i&lt;width-1; i++){
+    draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y+(height-1)*UI_TILE_SIZE);
+    draw_sprite(spr_textBox,6,x+(i*UI_TILE_SIZE),y);
+    }
+    for(i=1; i&lt;height-1; i++){
+    draw_sprite(spr_textBox,4,x+(width-1)*UI_TILE_SIZE,y+(i*UI_TILE_SIZE));
+    draw_sprite(spr_textBox,4,x,y+(i*UI_TILE_SIZE));
+    }
+    //if(string_length(rawText) &gt; 0){
+    //draw_sprite(spr_textBox, 7, x+((width/2)+1)*UI_TILE_SIZE, y+(height-1)*UI_TILE_SIZE);
+    //}
+    //initialize font
+    fnt_monospace = font_add_sprite(spr_font, ord(" "), false, 0);
+    draw_set_font(fnt_monospace);
+    //add title
+    draw_text(x+(2*UI_TILE_SIZE), y, title);
+    draw_sprite(spr_textBox,5,x+UI_TILE_SIZE,y);
+    if(width-string_length(title) &gt; 3){
+        for(i=1; i&lt;(width-string_length(title)-1); i++){
+        draw_sprite(spr_textBox,5,x+((i+string_length(title))*UI_TILE_SIZE),y);
+        }
+    }
+    //draw text
+    draw_text(x+UI_TILE_SIZE,y+(2*UI_TILE_SIZE),rawText);
+    for(i=0; i&lt;array_length_1d(optionText); i++){
+        draw_text(x+(2*UI_TILE_SIZE),y+(UI_TILE_SIZE*(i+2)*2),optionText[i]);
+    }
+    font_delete(fnt_monospace);
+    //draw cursor
+    draw_sprite(spr_textBox,8,x+UI_TILE_SIZE,y+(UI_TILE_SIZE*(cursorPos+2)*2));
 </string>
           </argument>
         </arguments>
