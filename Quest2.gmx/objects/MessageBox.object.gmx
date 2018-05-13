@@ -33,10 +33,12 @@ height = 10;
 depth = 0;
 rawText = "THOU HAST DONE WELL IN DEFEATING THE SLIME. THY EXPERIENCE GROWS BY 1.";
 rawText += " THROUGH THY EFFORTS, THY LEVEL HAST GROWN TO 10. THY MAGIC GROWS BY 1.";
-title = "FIGHT ";
+title = "FIGHTA";
 var exploretemp = 1;
 displaysize = 0;
 fillLine = 0;
+ancestor = -1;
+endparams[0] = -1; //mark as not creating another (0 for MessageBox and 1 for OptionBox)
 
 //fix height if it's odd
 if(height%2 != 0){
@@ -110,6 +112,13 @@ if(string_length(title) &gt; (width-3)){
         }
     }else{
         //*Close animation goes here*
+        if(endparams[0] != -1){
+            if(endparams[0] == 0){
+                // newMessageBox();
+            }else{
+                // newOptionBox();
+            }
+        }
         instance_destroy();
     }
 }

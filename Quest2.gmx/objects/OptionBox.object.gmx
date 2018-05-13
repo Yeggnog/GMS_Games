@@ -35,6 +35,7 @@ rawText = "COMMAND?";
 title = "FIGHTA";
 cursorPos = 0;
 ancestor = -1;
+endparams[0] = -1; //mark as not creating another (0 for MessageBox and 1 for OptionBox)
 
 //fix height if it's odd
 if(height%2 != 0){
@@ -106,8 +107,16 @@ if(string_length(title) &gt; (width-3)){
             <string>if(keyboard_check_pressed(vk_enter)){
     if(optionIndex[cursorPos] != 0){
         //*doAction(optionIndex[cursorPos]);*
-    }else if(ancestor != -1){
+    }else{ 
+        if(ancestor == -1 &amp;&amp; endparams[0] != -1){
         //newOptionBox() / newMessageBox() for ancestor with params
+            if(endparams[0] == 0){
+                // newMessageBox();
+            }else{
+                // newOptionBox();
+            }
+        }
+        
     }
     //*Close animation goes here*
     instance_destroy();
