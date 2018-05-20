@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>AbstractTextBox</parentName>
+  <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,37 +25,19 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//----[Event: create]----
+            <string>//--------[Object: textBox]--------
+// designed to be a variable system to be used for all types of text boxes
+// uses sprite spr_textBox = (0[NW] 1[NE] 2[SE] 3[SW] 4[V] 5[H] 6[ ] 7[v] 8[&gt;])
+//----[Event: create]----
 
 //variables (width and height in units of 8x8 tiles)
-width = 38;
-height = 10;
+alarm[0] = 1;
+opening = true;
+width = 12;
+height = 6;
+col = 0;
+sibling = -1;
 depth = 0;
-rawText = "THOU HAST DONE WELL IN DEFEATING THE SLIME. THY EXPERIENCE GROWS BY 1.";
-rawText += " THROUGH THY EFFORTS, THY LEVEL HAST GROWN TO 10. THY MAGIC GROWS BY 1.";
-title = "FIGHTA";
-var exploretemp = 1;
-displaysize = 0;
-fillLine = 0;
-ancestor = -1;
-active = true;
-endparams[0] = -1; //mark as not creating another (0 for MessageBox and 1 for OptionBox)
-alarm[0] = 2;
-
-//fix height if it's odd
-if(height%2 != 0){
-    height += 1;
-}
-//initialize display lines
-while(exploretemp &lt; (height-1)){
-    if(height - exploretemp &gt; 2){
-        exploretemp += 2;
-        displaysize += 1;
-    }
-}
-for(var i=0; i&lt;displaysize; i++){
-    display[i] = "";
-}
 </string>
           </argument>
         </arguments>
@@ -78,11 +60,12 @@ for(var i=0; i&lt;displaysize; i++){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//fix height if it's odd
-if(height%2 != 0){
-    height += 1;
+            <string>//edit for opening / closing
+if(opening == false){
+    col = targetw;
+}else{
+    col = 0;
 }
-
 //constrain the box
 // keep from going off the screen
 if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
@@ -90,18 +73,6 @@ if(((x/UI_TILE_SIZE) + width) &gt; SCREEN_WIDTH){
 }
 if(((y/UI_TILE_SIZE) + height) &gt; SCREEN_HEIGHT){
     height = SCREEN_HEIGHT - (y/UI_TILE_SIZE);
-}
-// keep within normal bounds:
-// - min width/height for a MessageBox is &lt;3,3&gt;
-if(width &lt; 3){
-    width = 3;
-}
-if(height &lt; 3){
-    height = 3;
-}
-//constrain the title
-if(string_length(title) &gt; (width-3)){
-    title = string_copy(title, 0, width-3);
 }
 </string>
           </argument>
@@ -125,27 +96,13 @@ if(string_length(title) &gt; (width-3)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check_pressed(vk_enter)){
-    if(string_length(rawText) &gt; 0){
-        if(fillLine &lt; displaysize){
-            display[fillLine] = rbParse(id, rawText, width-2);
-            fillLine += 1;
-        }else{
-            for(var i=0; i&lt;array_length_1d(display)-1; i++){
-                display[i] = display[i+1];
-            }
-            fillLine -= 1;
-            display[fillLine] = rbParse(id, rawText, width-2);
-        }
+            <string>// update col
+if(opening == true){
+    if(col &lt; (width+height-1)){
+        col += 1;
     }else{
-        //*Close animation goes here*
-        if(endparams[0] != -1){
-            if(endparams[0] == 0){
-                // newMessageBox();
-            }else{
-                // newOptionBox();
-            }
-        }
+        // new text box
+        instance_activate_object(sibling);
         instance_destroy();
     }
 }
@@ -171,48 +128,26 @@ if(string_length(title) &gt; (width-3)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//----[Event: draw]----
-//set color
-draw_set_color(c_black);
-//draw_box background
-draw_rectangle(x,y,x+(width*UI_TILE_SIZE),y+(height*UI_TILE_SIZE),false);
-//reset color
-draw_set_color(c_white);
-//draw corners
-draw_sprite(spr_textBox,0,x,y);
-draw_sprite(spr_textBox,3,x,y+(height-1)*UI_TILE_SIZE);
-draw_sprite(spr_textBox,1,x+(width-1)*UI_TILE_SIZE,y);
-draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
-    //add remaining outline
-    for(i=1; i&lt;width-1; i++){
-    draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y+(height-1)*UI_TILE_SIZE);
-    draw_sprite(spr_textBox,6,x+(i*UI_TILE_SIZE),y);
-    }
-    for(i=1; i&lt;height-1; i++){
-    draw_sprite(spr_textBox,4,x+(width-1)*UI_TILE_SIZE,y+(i*UI_TILE_SIZE));
-    draw_sprite(spr_textBox,4,x,y+(i*UI_TILE_SIZE));
-    }
-    if(string_length(rawText) &gt; 0){
-        draw_sprite(spr_textBox, 7, x+((width/2)+1)*UI_TILE_SIZE, y+(height-1)*UI_TILE_SIZE);
-    }
-    //initialize font
-    fnt_monospace = font_add_sprite(spr_font, ord(" "), false, 0);
-    draw_set_font(fnt_monospace);
-    //add title
-    draw_text(x+(2*UI_TILE_SIZE), y, title);
-    draw_sprite(spr_textBox,5,x+UI_TILE_SIZE,y);
-    if(width-string_length(title) &gt; 3){
-        for(i=1; i&lt;(width-string_length(title)-1); i++){
-        draw_sprite(spr_textBox,5,x+((i+string_length(title))*UI_TILE_SIZE),y);
+            <string>// draw box
+for(var i=0; i&lt;col; i++){
+    for(var j=0; j&lt;col-i; j++){
+        if(i &lt;= width &amp;&amp; j &lt;= height){
+            if(i == 0){
+                if(j == 0){draw_sprite(spr_textBox,0,x,y);}
+                else if(j == height){draw_sprite(spr_textBox,3,x,y+(j*UI_TILE_SIZE));}
+                else{draw_sprite(spr_textBox,4,x,y+(j*UI_TILE_SIZE));}
+            }else if(i == width){
+                if(j == 0){draw_sprite(spr_textBox,1,x+(i*UI_TILE_SIZE),y);}
+                else if(j == height){draw_sprite(spr_textBox,2,x+(i*UI_TILE_SIZE),y+(j*UI_TILE_SIZE));}
+                else{draw_sprite(spr_textBox,4,x+(i*UI_TILE_SIZE),y+(j*UI_TILE_SIZE));}
+            }else{
+                if(j == 0){draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y);}
+                else if(j == height){draw_sprite(spr_textBox,5,x+(i*UI_TILE_SIZE),y+(j*UI_TILE_SIZE));}
+                else{draw_sprite(spr_textBox,6,x+(i*UI_TILE_SIZE),y+(j*UI_TILE_SIZE));}
+            }
         }
     }
-    if(active == true){
-        //draw text
-        for(i=0; i&lt;array_length_1d(display); i++){
-            draw_text(x+UI_TILE_SIZE,y+(UI_TILE_SIZE*(i+1)*2),display[i]);
-        }
-    }
-    font_delete(fnt_monospace);
+}
 </string>
           </argument>
         </arguments>
