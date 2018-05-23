@@ -6,27 +6,16 @@ var ycoord = argument1;
 
 // code
 // create box, assign variable values
-var ind = instance_create(xcoord, ycoord, MessageBox);
+var ind2 = instance_create(xcoord,ycoord,AnimBox);
+ind.sibling = ind;
 ind.width = argument2;
 ind.height = argument3;
-ind.title = argument4;
-ind.rawText = argument5;
 if(ds_list_size(GlobalControl.boxes) > 0){
     ind.depth = GlobalControl.boxes[|0].depth-1;
 }else{
     ind.depth = 0;
 }
-instance_deactivate_object(ind);
-var ind2 = instance_create(xcoord,ycoord,AnimBox);
-ind2.sibling = ind;
-ind2.width = argument2;
-ind2.height = argument3;
-if(ds_list_size(GlobalControl.boxes) > 0){
-    ind2.depth = GlobalControl.boxes[|0].depth-1;
-}else{
-    ind2.depth = 0;
-}
-ds_list_add(GlobalControl.boxes,ind,ind2);
+ds_list_add(GlobalControl.boxes,ind);
 
 //return index of box
 return ind;

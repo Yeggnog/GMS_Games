@@ -29,4 +29,5 @@ if(i != 0){
 }
 //temp = markup(temp);
 
+show_debug_message(temp);
 return temp;

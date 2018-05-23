@@ -31,12 +31,14 @@
 //----[Event: create]----
 
 //variables (width and height in units of 8x8 tiles)
+focused = id;
 alarm[0] = 1;
 opening = true;
 width = 12;
 height = 6;
 col = 0;
 sibling = -1;
+ancestor = -1;
 depth = 0;
 </string>
           </argument>
@@ -62,7 +64,7 @@ depth = 0;
             <kind>1</kind>
             <string>//edit for opening / closing
 if(opening == false){
-    col = targetw;
+    col = (width+height+1);
 }else{
     col = 0;
 }
@@ -103,6 +105,18 @@ if(opening == true){
     }else{
         // new text box
         instance_activate_object(sibling);
+        ds_list_delete(GlobalControl.boxes, ds_list_find_index(GlobalControl.boxes,id));
+        instance_destroy();
+    }
+}else{
+    if(col &gt; 0){
+        col -= 1;
+    }else{
+        // refocus on ancestor
+        if(ancestor != -1){
+            focused = ancestor;
+        }
+        ds_list_delete(GlobalControl.boxes, ds_list_find_index(GlobalControl.boxes,id));
         instance_destroy();
     }
 }
