@@ -3,18 +3,16 @@ facing = argument0;
 angle = argument1;
 bouncing = argument2;
 flips = argument3;
+sprite = argument4;
 
 //test for sprite
 if(instance_exists(Surfer) && bouncing = 1){
-    //if(facing = 0){
-    //Surfer.sprite_index = sprite3;
-    //}
-    //if(facing = 180){
-    Surfer.sprite_index = sprite4;
-    //}
+    Surfer.sprite_index = sprite;
 }
 
 //operation
+if(sprite == sprite4){
+
 switch(angle){
 case 0:
     Surfer.image_index = 0;
@@ -50,4 +48,41 @@ case 360:
     Surfer.flips ++;
     Surfer.subpts += 150;
 break;
+}
+
+}else if(sprite == sprite3){
+
+switch(angle){
+case 0:
+    Surfer.image_index = 0;
+break;
+
+case 60:
+    Surfer.image_index = 1;
+break;
+
+case 120:
+    Surfer.image_index = 2;
+break;
+
+case 180:
+    Surfer.image_index = 3;
+break;
+
+case 240:
+    Surfer.image_index = 4;
+break;
+
+case 300:
+    Surfer.image_index = 5;
+break;
+
+case 360:
+    image_index = 6;
+    Surfer.animbuffer = 0;
+    Surfer.flips ++;
+    Surfer.subpts += 50;
+break;
+}
+
 }

@@ -29,7 +29,7 @@
 vp = 0;
 hp = 0;
 
-wipes = 0; wiped = 0;
+wipes = 0; wiped = 0; spinning = false;
 flips = 0; mult = 0; subpts = 0;
 winning = 0;
 pts = 0;
@@ -43,6 +43,7 @@ storedindex = 0;
 jumpup = 0;
 animbuffer = 0;
 spriteangle = 0;
+latAngle = 0;
 alarmbuffer = 0;
 /*
 globalvar Normal_Font;
@@ -125,6 +126,16 @@ if(wiped = 1){
             <string>///gravity and trail handling
 if(paused = 0)
 {
+    if(spinning == true){
+        if(latAngle &lt; 360){
+            latAngle += 20;
+        }else{
+            latAngle = 0;
+            spinning = false;
+            sprite_index = sprite2;
+        }
+        animUpdate(facing, latAngle, bouncing, flips, sprite3);
+    }
     //push out
     //if(place_meeting(x,y,solid_collision) &amp;&amp; facing = 0){
     //x -= 1;
@@ -150,13 +161,16 @@ if(paused = 0)
     if(place_meeting(x,y+vp,solid_collision) || place_meeting(x,y+vp,object4)){
         vp = 0;
         image_speed = 1;
+        spriteangle = 0;
+        latAngle = 0;
+        spinning = false;
         if(winning != true){
     if(sprite_index = sprite3){
-        if(image_index &gt;= 2 &amp;&amp; image_index &lt;= 6){
+        if(spriteangle &lt; 315 &amp;&amp; spriteangle &gt; 45){
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
-        alarm[1] = 60;
+        alarm[1] = 30;
         }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
@@ -165,7 +179,7 @@ if(paused = 0)
         }
     }
     if(sprite_index = sprite4){
-        if(image_index &gt;= 1 &amp;&amp; image_index &lt;= 5){
+        if((image_index &gt;= 1 &amp;&amp; image_index &lt;= 5) || (spriteangle &lt; 315 &amp;&amp; spriteangle &gt; 45)){
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
@@ -250,9 +264,13 @@ hp -= 1;
 if(winning = 0){
 if(keyboard_check_pressed(controls_keyboard[2]) || keyboard_check_pressed(vk_up)){
     //jump_scr
-    if (place_meeting(x,y+16,solid_collision) &amp;&amp; vp = 0 &amp;&amp; paused = 0)
+    if (paused = 0 &amp;&amp; spinning == false)
     {
-    vp = -6;
+    if(place_meeting(x,y+16,solid_collision) &amp;&amp; vp = 0){
+        vp = -6;
+    }else{
+        vp = -4;
+    }
     jumpup = 1;
     if(!instance_exists(Board)){
     instance_create(x,y+3,Board);
@@ -261,7 +279,7 @@ if(keyboard_check_pressed(controls_keyboard[2]) || keyboard_check_pressed(vk_up)
     alarm[0] = 10;
     }
 }
-if(keyboard_check(controls_keyboard[0]) || keyboard_check(vk_left)){
+if((keyboard_check(controls_keyboard[0]) || keyboard_check(vk_left)) &amp;&amp; bouncing == true){
     //lean forward
     /*
     facing = 180;
@@ -274,10 +292,13 @@ if(keyboard_check(controls_keyboard[0]) || keyboard_check(vk_left)){
     }else{
         spriteangle = 0;
     }
-    animUpdate(facing, spriteangle, bouncing, flips);
-    //image_angle = spriteangle;
+    if(spinning == false &amp;&amp; !instance_exists(Board)){
+        animUpdate(facing, spriteangle, bouncing, flips, sprite4);
+    }else{
+        image_angle = spriteangle;
+    }
 }
-if(keyboard_check(controls_keyboard[1]) || keyboard_check(vk_right)){
+if((keyboard_check(controls_keyboard[1]) || keyboard_check(vk_right)) &amp;&amp; bouncing == true){
     //lean backward
     /*
     facing = 0;
@@ -291,14 +312,24 @@ if(keyboard_check(controls_keyboard[1]) || keyboard_check(vk_right)){
     }else{
         spriteangle = 360;
     }
-    animUpdate(facing, spriteangle, bouncing, flips);
-    //image_angle = spriteangle;
+    if(spinning == false &amp;&amp; !instance_exists(Board)){
+        animUpdate(facing, spriteangle, bouncing, flips, sprite4);
+    }else{
+        image_angle = spriteangle;
+    }
+}
+if(keyboard_check_pressed(controls_keyboard[3]) || keyboard_check(vk_down)){
+    if(!instance_exists(Board)){
+        //start spinning
+        spinning = true;
+    }
 }
 if(keyboard_check_pressed(controls_keyboard[6]) &amp;&amp; wiped = 1
 &amp;&amp; !instance_exists(levelend) &amp;&amp; !instance_exists(level_end_menu)){
     //"skip to the end" button
     wiped = 0;
     timeleft = 0;
+    markerx = 0;
     //instance_create(x, y, levelend);
 }
 }
@@ -373,12 +404,16 @@ if place_free(x+hp,y) {
             <string>while(place_meeting(x+1,y,object4)){
 y -= 1;
 }
-sprite_index = sprite3;
+sprite_index = sprite4;
 image_speed = 0;
 image_index = 0;
     if(sprite_index = sprite3){
-        if(image_index &gt;= 2 &amp;&amp; image_index &lt;= 6){
+        if(spriteangle &lt; 315 &amp;&amp; spriteangle &gt; 45){
         wiped = 1;
+        if(alarmbuffer = 0){
+        alarmbuffer = 1;
+        alarm[1] = 30;
+        }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
             instance_create(x,y+3,Board);
@@ -386,8 +421,12 @@ image_index = 0;
         }
     }
     if(sprite_index = sprite4){
-        if(image_index &gt;= 1 &amp;&amp; image_index &lt;= 5){
+        if((image_index &gt;= 1 &amp;&amp; image_index &lt;= 5) || (spriteangle &lt; 315 &amp;&amp; spriteangle &gt; 45)){
         wiped = 1;
+        if(alarmbuffer = 0){
+        alarmbuffer = 1;
+        alarm[1] = 30;
+        }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
             instance_create(x,y+3,Board);
@@ -431,6 +470,7 @@ draw_sprite(sprite9,8,view_xview[0],view_yview[0]);
 if(wiped = 0){
     draw_self();
 }
+if(spriteangle &gt;= 225 &amp;&amp; spriteangle &lt;= 315){
 //landing angle gague
 for(var i=0; i&lt;90; i+=10){
     if(i+10 &lt;= 90){
@@ -447,6 +487,7 @@ for(var i=0; i&lt;90; i+=10){
     }
 }
 draw_sprite_ext(sprite13,6,x+lengthdir_x(16, spriteangle-90)+lengthdir_x(4, spriteangle-180),y+lengthdir_y(16, spriteangle-90)+lengthdir_y(4, spriteangle-180),1,1,spriteangle,c_white,1.0);
+}
 
 //set up
 fnt = font_add_sprite(sprite13, ord(" "), true, 1);
