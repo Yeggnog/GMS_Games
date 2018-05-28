@@ -27,6 +27,7 @@
     <sprite>sprites\sprite18</sprite>
     <sprite>sprites\sprite19</sprite>
     <sprite>sprites\sprite20</sprite>
+    <sprite>sprites\sprite21</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -57,6 +58,7 @@
     <object>objects\level_end_menu</object>
     <object>objects\TitleControl</object>
     <object>objects\HighScoreCounter</object>
+    <object>objects\Parallax</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room2</room>

@@ -162,6 +162,7 @@ if(paused = 0)
         vp = 0;
         image_speed = 1;
         spriteangle = 0;
+        image_angle = spriteangle;
         latAngle = 0;
         spinning = false;
         if(winning != true){
@@ -460,17 +461,19 @@ vp = -5;
             <string>///UI and oneself :|
 
 //beach in BG
+/*
 if(instance_exists(level_end_menu)){
     if(storedindex.progress &lt; 3){
         draw_sprite(sprite9, 0, view_xview[0]-storedindex.xval, view_yview[0]);
     }
 }
 draw_sprite(sprite9,8,view_xview[0],view_yview[0]);
+*/
 //oneself
 if(wiped = 0){
     draw_self();
 }
-if(spriteangle &gt;= 225 &amp;&amp; spriteangle &lt;= 315){
+if(spriteangle &gt;= 315 || spriteangle &lt;= 45){
 //landing angle gague
 for(var i=0; i&lt;90; i+=10){
     if(i+10 &lt;= 90){
@@ -490,9 +493,10 @@ draw_sprite_ext(sprite13,6,x+lengthdir_x(16, spriteangle-90)+lengthdir_x(4, spri
 }
 
 //set up
-fnt = font_add_sprite(sprite13, ord(" "), true, 1);
+fnt = font_add_sprite(sprite13, ord(" "), true, 0);
 draw_set_font(fnt);
-draw_set_colour(make_color_rgb(24,24,24));
+//draw_set_colour(make_color_rgb(24,24,24));
+draw_set_colour(c_white);
 
 //score counter
 draw_text(view_xview[0]+4, view_yview[0]+4, "SCORE:");
