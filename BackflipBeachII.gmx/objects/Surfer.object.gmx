@@ -330,7 +330,7 @@ if(keyboard_check_pressed(controls_keyboard[6]) &amp;&amp; wiped = 1
     //"skip to the end" button
     wiped = 0;
     timeleft = 0;
-    markerx = 0;
+    markerx = 18;
     //instance_create(x, y, levelend);
 }
 }

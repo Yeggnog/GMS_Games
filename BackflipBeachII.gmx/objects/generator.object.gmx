@@ -59,7 +59,8 @@
 4-7 -&gt; medium
 8-9 -&gt; large
 */
-int = round(random_range(1,9));
+//int = round(random_range(1,9));
+int = round(random_range(1,7));
 switch(int){
 case 1:
 //small

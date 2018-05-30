@@ -147,7 +147,7 @@ if(entertoggle = false){
             <string>///I had to rewrite this way too many times
 
 //set up font and such
-fnt = font_add_sprite(sprite13, ord(" "), true, 2);
+fnt = font_add_sprite(sprite13, ord(" "), true, 0);
 draw_set_font(fnt);
 draw_set_colour(c_white);
 //draw_set_colour_write_enable(24,24,24,1);

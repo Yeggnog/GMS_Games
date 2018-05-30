@@ -26,13 +26,13 @@
           <argument>
             <kind>1</kind>
             <string>playerSpeed = 2;
-speedDenom = 8;
+speedDenom = 1.75;
 layerX[0] = -8; //water
-layerX[1] = -32; //beach
-layerX[2] = -64; //stage
-layerX[3] = 32; //clouds
-layerX[4] = 64; //sun
-layerX[5] = 0; //BG
+layerX[1] = 0; //BG
+layerX[2] = 84; //sun
+layerX[3] = 84; //clouds
+layerX[4] = -84; //stage
+layerX[5] = -105; //beach
 </string>
           </argument>
         </arguments>
@@ -55,19 +55,26 @@ layerX[5] = 0; //BG
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for(var i=0; i&lt;array_length_1d(layerX); i++){
-    if(abs(layerX[i]) &lt;= (playerSpeed / power(speedDenom,i)) &amp;&amp; layerX[i] != 0){
+            <string>for(var i=1; i&lt;array_length_1d(layerX); i++){
+    if(i&lt;4 || instance_exists(level_end_menu)){
+    /*if(i &gt;= 4){
+        speedDenom = 3;
+    }*/
+    if(abs(layerX[i]) &lt;= (playerSpeed / power(speedDenom,7-i)) &amp;&amp; layerX[i] != 0){
         layerX[i] = 0;
-    }else if(layerX[i] == 0 &amp;&amp; i == 0){
-        layerX[0] = -8;
-    }else if(i != 5){
+    }else if(i != 1){
         if(layerX[i] &gt; 0){
-            layerX[i] -= (playerSpeed / power(speedDenom,i));
+            layerX[i] -= (playerSpeed / power(speedDenom,7-i));
         }
         if(layerX[i] &lt; 0){
-            layerX[i] += (playerSpeed / power(speedDenom,i));
+            layerX[i] += (playerSpeed / power(speedDenom,7-i));
         }
     }
+    //speedDenom = 2;
+    }
+}
+if(layerX[0] &lt;= 0){
+    layerX[0] = -8;
 }
 </string>
           </argument>
@@ -91,10 +98,10 @@ layerX[5] = 0; //BG
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for(var i=0; i&lt;4; i++){
-    draw_sprite(sprite21,2*i,view_xview[0]+layerX[i+2],view_yview[0]);
+            <string>for(var i=1; i&lt;5; i++){
+    draw_sprite(sprite21,2*(i-1),view_xview[0]+layerX[i],view_yview[0]);
 }
-draw_sprite(sprite9,0,view_xview[0]+layerX[1],view_yview[0]);
+draw_sprite(sprite9,0,view_xview[0]+layerX[5],view_yview[0]);
 </string>
           </argument>
         </arguments>

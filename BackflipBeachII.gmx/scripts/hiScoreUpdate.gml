@@ -15,20 +15,20 @@ while(temp > 0 && list_real[| temp-1] < pts){
 }
 ds_list_insert(list_real,temp,pts);
 ds_list_insert(list_name,temp,name);
-var file = working_directory + "/Sample.txt";
+var file = working_directory + "/Names.txt";
 var file_index = file_text_open_write(file);
     for(var i=0; i<ds_list_size(list_name)-1; i++){
-    file_text_write_string(file_index,list_name[| i]);
-    if(i = temp){
-        file_text_writeln(file_index);
-    }
+        file_text_write_string(file_index,list_name[| i]+"#");
+        //if(i = temp){
+            file_text_writeln(file_index);
+        //}
     }
 file_text_close(file_index);
 var file = working_directory + "/HighScores.txt";
 file_index = file_text_open_write(file);
     for(var i=0; i<ds_list_size(list_real)-1; i++){
-    file_text_write_real(file_index,list_real[| i]);
-    file_text_writeln(file_index);
+        file_text_write_real(file_index,list_real[| i]);
+        file_text_writeln(file_index);
     }
 file_text_close(file_index);
 ds_list_destroy(list_real);

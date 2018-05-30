@@ -89,9 +89,14 @@ if(paused = 0)
     }
 
     //trail
-    if(abs(hp) &gt; 4 || abs(vp) &gt; 4)
+    if(vp &gt; 0)
     {
+    image_angle -= 1;
     //instance_create(x,y,Trail_1);
+    }else if(vp &lt; 0){
+    image_angle += 1;
+    }else{
+    image_angle = 0;
     }
 }
 </string>
