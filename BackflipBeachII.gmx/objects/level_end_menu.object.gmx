@@ -111,7 +111,7 @@ if(progress = 1){
 if(progress = 2){
     if(screenxval &gt; 0){
         screenxval -= 8;
-    }else if(Surfer.pts &gt;= 
+    }else if(dummypoints &gt;= 
     HighScoreCounter.highscores[array_height_2d(HighScoreCounter.highscores)-1,1]){
         progress = 3;
         instance_create(10,10,TextInput);

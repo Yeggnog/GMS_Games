@@ -61,15 +61,16 @@ if keyboard_check_pressed(vk_anykey)
     else if (k==controls_keyboard[7])
     {
         level_end_menu.alarmtoggle = 0;
-        level_end_menu.progress++;
+        level_end_menu.progress = 4;
         instance_destroy();
     }
     else if (k==controls_keyboard[4]) and (txt_input!="")
     {
         // enter was pressed and input wasn't empty : do what have to be done here !
-        hiScoreUpdate(Surfer.pts, txt_input);
+        hiScoreUpdate(level_end_menu.dummypoints, txt_input);
         txt_input = "";
-        level_end_menu.alarmtoggle = 0;
+        //level_end_menu.alarmtoggle = 0;
+        level_end_menu.progress = 4;
         instance_destroy();
     }
     else if k&gt;=65 and k&lt;=90 or k&gt;=97 and k&lt;=122 or k&gt;=48 and k&lt;=57 or k==192 or k==32

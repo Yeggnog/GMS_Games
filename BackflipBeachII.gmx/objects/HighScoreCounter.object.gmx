@@ -25,7 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//this
+            <string>//globalvar enter_slip_control;
+//enter_slip_control = false;
+
+//this
 highscores[0,0] = "ASH"; highscores[0,1] = 05562;
 highscores[1,0] = "------"; highscores[1,1] = 00000;
 highscores[2,0] = "------"; highscores[2,1] = 00000;
@@ -47,18 +50,24 @@ if(file_exists(file)){
 }*/
 
 var int1 = 0;
-if(!file_exists(working_directory + "/Sample.txt")){
-    var fil = file_text_open_write(working_directory + "/Sample.txt");
-    file_text_write_string(fil, "LUCCA");
-    file_text_write_string(fil, "LAIKA");
-    file_text_write_string(fil, "MIKU");
-    file_text_write_string(fil, "NOXUS");
-    file_text_write_string(fil, "SYLUX");
+if(!file_exists(working_directory + "/Names.txt")){
+    var fil = file_text_open_write(working_directory + "/Names.txt");
+        file_text_write_string(fil, "LUCCA");
+        file_text_writeln(fil);
+        file_text_write_string(fil, "LAIKA");
+        file_text_writeln(fil);
+        file_text_write_string(fil, "MIKU");
+        file_text_writeln(fil);
+        file_text_write_string(fil, "NOXUS");
+        file_text_writeln(fil);
+        file_text_write_string(fil, "SYLUX");
+        file_text_writeln(fil);
     file_text_close(fil);
 }
-file = file_text_open_read(working_directory + "/Sample.txt");
+file = file_text_open_read(working_directory + "/Names.txt");
 while (!file_text_eof(file)){
-highscores[int1++,0] = file_text_readln(file);
+    highscores[int1,0] = file_text_readln(file);
+    int1 += 1;
 }
 file_text_close(file);
 
@@ -66,15 +75,49 @@ int1 = 0;
 if(!file_exists(working_directory + "/HighScores.txt")){
     var fil = file_text_open_write(working_directory + "/HighScores.txt");
     for(i=0; i&lt;5; i++){
-        file_text_write_real(fil, 00000);
+        file_text_write_real(fil, 0);
+        file_text_writeln(fil);
     }
     file_text_close(fil);
 }
 file = file_text_open_read(working_directory + "/HighScores.txt");
 while (!file_text_eof(file)){
-highscores[int1++,1] = real(file_text_readln(file));
+    highscores[int1,1] = real(file_text_readln(file));
+    int1 += 1;
 }
 file_text_close(file);
+
+for(var i=0; i&lt;array_height_2d(HighScoreCounter.highscores); i++){
+show_debug_message(HighScoreCounter.highscores[i,0]+" "+string(HighScoreCounter.highscores[i,1]));
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/*if(keyboard_check_pressed(controls_keyboard[4])){
+    enter_slip_control = true;
+}
+if(enter_slip_control == true &amp;&amp; keyboard_check_released(controls_keyboard[4])){
+    enter_slip_control = false;
+}
 </string>
           </argument>
         </arguments>
