@@ -171,7 +171,7 @@ if(paused = 0)
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
-        alarm[1] = 30;
+        alarm[1] = 50;
         }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
@@ -184,7 +184,7 @@ if(paused = 0)
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
-        alarm[1] = 30;
+        alarm[1] = 50;
         }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
@@ -281,42 +281,25 @@ if(keyboard_check_pressed(controls_keyboard[2]) || keyboard_check_pressed(vk_up)
     }
 }
 if((keyboard_check(controls_keyboard[0]) || keyboard_check(vk_left)) &amp;&amp; bouncing == true){
-    //lean forward
-    /*
-    facing = 180;
-    if(animbuffer &lt; 70){
-        animbuffer += 5;
-    }
-    */
-    if(spriteangle &lt; 360){
-        spriteangle += 15;
-    }else{
-        spriteangle = 0;
-    }
-    if(spinning == false &amp;&amp; !instance_exists(Board)){
+    if(spinning == false){
+        //lean forward
+        if(spriteangle &lt; 360){
+            spriteangle += 15;
+        }else{
+            spriteangle = 0;
+        }
         animUpdate(facing, spriteangle, bouncing, flips, sprite4);
-    }else{
-        image_angle = spriteangle;
     }
 }
 if((keyboard_check(controls_keyboard[1]) || keyboard_check(vk_right)) &amp;&amp; bouncing == true){
-    //lean backward
-    /*
-    facing = 0;
-    if(animbuffer &lt; 70){
-        animbuffer += 5;
-    }
-    animUpdate(facing, animbuffer, bouncing, flips);
-    */
-    if(spriteangle &gt; 0){
-        spriteangle -= 15;
-    }else{
-        spriteangle = 360;
-    }
-    if(spinning == false &amp;&amp; !instance_exists(Board)){
+    if(spinning == false){
+        //lean backward
+        if(spriteangle &gt; 0){
+            spriteangle -= 15;
+        }else{
+            spriteangle = 360;
+        }
         animUpdate(facing, spriteangle, bouncing, flips, sprite4);
-    }else{
-        image_angle = spriteangle;
     }
 }
 if(keyboard_check_pressed(controls_keyboard[3]) || keyboard_check(vk_down)){
@@ -413,7 +396,7 @@ image_index = 0;
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
-        alarm[1] = 30;
+        alarm[1] = 50;
         }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
@@ -426,7 +409,7 @@ image_index = 0;
         wiped = 1;
         if(alarmbuffer = 0){
         alarmbuffer = 1;
-        alarm[1] = 30;
+        alarm[1] = 50;
         }
         instance_create(x,y+3,object8);
         if(!instance_exists(Board)){
@@ -477,6 +460,7 @@ if(spriteangle &gt;= 315 || spriteangle &lt;= 45){
 //landing angle gague
 for(var i=0; i&lt;90; i+=10){
     if(i+10 &lt;= 90){
+        draw_set_colour(make_color_rgb(24,24,24));
         draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 4);
         draw_set_color(make_color_rgb(90,189,255));
         draw_line_width(x+lengthdir_x(16,(225+i)), y+lengthdir_y(16,(225+i)), x+lengthdir_x(16,(235+i))+1, y+lengthdir_y(16,(235+i)), 2);
@@ -489,7 +473,7 @@ for(var i=0; i&lt;90; i+=10){
         }
     }
 }
-draw_sprite_ext(sprite13,6,x+lengthdir_x(16, spriteangle-90)+lengthdir_x(4, spriteangle-180),y+lengthdir_y(16, spriteangle-90)+lengthdir_y(4, spriteangle-180),1,1,spriteangle,c_white,1.0);
+draw_sprite_ext(sprite13,6,x+lengthdir_x(14, spriteangle-90)+lengthdir_x(4, spriteangle-180),y+lengthdir_y(14, spriteangle-90)+lengthdir_y(4, spriteangle-180),1,1,spriteangle,c_white,1.0);
 }
 
 //set up
@@ -503,7 +487,7 @@ draw_text(view_xview[0]+4, view_yview[0]+4, "SCORE:");
 draw_text(view_xview[0]+4, view_yview[0]+12, string(pts));
 
 //map
-draw_sprite(sprite15, 0, view_xview[0]+46, view_yview[0]+4);
+draw_sprite(sprite15, levelIndex, view_xview[0]+46, view_yview[0]+4);
 draw_sprite(sprite16, 0, view_xview[0]+(46+markerx), view_yview[0]+13);
 
 //combo counter

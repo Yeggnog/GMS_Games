@@ -86,9 +86,9 @@ while (!file_text_eof(file)){
 file_text_close(file);
 file_delete(file);
 
-for(var i=0; i&lt;array_height_2d(highscores); i++){
-    show_debug_message(highscores[i,0]+" "+string(highscores[i,1]));
-}
+/*for(var i=0; i&lt;array_height_2d(highscores); i++){
+    show_debug_message(string(highscores[i,0])+" "+string(highscores[i,1]));
+}*/
 </string>
           </argument>
         </arguments>

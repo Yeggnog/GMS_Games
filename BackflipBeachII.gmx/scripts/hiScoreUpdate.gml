@@ -14,24 +14,32 @@ var temp = ds_list_size(list_real)-1;
 while(temp > 0 && list_real[| temp-1] < pts){
     temp -= 1;
 }
+/*show_debug_message("Before inserting / deleting:");
+for(var i=0; i<ds_list_size(list_name); i++){
+    show_debug_message(string(list_name[|i])+" "+string(list_real[|i]));
+}*/
 ds_list_insert(list_real,temp,pts);
 ds_list_insert(list_name,temp,name);
-//ds_list_delete(list_real,ds_list_size(list_real));
-//ds_list_delete(list_name,ds_list_size(list_name));
+ds_list_delete(list_real,ds_list_size(list_real)-1);
+ds_list_delete(list_name,ds_list_size(list_name)-1);
+/*show_debug_message("After inserting / deleting:");
+for(var i=0; i<ds_list_size(list_name); i++){
+    show_debug_message(string(list_name[|i])+" "+string(list_real[|i]));
+}*/
 
 var file = working_directory + "/Names.txt";
 var file_index = file_text_open_write(file);
-    for(var i=0; i<ds_list_size(list_name)-1; i++){
-        //show_debug_message("Wrote name '"+list_name[|i]+"' to "+file);
+    for(var i=0; i<ds_list_size(list_name); i++){
+        //show_debug_message("Wrote '"+list_name[|i]+" "+string(list_real[|i])+"' to "+file);
         file_text_write_string(file_index,list_name[|i]);
-        if(i == temp){
+        if(list_name[|i] == name){
             file_text_writeln(file_index);
         }
     }
 file_text_close(file_index);
 var file = working_directory + "/HighScores.txt";
 file_index = file_text_open_write(file);
-    for(var i=0; i<ds_list_size(list_real)-1; i++){
+    for(var i=0; i<ds_list_size(list_real); i++){
         ///show_debug_message("Wrote score '"+string(list_real[|i])+"' to "+file);
         file_text_write_real(file_index,list_real[|i]);
         file_text_writeln(file_index);

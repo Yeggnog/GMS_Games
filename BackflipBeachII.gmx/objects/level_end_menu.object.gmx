@@ -182,7 +182,7 @@ if(progress &gt;= 2){
 }
 
 //high scores screen
-if(progress = 4){
+if(progress == 4 || progress == 3){
     //print array using for loop
     for(i=0; i&lt;array_height_2d(HighScoreCounter.highscores); i++){
         draw_text(view_xview[0]+29, view_yview[0]+(20+(i*10)), HighScoreCounter.highscores[i,0]);
