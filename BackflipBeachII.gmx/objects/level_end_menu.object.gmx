@@ -70,6 +70,12 @@ if(keyboard_check_pressed(controls_keyboard[4]) &amp;&amp; entertoggle = true){
     entertoggle = false;
     //go to title screen
     if(progress = 4){
+        // advance level
+        if(levelIndex &lt; 7){
+            levelIndex += 1;
+        }else{
+            levelIndex = 0;
+        }
         room_goto(room2);
     }
     if(progress = 1 &amp;&amp; counting = false){

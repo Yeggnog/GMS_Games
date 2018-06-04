@@ -25,10 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//globalvar enter_slip_control;
-//enter_slip_control = false;
-
-//this
+            <string>//this
 highscores[0,0] = "ASH"; highscores[0,1] = 05562;
 highscores[1,0] = "------"; highscores[1,1] = 00000;
 highscores[2,0] = "------"; highscores[2,1] = 00000;
@@ -70,6 +67,7 @@ while (!file_text_eof(file)){
     int1 += 1;
 }
 file_text_close(file);
+file_delete(file);
 
 int1 = 0;
 if(!file_exists(working_directory + "/HighScores.txt")){
@@ -86,9 +84,10 @@ while (!file_text_eof(file)){
     int1 += 1;
 }
 file_text_close(file);
+file_delete(file);
 
-for(var i=0; i&lt;array_height_2d(HighScoreCounter.highscores); i++){
-show_debug_message(HighScoreCounter.highscores[i,0]+" "+string(HighScoreCounter.highscores[i,1]));
+for(var i=0; i&lt;array_height_2d(highscores); i++){
+    show_debug_message(highscores[i,0]+" "+string(highscores[i,1]));
 }
 </string>
           </argument>
