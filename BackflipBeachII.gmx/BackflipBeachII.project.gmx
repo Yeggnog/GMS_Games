@@ -42,61 +42,85 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\sprite0</sprite>
-    <sprite>sprites\sprite2</sprite>
-    <sprite>sprites\sprite3</sprite>
-    <sprite>sprites\sprite4</sprite>
-    <sprite>sprites\sprite5</sprite>
-    <sprite>sprites\sprite6</sprite>
-    <sprite>sprites\sprite17</sprite>
-    <sprite>sprites\sprite1</sprite>
-    <sprite>sprites\sprite7</sprite>
-    <sprite>sprites\sprite8</sprite>
-    <sprite>sprites\sprite10</sprite>
-    <sprite>sprites\sprite11</sprite>
-    <sprite>sprites\sprite12</sprite>
-    <sprite>sprites\sprite9</sprite>
-    <sprite>sprites\sprite13</sprite>
-    <sprite>sprites\sprite14</sprite>
-    <sprite>sprites\sprite15</sprite>
-    <sprite>sprites\sprite16</sprite>
-    <sprite>sprites\sprite18</sprite>
-    <sprite>sprites\sprite19</sprite>
-    <sprite>sprites\sprite20</sprite>
-    <sprite>sprites\sprite21</sprite>
-    <sprite>sprites\sprite22</sprite>
+    <sprites name="Player">
+      <sprites name="Old">
+        <sprite>sprites\sprite2</sprite>
+        <sprite>sprites\sprite3</sprite>
+        <sprite>sprites\sprite4</sprite>
+        <sprite>sprites\sprite5</sprite>
+        <sprite>sprites\sprite17</sprite>
+        <sprite>sprites\sprite16</sprite>
+      </sprites>
+      <sprites name="New">
+        <sprite>sprites\Surf_idle</sprite>
+        <sprite>sprites\Surf_lat_spin</sprite>
+        <sprite>sprites\Surf_flip</sprite>
+        <sprite>sprites\Surf_ollie</sprite>
+        <sprite>sprites\Surf_win</sprite>
+        <sprite>sprites\Surf_map</sprite>
+      </sprites>
+      <sprite>sprites\sprite6</sprite>
+    </sprites>
+    <sprites name="Objects">
+      <sprite>sprites\sprite7</sprite>
+      <sprite>sprites\sprite8</sprite>
+      <sprite>sprites\sprite10</sprite>
+      <sprite>sprites\sprite11</sprite>
+      <sprite>sprites\sprite12</sprite>
+      <sprite>sprites\sprite14</sprite>
+    </sprites>
+    <sprites name="UI">
+      <sprite>sprites\sprite9</sprite>
+      <sprite>sprites\sprite13</sprite>
+      <sprite>sprites\sprite15</sprite>
+      <sprite>sprites\sprite18</sprite>
+      <sprite>sprites\sprite20</sprite>
+      <sprite>sprites\sprite21</sprite>
+      <sprite>sprites\sprite22</sprite>
+    </sprites>
+    <sprites name="Unused">
+      <sprite>sprites\sprite0</sprite>
+      <sprite>sprites\sprite1</sprite>
+      <sprite>sprites\sprite19</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
-    <background>background\background0</background>
     <background>background\background1</background>
+    <backgrounds name="Unused">
+      <background>background\background0</background>
+    </backgrounds>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\animUpdate.gml</script>
-    <script>scripts\scoreUpdate.gml</script>
     <script>scripts\hiScoreUpdate.gml</script>
+    <scripts name="Unused">
+      <script>scripts\scoreUpdate.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\Fnt_GUI</font>
   </fonts>
   <objects name="objects">
-    <object>objects\TextInput</object>
+    <object>objects\Surfer</object>
+    <object>objects\Board</object>
     <object>objects\solid_collision</object>
     <object>objects\object4</object>
     <object>objects\object5</object>
     <object>objects\object6</object>
     <object>objects\object7</object>
-    <object>objects\Surfer</object>
-    <object>objects\Board</object>
     <object>objects\object8</object>
+    <object>objects\TextInput</object>
     <object>objects\text</object>
     <object>objects\generator</object>
-    <object>objects\levelend</object>
     <object>objects\level_end_menu</object>
     <object>objects\TitleControl</object>
     <object>objects\HighScoreCounter</object>
     <object>objects\Parallax</object>
     <object>objects\Splash</object>
+    <objects name="Unused">
+      <object>objects\levelend</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\room3</room>

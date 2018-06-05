@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>playerSpeed = 2;
 speedDenom = 1.75;
+waterToggle = false;
 layerX[0] = -8; //water
 layerX[1] = 0; //BG
 layerX[2] = 84; //sun
@@ -57,24 +58,28 @@ layerX[5] = -105; //beach
             <kind>1</kind>
             <string>for(var i=1; i&lt;array_length_1d(layerX); i++){
     if(i&lt;4 || instance_exists(level_end_menu)){
-    /*if(i &gt;= 4){
-        speedDenom = 3;
-    }*/
-    if(abs(layerX[i]) &lt;= (playerSpeed / power(speedDenom,7-i)) &amp;&amp; layerX[i] != 0){
-        layerX[i] = 0;
-    }else if(i != 1){
-        if(layerX[i] &gt; 0){
-            layerX[i] -= (playerSpeed / power(speedDenom,7-i));
+        if(abs(layerX[i]) &lt;= (playerSpeed / power(speedDenom,7-i)) &amp;&amp; layerX[i] != 0){
+            layerX[i] = 0;
+            if(i == 5){
+                waterToggle = true;
+                layerx[0] = 0;
+            }
+        }else if(i != 1){
+            if(layerX[i] &gt; 0){
+                layerX[i] -= (playerSpeed / power(speedDenom,7-i));
+            }
+            if(layerX[i] &lt; 0){
+                layerX[i] += (playerSpeed / power(speedDenom,7-i));
+            }
         }
-        if(layerX[i] &lt; 0){
-            layerX[i] += (playerSpeed / power(speedDenom,7-i));
-        }
-    }
-    //speedDenom = 2;
     }
 }
-if(layerX[0] &lt;= 0){
-    layerX[0] = -8;
+if(waterToggle == false){
+    if(layerX[0] &gt;= 0){
+        layerX[0] = -8;
+    }else{
+        layerX[0] += 1;
+    }
 }
 </string>
           </argument>
@@ -98,12 +103,31 @@ if(layerX[0] &lt;= 0){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for(var i=1; i&lt;4; i++){
-    draw_sprite(sprite21,2*(i-1),view_xview[0]+layerX[i],view_yview[0]);
+            <string>//water
+if(levelIndex &lt; 4){
+    draw_sprite(sprite9,1,view_xview[0]+layerX[0],view_yview[0]);
+    draw_sprite_part(sprite9,1,0,0,8,sprite_get_height(sprite9),view_xview[0]+layerX[0]+sprite_get_width(sprite9),view_yview[0]);
+}else{
+    draw_sprite(sprite9,2,view_xview[0]+layerX[0],view_yview[0]);
+    draw_sprite_part(sprite9,2,0,0,8,sprite_get_height(sprite9),view_xview[0]+layerX[0]+sprite_get_width(sprite9),view_yview[0]);
 }
+//other layers
+for(var i=1; i&lt;4; i++){
+    if(levelIndex &lt; 4){
+        draw_sprite(sprite21,2*(i-1),view_xview[0]+layerX[i],view_yview[0]);
+    }else{
+        draw_sprite(sprite21,(2*(i-1))+1,view_xview[0]+layerX[i],view_yview[0]);
+    }
+}
+//stage
 if(levelIndex != 0 &amp;&amp; levelIndex != 4){
-    draw_sprite(sprite21,5+levelIndex,view_xview[0]+layerX[4],view_yview[0]);
+    if(levelIndex &lt; 4){
+        draw_sprite(sprite21,5+levelIndex,view_xview[0]+layerX[4],view_yview[0]);
+    }else{
+        draw_sprite(sprite21,4+levelIndex,view_xview[0]+layerX[4],view_yview[0]);
+    }
 }
+//beach
 draw_sprite(sprite9,0,view_xview[0]+layerX[5],view_yview[0]);
 </string>
           </argument>
