@@ -29,7 +29,7 @@
 image_speed = 0;
 imageDelay = 1;
 imageCount = 0;
-staticAngle = Navi.aim_angle;
+staticAngle = Player.aim_angle;
 if(staticAngle &gt;= 337.5 || staticAngle &lt; 22.5){
 //L
 startingFrame = 0;
@@ -145,12 +145,12 @@ if(imageDelay &gt; 0){
 }
 
 //warp to player position
-x = Navi.x-lengthdir_x(16,staticAngle);
-y = Navi.y-lengthdir_y(16,staticAngle);
+x = Player.x-lengthdir_x(16,staticAngle);
+y = Player.y-lengthdir_y(16,staticAngle);
 if(staticAngle &gt;= 180  &amp;&amp; staticAngle &lt; 360){
-    depth = Navi.depth+1;
+    depth = Player.depth+1;
 }else{
-    depth = Navi.depth-1;
+    depth = Player.depth-1;
 }
 </string>
           </argument>

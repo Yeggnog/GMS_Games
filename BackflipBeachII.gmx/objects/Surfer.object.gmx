@@ -335,39 +335,6 @@ if place_free(x+hp,y) {
         </arguments>
       </action>
     </event>
-    <event eventtype="4" ename="Board">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(jumpup = 0 &amp;&amp; wiped = 0){
-    with other {instance_destroy();}
-    sprite_index = sprite2;
-    image_speed = 0;
-    image_index = 0;
-    bouncing = 1;
-    if(other.vp != 0){
-    vp = -5;
-    flips ++;
-    }
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="4" ename="object4">
       <action>
         <libid>1</libid>
@@ -419,6 +386,39 @@ image_index = 0;
     }
 bouncing = 1;
 vp = -5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="Board">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(jumpup = 0 &amp;&amp; wiped = 0){
+    with other {instance_destroy();}
+    sprite_index = sprite2;
+    image_speed = 0;
+    image_index = 0;
+    bouncing = 1;
+    if(other.vp != 0){
+    vp = -5;
+    flips ++;
+    }
+}
 </string>
           </argument>
         </arguments>

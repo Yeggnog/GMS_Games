@@ -33,12 +33,13 @@
     <shader type="GLSLES">shaders\scanline.shader</shader>
   </shaders>
   <objects name="objects">
-    <object>objects\Navi</object>
+    <object>objects\Player</object>
     <object>objects\Slash</object>
     <object>objects\AfterImage</object>
-    <object>objects\solid_16</object>
+    <object>objects\solid16</object>
     <object>objects\object4</object>
-    <object>objects\object5</object>
+    <object>objects\LevelEndUI</object>
+    <object>objects\GlobalControl</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
