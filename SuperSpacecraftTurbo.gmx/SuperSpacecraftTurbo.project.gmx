@@ -7,24 +7,25 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
-    <sprite>sprites\spr_Emote</sprite>
-    <sprite>sprites\sprite2</sprite>
-    <sprite>sprites\spr_Dino</sprite>
+    <sprite>sprites\sprite1</sprite>
     <sprite>sprites\spr_Font</sprite>
-    <sprite>sprites\spr_UI_triple</sprite>
-    <sprite>sprites\spr_UI</sprite>
+    <sprite>sprites\spr_Bullet_Hitbox</sprite>
+    <sprite>sprites\spr_Drago_U</sprite>
+    <sprite>sprites\spr_Drago_D</sprite>
+    <sprite>sprites\spr_Drago_L</sprite>
+    <sprite>sprites\spr_Drago_R</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
-  <shaders name="shaders">
-    <shader type="GLSLES">shaders\outline.shader</shader>
-    <shader type="GLSLES">shaders\outline_fixed.shader</shader>
-    <shader type="GLSLES">shaders\omni_shader_base.shader</shader>
-    <shader type="GLSLES">shaders\outline_fixed_again.shader</shader>
-  </shaders>
+  <scripts name="scripts">
+    <script>scripts\draw_ellipse_ext.gml</script>
+    <script>scripts\damage.gml</script>
+  </scripts>
   <objects name="objects">
-    <object>objects\obj_Dino</object>
-    <object>objects\obj_Emote</object>
+    <object>objects\obj_Player</object>
+    <object>objects\obj_Bullet</object>
+    <object>objects\obj_Damageable_Parent</object>
+    <object>objects\obj_Global_Control</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
