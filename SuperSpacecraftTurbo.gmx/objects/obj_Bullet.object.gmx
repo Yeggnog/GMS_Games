@@ -28,7 +28,7 @@
             <string>//init
 orient = 30;
 velocity = 2;
-damage = 2;
+dmg = 2;
 width = 4;
 height = 5;
 //inside color
@@ -86,7 +86,7 @@ y += lengthdir_y(velocity, orient);
           <argument>
             <kind>1</kind>
             <string>// damage other instance
-damage(id, other.id, damage);
+damage(id, other.id, dmg);
 // do hit particles
 instance_destroy();
 </string>
