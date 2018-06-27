@@ -17,10 +17,11 @@
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>0</For3D>
-  <width>32</width>
-  <height>32</height>
+  <width>16</width>
+  <height>16</height>
   <frames>
     <frame index="0">images\spr_Tiles_Runner_0.png</frame>
     <frame index="1">images\spr_Tiles_Runner_1.png</frame>
+    <frame index="2">images\spr_Tiles_Runner_2.png</frame>
   </frames>
 </sprite>

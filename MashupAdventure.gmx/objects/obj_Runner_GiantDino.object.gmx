@@ -30,7 +30,8 @@
 // gravity
 vsp = 0;
 jump = 0;
-image_speed = 1;
+temp = image_speed;
+image_speed = temp / 2;
 </string>
           </argument>
         </arguments>
@@ -59,7 +60,8 @@ image_speed = 1;
 if(key_A){
     // jump
     if(jump = 0){
-        vsp = -6;
+        jump = 1;
+        vsp = -10;
         image_speed = 0;
         sprite_index = spr_GiantDino_Jump;
     }
@@ -68,14 +70,17 @@ if(key_A){
 // gravity
 if(!place_meeting(x,y+vsp,obj_Omni_Solid)){
     vsp += 1;
+    if(vsp &gt;= 0){
+        image_index = 1;
+        jump = -1;
+    }
 }else{
     vsp = 0;
     jump = 0;
-    image_speed = 1;
-    sprite_index = spr_GiantDino_Run;
-}
-if(vsp &gt;= 0){
-    image_index = 1;
+    image_speed = temp / 2;
+    if(sprite_index != spr_GiantDino_Run){
+        sprite_index = spr_GiantDino_Run;
+    }
 }
 y += vsp;
 </string>

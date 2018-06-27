@@ -28,10 +28,14 @@
     <object>objects\obj_Omni_Solid</object>
     <objects name="Runner">
       <object>objects\obj_Runner_Control</object>
+      <object>objects\obj_Runner_Solid</object>
       <object>objects\obj_Runner_Block</object>
       <object>objects\obj_Runner_GiantDino</object>
     </objects>
   </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
