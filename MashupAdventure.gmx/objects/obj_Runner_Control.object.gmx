@@ -3,7 +3,7 @@
   <spriteName>spr_Tiles_Runner</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -30,6 +30,12 @@
 // 'global' variables
 progress = 0;
 max_progress = 240;
+progress_temp = 0;
+scroll_speed = 3;
+max_progress_temp = 8-(scroll_speed+1);
+next_pit = -1;
+blocks = 0;
+BG_temp = 0;
 
 // particles
 globalvar part_system_runner;
@@ -40,8 +46,97 @@ type_block = part_type_create();
 part_type_life(type_block,8,16);
 part_type_orientation(type_block,45,135,15,false,false);
 part_type_speed(type_block,2,4,1,false);
-part_type_direction(type_block,90,135,15,false);
+part_type_direction(type_block,180,225,5,false);
 part_type_sprite(type_block,spr_Particles_Runner,false,1,true);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// generate stage and handle progress
+
+// update BG temp
+if(BG_temp &lt; 16){
+    BG_temp += 1;
+}else{
+    BG_temp = 0;
+}
+
+var test = false;
+
+// advance progress
+if(progress_temp &lt; max_progress_temp){
+    progress_temp += 1;
+}else{
+    progress_temp = 0;
+    if(progress &lt; max_progress){
+        progress += 1;
+    if(progress &lt;= 8){
+        // start off with a flat surface so there isn't a death loop
+        instance_create(view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]-16,obj_Runner_Solid);
+    }else{
+        for(var i=0; i&lt;=scroll_speed; i++){
+            if((progress-i) == next_pit){
+                test = true;
+            }
+        }
+        if(test == false){
+            instance_create(view_xview[0]+view_wview[0],view_yview[0]+view_hview[0]-16,obj_Runner_Solid);
+            if(next_pit &lt; progress){
+                // determine next 'pit' position
+                next_pit = progress + irandom_range(min(progress+2,max_progress),min(progress+4,max_progress));
+            }
+        }
+    }
+    
+    // fill accordingly with blocks
+    for(var i=0; i&lt;5; i++){
+        if((test == false) || i &lt;= 3){
+            instance_create(view_xview[0]+view_wview[0],view_yview[0]+16*i,obj_Runner_Block);
+        }
+    }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_sprite_tiled(spr_Tiles_Runner,2,view_xview[0]-BG_temp,view_yview[0]);
 </string>
           </argument>
         </arguments>

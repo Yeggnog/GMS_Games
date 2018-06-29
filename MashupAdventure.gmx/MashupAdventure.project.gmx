@@ -12,6 +12,7 @@
     <sprites name="Runner">
       <sprite>sprites\spr_Tiles_Runner</sprite>
       <sprite>sprites\spr_Particles_Runner</sprite>
+      <sprite>sprites\spr_UI_Runner</sprite>
       <sprite>sprites\spr_GiantDino_Base</sprite>
       <sprite>sprites\spr_GiantDino_Idle</sprite>
       <sprite>sprites\spr_GiantDino_Run</sprite>
@@ -34,7 +35,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
+    <room>rooms\rm_Minigame_Runner</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

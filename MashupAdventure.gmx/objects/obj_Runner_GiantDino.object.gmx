@@ -28,6 +28,7 @@
             <string>/// Set up state
 
 // gravity
+start_y = y;
 vsp = 0;
 jump = 0;
 temp = image_speed;
@@ -61,10 +62,14 @@ if(key_A){
     // jump
     if(jump = 0){
         jump = 1;
-        vsp = -10;
+        vsp = -9;
         image_speed = 0;
         sprite_index = spr_GiantDino_Jump;
     }
+}
+// push out
+if(place_meeting(x,y-1,obj_Omni_Solid)){
+    y -= 1;
 }
 
 // gravity
@@ -106,6 +111,7 @@ y += vsp;
           <argument>
             <kind>1</kind>
             <string>/// destroy block
+obj_Runner_Control.blocks += 1;
 part_particles_create(part_system_runner,other.x,other.y,type_block,1);
 part_particles_create(part_system_runner,other.x+8,other.y,type_block,1);
 part_particles_create(part_system_runner,other.x,other.y+8,type_block,1);
@@ -113,6 +119,87 @@ part_particles_create(part_system_runner,other.x+8,other.y+8,type_block,1);
 with(other){
     instance_destroy();
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="40">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// check if progress is filled, if not:
+if(obj_Runner_Control.progress &lt; obj_Runner_Control.max_progress){
+    // reset the runner
+    obj_Runner_Control.progress = 0;
+    obj_Runner_Control.progress_temp = 0;
+    obj_Runner_Control.next_pit = 0;
+    obj_Runner_Control.blocks = 0;
+    y = start_y;
+    vsp = 0;
+    jump = 0;
+    sprite_index = spr_GiantDino_Run;
+    image_speed = temp / 2;
+}/*else{
+    // win the game?
+}*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// UI and oneself
+
+// draw UI
+draw_set_color(c_white);
+
+fnt_UI = font_add_sprite(spr_Text_Font,ord(' '),false,0);
+draw_set_font(fnt_UI);
+
+draw_sprite(spr_UI_Runner,0,view_xview[0]+2,view_yview[0]+2);
+draw_text(view_xview[0]+20,view_yview[0]+4,string(obj_Runner_Control.blocks));
+
+font_delete(fnt_UI);
+
+draw_line_width(view_xview[0]+view_wview[0]-40,view_yview[0]+23.5,view_xview[0]+view_wview[0]-10,view_yview[0]+23.5,1);
+draw_line_width(view_xview[0]+view_wview[0]-40,view_yview[0]+22,view_xview[0]+view_wview[0]-40,view_yview[0]+25,1);
+draw_line_width(view_xview[0]+view_wview[0]-10,view_yview[0]+22,view_xview[0]+view_wview[0]-10,view_yview[0]+25,1);
+draw_sprite(spr_UI_Runner,1,view_xview[0]+view_wview[0]-48+(32*(obj_Runner_Control.progress/obj_Runner_Control.max_progress)),view_yview[0]+2);
+
+// draw self
+draw_self();
+
+draw_set_color(c_black);
 </string>
           </argument>
         </arguments>
