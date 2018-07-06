@@ -21,6 +21,34 @@
     <sprites name="TextAdventure">
       <sprite>sprites\spr_Text_Font</sprite>
     </sprites>
+    <sprites name="RunNGun">
+      <sprite>sprites\spr_Tiles_RNG</sprite>
+      <sprite>sprites\spr_Particles_RNG</sprite>
+      <sprite>sprites\spr_UI_RNG</sprite>
+      <sprite>sprites\spr_Bullet_RNG</sprite>
+      <sprites name="Player">
+        <sprites name="Right">
+          <sprite>sprites\spr_Lucca_R</sprite>
+          <sprite>sprites\spr_Lucca_Jump_R</sprite>
+          <sprite>sprites\spr_Lucca_JumpS_R</sprite>
+          <sprite>sprites\spr_Lucca_Run_R</sprite>
+          <sprite>sprites\spr_Lucca_RunS_R</sprite>
+          <sprite>sprites\spr_Lucca_Shoot_R</sprite>
+          <sprite>sprites\spr_Lucca_Hurt_R</sprite>
+          <sprite>sprites\spr_Lucca_Win</sprite>
+        </sprites>
+        <sprites name="Left">
+          <sprite>sprites\spr_Lucca_L</sprite>
+          <sprite>sprites\spr_Lucca_Jump_L</sprite>
+          <sprite>sprites\spr_Lucca_JumpS_L</sprite>
+          <sprite>sprites\spr_Lucca_Run_L</sprite>
+          <sprite>sprites\spr_Lucca_RunS_L</sprite>
+          <sprite>sprites\spr_Lucca_Shoot_L</sprite>
+          <sprite>sprites\spr_Lucca_Hurt_L</sprite>
+        </sprites>
+      </sprites>
+    </sprites>
+    <sprite>sprites\spr_IDK_Recyclethis</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -33,8 +61,13 @@
       <object>objects\obj_Runner_Block</object>
       <object>objects\obj_Runner_GiantDino</object>
     </objects>
+    <objects name="RunNGun">
+      <object>objects\obj_RNG_Solid</object>
+      <object>objects\obj_RNG_Lucca</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_RunNGun</room>
     <room>rooms\rm_Minigame_Runner</room>
   </rooms>
   <help>
