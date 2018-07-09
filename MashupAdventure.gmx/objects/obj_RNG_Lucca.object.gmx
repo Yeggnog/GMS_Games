@@ -63,9 +63,9 @@ facing = 0;
 // control input
 if(key_A){
     // jump
-    if(jump = 0){
+    if(jump == 0){
         jump = 1;
-        vsp = -6;
+        vsp = -8;
         image_speed = 0;
         // jumping
     }
@@ -82,6 +82,7 @@ if(key_right){
         facing = 0;
         if(jump == 0){
             // right run sprite
+            image_speed = temp / 3;
             if(sprite_index != spr_Lucca_Run_R){
                 sprite_index = spr_Lucca_Run_R;
             }
@@ -95,6 +96,7 @@ if(key_left){
         facing = 180;
         if(jump == 0){
             // left run sprite
+            image_speed = temp / 3;
             if(sprite_index != spr_Lucca_Run_L){
                 sprite_index = spr_Lucca_Run_L;
             }
@@ -124,12 +126,13 @@ if(!place_meeting(x,y+vsp,obj_Omni_Solid)){
 }else{
     vsp = 0;
     jump = 0;
-    // image_speed = temp / 2;
     // land on ground
-    if(facing == 0){
-        sprite_index = spr_Lucca_R;
-    }else{
-        sprite_index = spr_Lucca_L;
+    if(!key_left &amp;&amp; !key_right){
+        if(facing == 0){
+            sprite_index = spr_Lucca_R;
+        }else{
+            sprite_index = spr_Lucca_L;
+        }
     }
 }
 y += vsp;

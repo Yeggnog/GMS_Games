@@ -50,7 +50,9 @@
     </sprites>
     <sprite>sprites\spr_IDK_Recyclethis</sprite>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\bg_Tiles_RNG</background>
+  </backgrounds>
   <paths name="paths"/>
   <objects name="objects">
     <object>objects\obj_Omni_Control</object>
