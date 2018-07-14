@@ -48,7 +48,11 @@
         </sprites>
       </sprites>
     </sprites>
-    <sprite>sprites\spr_IDK_Recyclethis</sprite>
+    <sprites name="TurnBased">
+      <sprite>sprites\spr_Tiles_TBS</sprite>
+      <sprite>sprites\spr_Map_TBS</sprite>
+    </sprites>
+    <sprite>sprites\spr_Omni_Solid</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_Tiles_RNG</background>
