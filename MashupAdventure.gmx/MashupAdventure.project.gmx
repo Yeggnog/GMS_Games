@@ -61,6 +61,7 @@
   <objects name="objects">
     <object>objects\obj_Omni_Control</object>
     <object>objects\obj_Omni_Solid</object>
+    <object>objects\obj_Omni_Bullet</object>
     <objects name="Runner">
       <object>objects\obj_Runner_Control</object>
       <object>objects\obj_Runner_Solid</object>
@@ -68,6 +69,7 @@
       <object>objects\obj_Runner_GiantDino</object>
     </objects>
     <objects name="RunNGun">
+      <object>objects\obj_RNG_Control</object>
       <object>objects\obj_RNG_Solid</object>
       <object>objects\obj_RNG_Lucca</object>
     </objects>

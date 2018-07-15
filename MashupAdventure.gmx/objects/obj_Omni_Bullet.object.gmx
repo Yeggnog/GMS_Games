@@ -25,22 +25,13 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// set up control inputs
-
-globalvar key_left;
-globalvar key_right;
-globalvar key_up;
-globalvar key_down;
-
-globalvar key_A;
-globalvar key_B;
-globalvar key_start;
-
-/*
-
-I am Omni-Lord chicken of the first chicken singularity. I control all of the games.
-
-*/
+            <string>ancestor = -1;
+dmg = 0;
+x_spd = 0;
+y_spd = 0;
+system_id = -1;
+part_id = -1;
+destroy_flag = false;
 </string>
           </argument>
         </arguments>
@@ -63,16 +54,60 @@ I am Omni-Lord chicken of the first chicken singularity. I control all of the ga
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// handle key input
-
-key_left = keyboard_check(ord('A')) || keyboard_check(vk_left);
-key_right = keyboard_check(ord('D')) || keyboard_check(vk_right);
-key_up = keyboard_check(ord('W')) || keyboard_check(vk_up);
-key_down = keyboard_check(ord('S')) || keyboard_check(vk_down);
-
-key_A = keyboard_check_pressed(vk_enter) || mouse_check_button_pressed(mb_left);
-key_B = keyboard_check_pressed(vk_rshift) || mouse_check_button_pressed(mb_right);
-key_start = keyboard_check_pressed(ord('E')) || keyboard_check_pressed(vk_escape);
+            <string>x += x_spd;
+y += y_spd;
+if(destroy_flag == true){
+    part_particles_create(system_id,x,y,part_id,1);
+    ancestor.shots_on_screen -= 1;
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Omni_Solid">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>destroy_flag = true;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="40">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>ancestor.shots_on_screen -= 1;
+instance_destroy();
 </string>
           </argument>
         </arguments>
