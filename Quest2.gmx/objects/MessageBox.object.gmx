@@ -38,7 +38,6 @@ var exploretemp = 1;
 displaysize = 0;
 fillLine = 0;
 ancestor = -1;
-endparams[0] = -1; //mark as not creating another (0 for MessageBox and 1 for OptionBox)
 alarm[0] = 2;
 
 //fix height if it's odd
@@ -127,7 +126,7 @@ if(string_length(title) &gt; (width-3)){
             <string>if(focused == id){
 
 if(keyboard_check_pressed(vk_enter)){
-    if(string_length(rawText) &gt; 1){
+    if(string_length(rawText) &gt; 0){ // originally 1
         if(fillLine &lt; displaysize){
             display[fillLine] = rbParse(id, rawText, width-2);
             fillLine += 1;
@@ -140,17 +139,10 @@ if(keyboard_check_pressed(vk_enter)){
         }
     }else{
         //*Close animation goes here*
-        // new anim box
+        var temp = newAnimBox(x,y,width,height,false);
         ds_list_delete(GlobalControl.boxes, ds_list_find_index(GlobalControl.boxes,id));
         if(ancestor != -1){
             temp.ancestor = ancestor;
-        }
-        if(endparams[0] != -1){
-            if(endparams[0] == 0){
-                // newMessageBox();
-            }else{
-                // newOptionBox();
-            }
         }
         instance_destroy();
     }

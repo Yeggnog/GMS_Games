@@ -37,7 +37,6 @@ opening = true;
 width = 12;
 height = 6;
 col = 0;
-sibling = -1;
 ancestor = -1;
 depth = 0;
 </string>

@@ -84,6 +84,9 @@ if(destroy_flag == true){
           <argument>
             <kind>1</kind>
             <string>destroy_flag = true;
+if(other.object_index == obj_RNG_Crate){
+    other.hit = true;
+}
 </string>
           </argument>
         </arguments>

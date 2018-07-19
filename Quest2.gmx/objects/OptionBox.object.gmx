@@ -36,7 +36,6 @@ rawText = "COMMAND?";
 title = "FIGHTA";
 cursorPos = 0;
 ancestor = -1;
-endparams[0] = -1; //mark as not creating another (0 for MessageBox and 1 for OptionBox)
 alarm[0] = 2;
 
 //fix height if it's odd
@@ -138,15 +137,7 @@ if(keyboard_check_pressed(vk_enter)){
     if(optionIndex[cursorPos] != 0){
         //*doAction(optionIndex[cursorPos]);*
     }else{ 
-        if(ancestor == -1 &amp;&amp; endparams[0] != -1){
-        //newOptionBox() / newMessageBox() for ancestor with params
-            if(endparams[0] == 0){
-                // newMessageBox();
-            }else if(endparams[0] == 1){
-                // newOptionBox();
-            }
-        }
-        
+        //*update ancestor and other such things*    
     }
     //*Close animation goes here*
     var temp = instance_create(x,y,AnimBox);
@@ -235,6 +226,7 @@ draw_sprite(spr_textBox,2,x+(width-1)*UI_TILE_SIZE,y+(height-1)*UI_TILE_SIZE);
     //draw text
     draw_text(x+UI_TILE_SIZE,y+(2*UI_TILE_SIZE),rawText);
     for(i=0; i&lt;array_length_1d(optionText); i++){
+        show_debug_message(optionText[i]);
         draw_text(x+(2*UI_TILE_SIZE),y+(UI_TILE_SIZE*(i+2)*2),optionText[i]);
     }
     

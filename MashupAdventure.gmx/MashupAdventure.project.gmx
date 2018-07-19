@@ -35,6 +35,7 @@
           <sprite>sprites\spr_Lucca_RunS_R</sprite>
           <sprite>sprites\spr_Lucca_Shoot_R</sprite>
           <sprite>sprites\spr_Lucca_Hurt_R</sprite>
+          <sprite>sprites\spr_Lucca_Hide_R</sprite>
           <sprite>sprites\spr_Lucca_Win</sprite>
         </sprites>
         <sprites name="Left">
@@ -45,14 +46,17 @@
           <sprite>sprites\spr_Lucca_RunS_L</sprite>
           <sprite>sprites\spr_Lucca_Shoot_L</sprite>
           <sprite>sprites\spr_Lucca_Hurt_L</sprite>
+          <sprite>sprites\spr_Lucca_Hide_L</sprite>
         </sprites>
       </sprites>
     </sprites>
     <sprites name="TurnBased">
       <sprite>sprites\spr_Tiles_TBS</sprite>
       <sprite>sprites\spr_Map_TBS</sprite>
+      <sprite>sprites\spr_BG_Space</sprite>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
+    <sprite>sprites\sprite33</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_Tiles_RNG</background>
@@ -71,6 +75,7 @@
     <objects name="RunNGun">
       <object>objects\obj_RNG_Control</object>
       <object>objects\obj_RNG_Solid</object>
+      <object>objects\obj_RNG_Crate</object>
       <object>objects\obj_RNG_Lucca</object>
     </objects>
   </objects>

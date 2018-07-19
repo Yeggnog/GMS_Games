@@ -3,7 +3,7 @@
   <spriteName>spr_Lucca_R</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -37,12 +37,7 @@ temp = image_speed;
 saved_img = -1;
 facing = 0;
 shots_on_screen = 0;
-
-/*
-/// UI and oneself
-
-// draw UI
-*/
+hiding = false;
 </string>
           </argument>
         </arguments>
@@ -67,16 +62,32 @@ shots_on_screen = 0;
             <kind>1</kind>
             <string>/// controls and gravity handling
 
+if(key_up &amp;&amp; place_meeting(x,y+1,obj_Omni_Solid)){
+    // hide
+    if(hiding == false){
+        hiding = true;
+    }
+    if(facing == 0){
+        sprite_index = spr_Lucca_Hide_R;
+    }else{
+        sprite_index = spr_Lucca_Hide_L;
+    }
+}else{
+
+// reset hiding
+hiding = false;
+
 // control input
 if(key_A){
     // jump
     if(jump == 0){
         jump = 1;
-        vsp = -8;
+        vsp = -9;
         image_speed = 0;
         // jumping
     }
 }
+
 if(key_B &amp;&amp; shots_on_screen &lt; 3){
     // shoot
     // make shot object and set params here
@@ -84,10 +95,10 @@ if(key_B &amp;&amp; shots_on_screen &lt; 3){
     shots_on_screen += 1;
     var temp_id;
     if(facing == 0){
-        temp_id = instance_create(x+16,y,obj_Omni_Bullet);
+        temp_id = instance_create(x+16,y+2,obj_Omni_Bullet);
         temp_id.x_spd = 6;
     }else{
-        temp_id = instance_create(x-16,y,obj_Omni_Bullet);
+        temp_id = instance_create(x-16,y+2,obj_Omni_Bullet);
         temp_id.x_spd = -6;
     }
     temp_id.sprite_index = spr_Bullet_RNG;
@@ -125,6 +136,8 @@ if(key_left){
     }
 }
 
+}
+
 // push out
 if(place_meeting(x,y-1,obj_Omni_Solid)){
     y -= 1;
@@ -148,7 +161,7 @@ if(!place_meeting(x,y+vsp,obj_Omni_Solid)){
     vsp = 0;
     jump = 0;
     // land on ground
-    if(!key_left &amp;&amp; !key_right){
+    if(!key_left &amp;&amp; !key_right &amp;&amp; !hiding){
         if(facing == 0){
             sprite_index = spr_Lucca_R;
         }else{
@@ -189,6 +202,51 @@ if(shoot_decay &gt; 0){
     }
 }else{
     shoot_decay = 0;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// UI and oneself
+
+// draw UI
+for(var i=0; i&lt;obj_RNG_Control.max_HP; i++){
+    draw_sprite(spr_UI_RNG,0,view_xview[0]+1+(i*11),view_yview[0]+1);
+}
+for(var i=0; i&lt;obj_RNG_Control.HP; i++){
+    draw_sprite(spr_UI_RNG,1,view_xview[0]+1+(i*11),view_yview[0]+1);
+}
+if(obj_RNG_Control.HP_diff_temp &gt; 0){
+    draw_sprite_part(spr_UI_RNG,2,0,0,4+(9*(obj_RNG_Control.HP/obj_RNG_Control.max_HP)),9,view_xview[0]+1+(obj_RNG_Control.HP*11),view_yview[0]+1);
+}
+
+// draw self
+if(obj_RNG_Control.HP_diff_temp == obj_RNG_Control.HP_diff){
+    d3d_set_fog(true,c_white,0,1);
+    d3d_start();
+    draw_self();
+    d3d_end();
+    d3d_set_fog(false,c_white,0,1);
+}else{
+    draw_self();
 }
 </string>
           </argument>
