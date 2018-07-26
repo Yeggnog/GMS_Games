@@ -20,6 +20,8 @@
     </sprites>
     <sprites name="TextAdventure">
       <sprite>sprites\spr_Text_Font</sprite>
+      <sprite>sprites\spr_PNC_Cursor</sprite>
+      <sprite>sprites\spr_PNC_MessageBox</sprite>
     </sprites>
     <sprites name="RunNGun">
       <sprite>sprites\spr_Tiles_RNG</sprite>
@@ -77,6 +79,10 @@
       <object>objects\obj_RNG_Solid</object>
       <object>objects\obj_RNG_Crate</object>
       <object>objects\obj_RNG_Lucca</object>
+    </objects>
+    <objects name="TextAdventure">
+      <object>objects\obj_PNC_Control</object>
+      <object>objects\obj_PNC_Collision</object>
     </objects>
   </objects>
   <rooms name="rooms">
