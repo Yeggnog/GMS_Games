@@ -33,9 +33,5 @@
     <frame index="10">images\spr_Cutscene_1_10.png</frame>
     <frame index="11">images\spr_Cutscene_1_11.png</frame>
     <frame index="12">images\spr_Cutscene_1_12.png</frame>
-    <frame index="13">images\spr_Cutscene_1_13.png</frame>
-    <frame index="14">images\spr_Cutscene_1_14.png</frame>
-    <frame index="15">images\spr_Cutscene_1_15.png</frame>
-    <frame index="16">images\spr_Cutscene_1_16.png</frame>
   </frames>
 </sprite>

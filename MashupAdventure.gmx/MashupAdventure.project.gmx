@@ -22,6 +22,8 @@
       <sprite>sprites\spr_Text_Font</sprite>
       <sprite>sprites\spr_PNC_Cursor</sprite>
       <sprite>sprites\spr_PNC_MessageBox</sprite>
+      <sprite>sprites\spr_PNC_Collision</sprite>
+      <sprite>sprites\spr_PNC_TVOn</sprite>
     </sprites>
     <sprites name="RunNGun">
       <sprite>sprites\spr_Tiles_RNG</sprite>
@@ -83,9 +85,11 @@
     <objects name="TextAdventure">
       <object>objects\obj_PNC_Control</object>
       <object>objects\obj_PNC_Collision</object>
+      <object>objects\obj_PNC_Cursor</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_PointNClick</room>
     <room>rooms\rm_Minigame_RunNGun</room>
     <room>rooms\rm_Minigame_Runner</room>
   </rooms>

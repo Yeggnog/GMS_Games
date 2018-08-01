@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// set up control inputs
+            <string>/// set up globals
+
+// set up control inputs
 
 globalvar key_left;
 globalvar key_right;
@@ -35,6 +37,11 @@ globalvar key_down;
 globalvar key_A;
 globalvar key_B;
 globalvar key_start;
+
+// set up other globals
+
+globalvar game_beaten;
+game_beaten = false;
 
 /*
 
