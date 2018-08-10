@@ -35,25 +35,30 @@ curs_y = round(view_hview[0]/2);
 drawer_open = false;
 controller_taken = false;
 times_tv_clicked = 0;
+tv_on = false;
+frame_id = 0;
+frame_id_temp = 0;
 
 // pre-coded messages
-messages[0] = "Ye find yeself in yon basement."; // Intro
-messages[1] = "Ye hath many a good game here. Ye cannot wait to play them."; // Games
-messages[2] = "Ye can't turn yon TV on now."; // TV
-messages[3] = "Ye open yon drawer. Ye see a second controller."; // Drawer
-messages[4] = "The console is readied, but ye need a second controller."; // Console
-messages[5] = "Best not to ascend until ye hath played yon games."; // Stairs
-messages[6] = "Ye take ye second controller."; // Controller
-messages[7] = "Ye find yeself once again in yon basement."; // Intro (Game Beaten)
-messages[8] = "Ye hath finished yon quest. The End. I thank ye for playing."; // Stairs (Game Beaten)
+messages[0] = " Ye find yeself in yon basement."; // Intro
+messages[1] = " Ye hath many a good game here. Ye cannot wait to play them."; // Games
+messages[2] = " Ye can't turn yon TV on now."; // TV
+messages[3] = " Ye open yon drawer. Ye see a second controller."; // Drawer
+messages[4] = " The console is readied, but ye need a second controller."; // Console
+messages[5] = " Best not to ascend until ye hath played yon games."; // Stairs
+messages[6] = " Ye take ye second controller."; // Controller
+messages[13] = " Ye be sucked into yon video game world!" // Console (going into the TV)
+messages[7] = " Ye find yeself once again in yon basement."; // Intro (Game Beaten)
+messages[8] = " Ye hath finished yon quest. The End. I thank ye for playing."; // Stairs (Game Beaten)
 // annoyed extra TV messages
-messages[9] = "I lie not to ye. Ye can't turn it on.";
-messages[10] = "If ye think ye so clever, share with ye I will the tale of Sven, yon Cybjorg Moose. Sven had adventures in space and used his laser antlers to fight Darth Johanssen to save Space Sweden...";
-messages[11] = "Ye be not funny at all. Ye hast clicked yon TV "+string(times_tv_clicked)+" times.";
-messages[12] = "Since ye hast nothing better to do, ye hast clicked yon TV 999 times. Yon counter will not go higher. I refuse to commend ye for this.";
+messages[9] = " I lie not to ye. Ye can't turn it on.";
+messages[10] = " If ye think ye so clever, share with ye I will the tale of Sven, yon Cybjorg Moose. Sven had adventures in space and used his laser antlers to fight Darth Johanssen to save Space Sweden...";
+messages[11] = " Ye be not funny at all. Ye hast clicked yon TV "+string(times_tv_clicked)+" times.";
+messages[12] = " Since ye hast nothing better to do, ye hast clicked yon TV 99 times. Yon counter will not go higher. I refuse to commend ye for this.";
 
 // create objects
 instance_create(64,48,obj_PNC_Cursor);
+instance_create(0,0,obj_PNC_MessageBox);
 objs[0] = "games";
 objs[1] = "tv";
 objs[2] = "drawer";
@@ -66,9 +71,9 @@ for(var i=0; i&lt;5; i++){
 
 // intro message
 if(game_beaten){
-    show_debug_message(messages[7]);
+    add_message(messages[7]);
 }else{
-    show_debug_message(messages[0]);
+    add_message(messages[0]);
 }
 </string>
           </argument>
@@ -93,7 +98,13 @@ if(game_beaten){
           <argument>
             <kind>1</kind>
             <string>/// update counter
-messages[11] = "Ye be not funny at all. Ye hast clicked yon TV "+string(times_tv_clicked)+" times.";
+messages[11] = " Ye be not funny at all. Ye hast clicked yon TV "+string(times_tv_clicked)+" times.";
+
+// update anim
+if(tv_on &amp;&amp; frame_id &lt; 29){
+    frame_id_temp += 0.5;
+    frame_id = floor(frame_id_temp);
+}
 </string>
           </argument>
         </arguments>
@@ -121,16 +132,21 @@ messages[11] = "Ye be not funny at all. Ye hast clicked yon TV "+string(times_tv
 // draw the screen
 if(drawer_open){
     if(controller_taken){
-        draw_sprite(spr_Cutscene_1,11,view_xview[0],view_yview[0]);
+        draw_sprite(spr_Misc_Basement,2,view_xview[0],view_yview[0]);
     }else{
-        draw_sprite(spr_Cutscene_1,10,view_xview[0],view_yview[0]);
+        draw_sprite(spr_Misc_Basement,1,view_xview[0],view_yview[0]);
     }
 }else{
-    draw_sprite(spr_Cutscene_1,9,view_xview[0],view_yview[0]);
+    draw_sprite(spr_Misc_Basement,0,view_xview[0],view_yview[0]);
 }
 
 // draw the message box
 
+
+// draw the 'TV on' animation
+if(tv_on){
+    draw_sprite(spr_PNC_TVOn,frame_id,view_xview[0],view_yview[0]);
+}
 </string>
           </argument>
         </arguments>

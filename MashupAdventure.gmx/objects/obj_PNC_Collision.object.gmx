@@ -136,7 +136,7 @@ switch(obj){
           <argument>
             <kind>1</kind>
             <string>///draw outline
-if(collided){
+if(collided &amp;&amp; !obj_PNC_Control.tv_on){
     draw_sprite(sprite_index,image_index+6,x,y);
 }
 </string>

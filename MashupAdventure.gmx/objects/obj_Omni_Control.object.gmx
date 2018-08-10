@@ -42,6 +42,8 @@ globalvar key_start;
 
 globalvar game_beaten;
 game_beaten = false;
+globalvar accepting_input;
+accepting_input = true;
 
 /*
 

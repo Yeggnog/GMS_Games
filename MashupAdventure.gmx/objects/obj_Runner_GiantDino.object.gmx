@@ -153,9 +153,10 @@ if(obj_Runner_Control.progress &lt; obj_Runner_Control.max_progress){
     jump = 0;
     sprite_index = spr_GiantDino_Run;
     image_speed = temp / 2;
-}/*else{
+}else{
     // win the game?
-}*/
+    room_goto_next();
+}
 </string>
           </argument>
         </arguments>
@@ -183,7 +184,7 @@ if(obj_Runner_Control.progress &lt; obj_Runner_Control.max_progress){
 // draw UI
 draw_set_color(c_white);
 
-fnt_UI = font_add_sprite(spr_Text_Font,ord(' '),false,0);
+fnt_UI = font_add_sprite(spr_PNC_Font,ord(' '),false,0);
 draw_set_font(fnt_UI);
 
 draw_sprite(spr_UI_Runner,0,view_xview[0]+2,view_yview[0]+2);

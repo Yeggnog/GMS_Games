@@ -7,10 +7,10 @@
   <coltolerance>0</coltolerance>
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
-  <bbox_left>58</bbox_left>
-  <bbox_right>79</bbox_right>
-  <bbox_top>29</bbox_top>
-  <bbox_bottom>49</bbox_bottom>
+  <bbox_left>0</bbox_left>
+  <bbox_right>127</bbox_right>
+  <bbox_top>0</bbox_top>
+  <bbox_bottom>95</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
   <TextureGroups>
@@ -35,5 +35,20 @@
     <frame index="12">images\spr_PNC_TVOn_12.png</frame>
     <frame index="13">images\spr_PNC_TVOn_13.png</frame>
     <frame index="14">images\spr_PNC_TVOn_14.png</frame>
+    <frame index="15">images\spr_PNC_TVOn_15.png</frame>
+    <frame index="16">images\spr_PNC_TVOn_16.png</frame>
+    <frame index="17">images\spr_PNC_TVOn_17.png</frame>
+    <frame index="18">images\spr_PNC_TVOn_18.png</frame>
+    <frame index="19">images\spr_PNC_TVOn_19.png</frame>
+    <frame index="20">images\spr_PNC_TVOn_20.png</frame>
+    <frame index="21">images\spr_PNC_TVOn_21.png</frame>
+    <frame index="22">images\spr_PNC_TVOn_22.png</frame>
+    <frame index="23">images\spr_PNC_TVOn_23.png</frame>
+    <frame index="24">images\spr_PNC_TVOn_24.png</frame>
+    <frame index="25">images\spr_PNC_TVOn_25.png</frame>
+    <frame index="26">images\spr_PNC_TVOn_26.png</frame>
+    <frame index="27">images\spr_PNC_TVOn_27.png</frame>
+    <frame index="28">images\spr_PNC_TVOn_28.png</frame>
+    <frame index="29">images\spr_PNC_TVOn_29.png</frame>
   </frames>
 </sprite>

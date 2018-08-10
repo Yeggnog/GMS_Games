@@ -3,7 +3,7 @@
   <spriteName>spr_PNC_Cursor</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-2</depth>
+  <depth>-3</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -74,12 +74,12 @@ if(key_A){
                 ind = 9;
             }else if(obj_PNC_Control.times_tv_clicked == 2){
                 ind = 10;
-            }else if(obj_PNC_Control.times_tv_clicked &lt; 999){
+            }else if(obj_PNC_Control.times_tv_clicked &lt; 99){
                 ind = 11;
             }else{
                 ind = 12;
             }
-            if(obj_PNC_Control.times_tv_clicked &lt; 999){
+            if(obj_PNC_Control.times_tv_clicked &lt; 99){
                 obj_PNC_Control.times_tv_clicked += 1;
             }
         break;
@@ -91,6 +91,8 @@ if(key_A){
         case "console":
             if(obj_PNC_Control.controller_taken){
                 // start the game!
+                obj_PNC_Control.tv_on = true;
+                ind = 13;
             }else{
                 ind = 4;
             }
@@ -110,7 +112,7 @@ if(key_A){
             }
         break;
     }
-    show_debug_message(obj_PNC_Control.messages[ind]);
+    add_message(obj_PNC_Control.messages[ind]);
 }
 </string>
           </argument>
@@ -135,7 +137,9 @@ if(key_A){
           <argument>
             <kind>1</kind>
             <string>// draw the cursor
-draw_sprite(spr_PNC_Cursor,0,view_xview[0]+x,view_yview[0]+y);
+if(!obj_PNC_Control.tv_on){
+    draw_sprite(spr_PNC_Cursor,0,view_xview[0]+x,view_yview[0]+y);
+}
 </string>
           </argument>
         </arguments>
