@@ -62,6 +62,14 @@
       <sprite>sprites\spr_Map_TBS</sprite>
       <sprite>sprites\spr_BG_Space</sprite>
     </sprites>
+    <sprites name="Fighter">
+      <sprites name="Player">
+        <sprite>sprites\spr_Bazza_L</sprite>
+        <sprite>sprites\spr_Bazza_Charge_L</sprite>
+        <sprite>sprites\spr_Bazza_ChargeAura</sprite>
+      </sprites>
+      <sprite>sprites\spr_Fighter_Misc_L</sprite>
+    </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
     <sprite>sprites\sprite33</sprite>
   </sprites>
@@ -72,6 +80,7 @@
   <scripts name="scripts">
     <script>scripts\neo_rb_parse.gml</script>
     <script>scripts\add_message.gml</script>
+    <script>scripts\grid_empty_at.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Omni_Control</object>
@@ -95,8 +104,13 @@
       <object>objects\obj_PNC_Cursor</object>
       <object>objects\obj_PNC_MessageBox</object>
     </objects>
+    <objects name="TurnBased">
+      <object>objects\obj_TBS_Control</object>
+      <object>objects\obj_TBS_Unit</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_TurnBased</room>
     <room>rooms\rm_Minigame_PointNClick</room>
     <room>rooms\rm_Minigame_Runner</room>
     <room>rooms\rm_Minigame_RunNGun</room>
