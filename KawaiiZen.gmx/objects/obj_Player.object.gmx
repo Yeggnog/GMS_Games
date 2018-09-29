@@ -69,9 +69,7 @@ if(keyboard_check(vk_right) &amp;&amp; !place_meeting(x+2,y,obj_Omni_Solid)){
 if(mouse_check_button(mb_left) &amp;&amp; item_in_use &lt;= 0){
     item_in_use = 5;
     // use item
-    if(place_meeting(x+lengthdir_x(16,point_direction(x,y,mouse_x,mouse_y)),y+lengthdir_y(16,point_direction(x,y,mouse_x,mouse_y)),obj_Omni_BreakableSolid)){
-        other.hp -= 1;
-    }
+    instance_create(x,y,obj_PlayerItem);
 } else if(item_in_use &gt; 0){
     item_in_use -= 1;
 }
