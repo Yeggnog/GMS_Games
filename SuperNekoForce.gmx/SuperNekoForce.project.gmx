@@ -5,9 +5,24 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\sprite0</sprite>
+    <sprite>sprites\spr_Blocks</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\add_random_row.gml</script>
+    <script>scripts\clear_grid.gml</script>
+    <script>scripts\swap_blocks.gml</script>
+  </scripts>
+  <objects name="objects">
+    <object>objects\obj_Block_Matrix</object>
+    <object>objects\obj_Omni_Control</object>
+  </objects>
+  <rooms name="rooms">
+    <room>rooms\room0</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
