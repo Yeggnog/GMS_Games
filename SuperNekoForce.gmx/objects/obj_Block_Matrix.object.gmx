@@ -29,12 +29,15 @@
 
 // create block matrix
 globalvar block_matrix;
+globalvar block_matrix_offset;
 clear_grid();
 
 // other variables
 swaps_left = 4;
 cursor_x = 0;
 cursor_y = 0;
+cursor_offset[0] = 0;
+cursor_offset[1] = 0;
 draw_offset_x = 16;
 draw_offset_y = 16;
 </string>
@@ -59,13 +62,16 @@ draw_offset_y = 16;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// add a random row
+            <string>/// control input
+
+// add a random row
 if(keyboard_check_pressed(ord('R'))){
     add_random_row();
 }
 
 // swap
 if(keyboard_check_pressed(vk_enter) &amp;&amp; swaps_left &gt; 0){
+    time_on = false;
     swap_blocks(cursor_x,cursor_y,cursor_x,cursor_y+1);
     swaps_left -= 1;
 }
@@ -74,29 +80,98 @@ if(keyboard_check_pressed(vk_enter) &amp;&amp; swaps_left &gt; 0){
 if(keyboard_check_pressed(vk_left)){
     if(cursor_x &gt; 0){
         cursor_x -= 1;
+        cursor_offset[0] = 16;
     }else{
         cursor_x = 5;
+        cursor_offset[0] = -16*(array_length_2d(block_matrix,0));
     }
 }
 if(keyboard_check_pressed(vk_right)){
     if(cursor_x &lt; 5){
         cursor_x += 1;
+        cursor_offset[0] = -16;
     }else{
         cursor_x = 0;
+        cursor_offset[0] = 16*(array_length_2d(block_matrix,0));
     }
 }
 if(keyboard_check_pressed(vk_up)){
     if(cursor_y &gt; 0){
         cursor_y -= 1;
+        cursor_offset[1] = 16;
     }else{
         cursor_y = 2;
+        cursor_offset[1] = -16*(array_height_2d(block_matrix));
     }
 }
 if(keyboard_check_pressed(vk_down)){
     if(cursor_y &lt; 2){
         cursor_y += 1;
+        cursor_offset[1] = -16;
     }else{
         cursor_y = 0;
+        cursor_offset[1] = 16*(array_height_2d(block_matrix));
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// other control
+
+// update offsets
+for(var i=0; i&lt;4; i++){
+    for(var j=0; j&lt;6; j++){
+        var flag = false;
+        if(block_matrix_offset[i,j,0] != 0){
+            flag = true;
+            if(block_matrix_offset[i,j,0] &lt; 0){
+                block_matrix_offset[i,j,0] += 1;
+            }else{
+                block_matrix_offset[i,j,0] -= 1;
+            }
+        }
+        if(block_matrix_offset[i,j,1] != 0){
+            flag = true;
+            if(block_matrix_offset[i,j,1] &lt; 0){
+                block_matrix_offset[i,j,1] += 1;
+            }else{
+                block_matrix_offset[i,j,1] -= 1;
+            }
+        }
+        if(cursor_offset[0] != 0){
+            if(cursor_offset[0] &lt; 0){
+                cursor_offset[0] += 1;
+            }else{
+                cursor_offset[0] -= 1;
+            }
+        }
+        if(cursor_offset[1] != 0){
+            if(cursor_offset[1] &lt; 0){
+                cursor_offset[1] += 1;
+            }else{
+                cursor_offset[1] -= 1;
+            }
+        }
+        if(!flag){
+            time_on = true;
+        }
     }
 }
 </string>
@@ -129,7 +204,7 @@ for(var i=0; i&lt;4; i++){
 var str = "";
     for(var j=0; j&lt;6; j++){
         if(block_matrix[i,j] != -1){
-            draw_sprite(spr_Blocks,block_matrix[i,j],(16*j)+draw_offset_x,(16*i)+draw_offset_y);
+            draw_sprite(spr_Blocks,block_matrix[i,j],(16*j)+draw_offset_x+block_matrix_offset[i,j,0],(16*i)+draw_offset_y+block_matrix_offset[i,j,1]);
         }
     }
 }

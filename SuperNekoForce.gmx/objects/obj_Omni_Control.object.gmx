@@ -27,6 +27,10 @@
             <kind>1</kind>
             <string>/// set up constants
 
+// engine control
+globalvar time_on;
+time_on = true;
+
 // input style
 input_style = 0; // 0-&gt;Default, 1-&gt;Alternate
 
