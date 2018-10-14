@@ -38,6 +38,8 @@ clear_grid();
 
 // other variables
 swaps_left = 4;
+death_counter = 12;
+dying = false;
 cursor_x = 0;
 cursor_y = 0;
 cursor_offset[0] = 0;
@@ -83,7 +85,7 @@ if(key_A &amp;&amp; swaps_left &gt; 0){
 }
 
 // move the cursor
-if(key_left){
+if(key_left_pressed){
     if(cursor_x &gt; 0){
         cursor_x -= 1;
         cursor_offset[0] = 16;
@@ -92,7 +94,7 @@ if(key_left){
         cursor_offset[0] = -16*(array_length_2d(block_matrix,0));
     }
 }
-if(key_right){
+if(key_right_pressed){
     if(cursor_x &lt; 5){
         cursor_x += 1;
         cursor_offset[0] = -16;
@@ -101,7 +103,7 @@ if(key_right){
         cursor_offset[0] = 16*(array_length_2d(block_matrix,0));
     }
 }
-if(key_up){
+if(key_up_pressed){
     if(cursor_y &gt; 0){
         cursor_y -= 1;
         cursor_offset[1] = 16;
@@ -110,7 +112,7 @@ if(key_up){
         cursor_offset[1] = -16*(array_height_2d(block_matrix));
     }
 }
-if(key_down){
+if(key_down_pressed){
     if(cursor_y &lt; 2){
         cursor_y += 1;
         cursor_offset[1] = -16;
@@ -142,6 +144,22 @@ if(key_down){
           <argument>
             <kind>1</kind>
             <string>/// other control
+
+// close the box
+if(swaps_left == 0 &amp;&amp; time_on){
+    // close menu
+    if(instance_exists(obj_Battle_Control)){
+        obj_Battle_Control.sub_turn += 1;
+    }
+    dying = true;
+}
+if(dying){
+    if(death_counter &gt; 0){
+        death_counter -= 1;
+    }else{
+        instance_destroy();
+    }
+}
 
 // update offsets
 for(var i=0; i&lt;4; i++){
@@ -183,10 +201,6 @@ for(var i=0; i&lt;4; i++){
         }
         if(!flag){
             time_on = true;
-            if(swaps_left == 0){
-                // close menu
-                instance_destroy();
-            }
         }
     }
 }
@@ -215,8 +229,8 @@ for(var i=0; i&lt;4; i++){
             <string>/// draw
 
 // making these for my own sanity
-var d_o_x = draw_offset_x;
-var d_o_y = draw_offset_y;
+var d_o_x = draw_offset_x+view_xview[0];
+var d_o_y = draw_offset_y+view_yview[0];
 
 // draw swaps left
 draw_text(0,0,"swaps left: "+string(swaps_left));

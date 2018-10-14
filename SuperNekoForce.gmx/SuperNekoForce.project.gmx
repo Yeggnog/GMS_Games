@@ -23,6 +23,7 @@
   <objects name="objects">
     <object>objects\obj_Block_Matrix</object>
     <object>objects\obj_Omni_Control</object>
+    <object>objects\obj_Battle_Control</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
