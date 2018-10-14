@@ -47,15 +47,15 @@ dev_ind[6,0] = "K"; // Y
 dev_ind[7,0] = "K"; // A
 dev_ind[8,0] = "K"; // B
 // alternate
-dev_ind[0,0] = "K"; // left
-dev_ind[1,0] = "K"; // right
-dev_ind[2,0] = "K"; // up
-dev_ind[3,0] = "K"; // down
-dev_ind[4,0] = "K"; // start
-dev_ind[5,0] = "M"; // X
-dev_ind[6,0] = "M"; // Y
-dev_ind[7,0] = "K"; // A
-dev_ind[8,0] = "K"; // B
+dev_ind[0,1] = "K"; // left
+dev_ind[1,1] = "K"; // right
+dev_ind[2,1] = "K"; // up
+dev_ind[3,1] = "K"; // down
+dev_ind[4,1] = "K"; // start
+dev_ind[5,1] = "M"; // X
+dev_ind[6,1] = "M"; // Y
+dev_ind[7,1] = "K"; // A
+dev_ind[8,1] = "K"; // B
 
 // keyboard
 globalvar key_left;
@@ -111,10 +111,126 @@ k_B_A = vk_space;
             <kind>1</kind>
             <string>/// update constants
 
-// keyboard
+// temp
+var temp;
 
-// mouse
+// default
+if(input_style == 0){
+    // directions
+    // Left
+    if(dev_ind[0,0] == 'K'){
+        temp[0] = keyboard_check(k_L_D);
+    }else if(dev_ind[0,0] == 'M'){
+        temp[0] = mouse_check_button(k_L_D);
+    }
+    if(dev_ind[0,1] == 'K'){
+        temp[1] = keyboard_check(k_L_A);
+    }else if(dev_ind[0,1] == 'M'){
+        temp[1] = mouse_check_button(k_L_A);
+    }
+    key_left = (temp[0] || temp[1]);
+    // Right
+    if(dev_ind[1,0] == 'K'){
+        temp[0] = keyboard_check(k_R_D);
+    }else if(dev_ind[1,0] == 'M'){
+        temp[0] = mouse_check_button(k_R_D);
+    }
+    if(dev_ind[1,1] == 'K'){
+        temp[1] = keyboard_check(k_R_A);
+    }else if(dev_ind[1,1] == 'M'){
+        temp[1] = mouse_check_button(k_r_A);
+    }
+    key_right = (temp[0] || temp[1]);
+    // Up
+    if(dev_ind[2,0] == 'K'){
+        temp[0] = keyboard_check(k_U_D);
+    }else if(dev_ind[2,0] == 'M'){
+        temp[0] = mouse_check_button(k_U_D);
+    }
+    if(dev_ind[2,1] == 'K'){
+        temp[1] = keyboard_check(k_U_A);
+    }else if(dev_ind[2,1] == 'M'){
+        temp[1] = mouse_check_button(k_U_A);
+    }
+    key_up = (temp[0] || temp[1]);
+    // Down
+    if(dev_ind[3,0] == 'K'){
+        temp[0] = keyboard_check(k_D_D);
+    }else if(dev_ind[3,0] == 'M'){
+        temp[0] = mouse_check_button(k_D_D);
+    }
+    if(dev_ind[3,1] == 'K'){
+        temp[1] = keyboard_check(k_D_A);
+    }else if(dev_ind[3,1] == 'M'){
+        temp[1] = mouse_check_button(k_D_A);
+    }
+    key_down = (temp[0] || temp[1]);
+    // start
+    if(dev_ind[4,0] == 'K'){
+        temp[0] = keyboard_check(k_S_D);
+    }else if(dev_ind[4,0] == 'M'){
+        temp[0] = mouse_check_button(k_S_D);
+    }
+    if(dev_ind[4,1] == 'K'){
+        temp[1] = keyboard_check(k_S_A);
+    }else if(dev_ind[4,1] == 'M'){
+        temp[1] = mouse_check_button(k_S_A);
+    }
+    key_start = (temp[0] || temp[1]);
+    // X
+    if(dev_ind[5,0] == 'K'){
+        temp[0] = keyboard_check(k_X_D);
+    }else if(dev_ind[5,0] == 'M'){
+        temp[0] = mouse_check_button(k_X_D);
+    }
+    if(dev_ind[5,1] == 'K'){
+        temp[1] = keyboard_check(k_X_A);
+    }else if(dev_ind[5,1] == 'M'){
+        temp[1] = mouse_check_button(k_X_A);
+    }
+    key_X = (temp[0] || temp[1]);
+    // Y
+    if(dev_ind[6,0] == 'K'){
+        temp[0] = keyboard_check(k_Y_D);
+    }else if(dev_ind[6,0] == 'M'){
+        temp[0] = mouse_check_button(k_Y_D);
+    }
+    if(dev_ind[6,1] == 'K'){
+        temp[1] = keyboard_check(k_Y_A);
+    }else if(dev_ind[6,1] == 'M'){
+        temp[1] = mouse_check_button(k_Y_A);
+    }
+    key_Y = (temp[0] || temp[1]);
+    // B
+    if(dev_ind[7,0] == 'K'){
+        temp[0] = keyboard_check(k_A_D);
+    }else if(dev_ind[7,0] == 'M'){
+        temp[0] = mouse_check_button(k_A_D);
+    }
+    if(dev_ind[7,1] == 'K'){
+        temp[1] = keyboard_check(k_A_A);
+    }else if(dev_ind[7,1] == 'M'){
+        temp[1] = mouse_check_button(k_A_A);
+    }
+    key_A = (temp[0] || temp[1]);
+    // B
+    if(dev_ind[8,0] == 'K'){
+        temp[0] = keyboard_check(k_B_D);
+    }else if(dev_ind[8,0] == 'M'){
+        temp[0] = mouse_check_button(k_B_D);
+    }
+    if(dev_ind[8,1] == 'K'){
+        temp[1] = keyboard_check(k_B_A);
+    }else if(dev_ind[8,1] == 'M'){
+        temp[1] = mouse_check_button(k_B_A);
+    }
+    key_B = (temp[0] || temp[1]);
+}
 
+// alternate
+else if(input_style == 1){
+    
+}
 </string>
           </argument>
         </arguments>

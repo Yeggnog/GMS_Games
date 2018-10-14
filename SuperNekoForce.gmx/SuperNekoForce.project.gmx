@@ -16,6 +16,9 @@
     <script>scripts\clear_grid.gml</script>
     <script>scripts\swap_blocks.gml</script>
     <script>scripts\grid_fall.gml</script>
+    <script>scripts\add_random_row_new.gml</script>
+    <script>scripts\grid_fall_new.gml</script>
+    <script>scripts\consume_blocks.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Block_Matrix</object>

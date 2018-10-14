@@ -27,9 +27,13 @@
             <kind>1</kind>
             <string>/// init
 
+// ACTUALLY MAKE THINGS BLOODY RANDOM
+randomize();
+
 // create block matrix
 globalvar block_matrix;
-globalvar block_matrix_offset;
+globalvar block_matrix_offset_x;
+globalvar block_matrix_offset_y;
 clear_grid();
 
 // other variables
@@ -64,20 +68,22 @@ draw_offset_y = 16;
             <kind>1</kind>
             <string>/// control input
 
+if(time_on){
+
 // add a random row
 if(keyboard_check_pressed(ord('R'))){
-    add_random_row();
+    add_random_row_new();
 }
 
 // swap
-if(keyboard_check_pressed(vk_enter) &amp;&amp; swaps_left &gt; 0){
+if(key_A &amp;&amp; swaps_left &gt; 0){
     time_on = false;
     swap_blocks(cursor_x,cursor_y,cursor_x,cursor_y+1);
     swaps_left -= 1;
 }
 
 // move the cursor
-if(keyboard_check_pressed(vk_left)){
+if(key_left){
     if(cursor_x &gt; 0){
         cursor_x -= 1;
         cursor_offset[0] = 16;
@@ -86,7 +92,7 @@ if(keyboard_check_pressed(vk_left)){
         cursor_offset[0] = -16*(array_length_2d(block_matrix,0));
     }
 }
-if(keyboard_check_pressed(vk_right)){
+if(key_right){
     if(cursor_x &lt; 5){
         cursor_x += 1;
         cursor_offset[0] = -16;
@@ -95,7 +101,7 @@ if(keyboard_check_pressed(vk_right)){
         cursor_offset[0] = 16*(array_length_2d(block_matrix,0));
     }
 }
-if(keyboard_check_pressed(vk_up)){
+if(key_up){
     if(cursor_y &gt; 0){
         cursor_y -= 1;
         cursor_offset[1] = 16;
@@ -104,7 +110,7 @@ if(keyboard_check_pressed(vk_up)){
         cursor_offset[1] = -16*(array_height_2d(block_matrix));
     }
 }
-if(keyboard_check_pressed(vk_down)){
+if(key_down){
     if(cursor_y &lt; 2){
         cursor_y += 1;
         cursor_offset[1] = -16;
@@ -112,6 +118,8 @@ if(keyboard_check_pressed(vk_down)){
         cursor_y = 0;
         cursor_offset[1] = 16*(array_height_2d(block_matrix));
     }
+}
+
 }
 </string>
           </argument>
@@ -139,23 +147,26 @@ if(keyboard_check_pressed(vk_down)){
 for(var i=0; i&lt;4; i++){
     for(var j=0; j&lt;6; j++){
         var flag = false;
-        if(block_matrix_offset[i,j,0] != 0){
+        // block offsets
+        if(block_matrix_offset_x[i,j] != 0){
             flag = true;
-            if(block_matrix_offset[i,j,0] &lt; 0){
-                block_matrix_offset[i,j,0] += 1;
+            if(block_matrix_offset_x[i,j] &lt; 0){
+                block_matrix_offset_x[i,j] += 2;
             }else{
-                block_matrix_offset[i,j,0] -= 1;
+                block_matrix_offset_x[i,j] -= 2;
             }
         }
-        if(block_matrix_offset[i,j,1] != 0){
+        if(block_matrix_offset_y[i,j] != 0){
             flag = true;
-            if(block_matrix_offset[i,j,1] &lt; 0){
-                block_matrix_offset[i,j,1] += 1;
+            if(block_matrix_offset_y[i,j] &lt; 0){
+                block_matrix_offset_y[i,j] += 2;
             }else{
-                block_matrix_offset[i,j,1] -= 1;
+                block_matrix_offset_y[i,j] -= 2;
             }
         }
+        // cursor
         if(cursor_offset[0] != 0){
+            flag = true;
             if(cursor_offset[0] &lt; 0){
                 cursor_offset[0] += 1;
             }else{
@@ -163,6 +174,7 @@ for(var i=0; i&lt;4; i++){
             }
         }
         if(cursor_offset[1] != 0){
+            flag = true;
             if(cursor_offset[1] &lt; 0){
                 cursor_offset[1] += 1;
             }else{
@@ -171,6 +183,10 @@ for(var i=0; i&lt;4; i++){
         }
         if(!flag){
             time_on = true;
+            if(swaps_left == 0){
+                // close menu
+                instance_destroy();
+            }
         }
     }
 }
@@ -197,6 +213,11 @@ for(var i=0; i&lt;4; i++){
           <argument>
             <kind>1</kind>
             <string>/// draw
+
+// making these for my own sanity
+var d_o_x = draw_offset_x;
+var d_o_y = draw_offset_y;
+
 // draw swaps left
 draw_text(0,0,"swaps left: "+string(swaps_left));
 // draw block matrix
@@ -204,15 +225,16 @@ for(var i=0; i&lt;4; i++){
 var str = "";
     for(var j=0; j&lt;6; j++){
         if(block_matrix[i,j] != -1){
-            draw_sprite(spr_Blocks,block_matrix[i,j],(16*j)+draw_offset_x+block_matrix_offset[i,j,0],(16*i)+draw_offset_y+block_matrix_offset[i,j,1]);
+            draw_sprite(spr_Blocks,block_matrix[i,j],(16*j)+d_o_x+block_matrix_offset_x[i,j],(16*i)+d_o_y+block_matrix_offset_y[i,j]);
         }
     }
 }
+
 // draw swap cursor
-draw_line_width((cursor_x*16)+draw_offset_x-1,(cursor_y*16)+draw_offset_y-1,((cursor_x+1)*16)+draw_offset_x-2,(cursor_y*16)+draw_offset_y-1,2);
-draw_line_width((cursor_x*16)+draw_offset_x-1,((cursor_y+2)*16)+draw_offset_y-2,((cursor_x+1)*16)+draw_offset_x-2,((cursor_y+2)*16)+draw_offset_y-2,2);
-draw_line_width(((cursor_x+1)*16)+draw_offset_x-2,(cursor_y*16)+draw_offset_y-1,((cursor_x+1)*16)+draw_offset_x-2,((cursor_y+2)*16)+draw_offset_y-2,2);
-draw_line_width((cursor_x*16)+draw_offset_x-1,(cursor_y*16)+draw_offset_y-1,(cursor_x*16)+draw_offset_x-1,((cursor_y+2)*16)+draw_offset_y-2,2);
+draw_line_width((cursor_x*16)+d_o_x-1+cursor_offset[0],(cursor_y*16)+d_o_y-1+cursor_offset[1],((cursor_x+1)*16)+d_o_x-2+cursor_offset[0],(cursor_y*16)+d_o_y-1+cursor_offset[1],2);
+draw_line_width((cursor_x*16)+d_o_x-1+cursor_offset[0],((cursor_y+2)*16)+d_o_y-2+cursor_offset[1],((cursor_x+1)*16)+d_o_x-2+cursor_offset[0],((cursor_y+2)*16)+d_o_y-2+cursor_offset[1],2);
+draw_line_width(((cursor_x+1)*16)+d_o_x-2+cursor_offset[0],(cursor_y*16)+d_o_y-1+cursor_offset[1],((cursor_x+1)*16)+d_o_x-2+cursor_offset[0],((cursor_y+2)*16)+d_o_y-2+cursor_offset[1],2);
+draw_line_width((cursor_x*16)+d_o_x-1+cursor_offset[0],(cursor_y*16)+d_o_y-1+cursor_offset[1],(cursor_x*16)+d_o_x-1+cursor_offset[0],((cursor_y+2)*16)+d_o_y-2+cursor_offset[1],2);
 </string>
           </argument>
         </arguments>
