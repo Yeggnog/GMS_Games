@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite0</sprite>
+    <sprite>sprites\sprite2</sprite>
     <sprite>sprites\spr_Blocks</sprite>
   </sprites>
   <backgrounds name="background"/>
@@ -24,6 +25,7 @@
     <object>objects\obj_Block_Matrix</object>
     <object>objects\obj_Omni_Control</object>
     <object>objects\obj_Battle_Control</object>
+    <object>objects\obj_Player_Fighter</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

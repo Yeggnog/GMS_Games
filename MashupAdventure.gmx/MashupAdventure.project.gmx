@@ -65,11 +65,20 @@
     <sprites name="Fighter">
       <sprites name="Player">
         <sprite>sprites\spr_Bazza_L</sprite>
+        <sprite>sprites\spr_Bazza_R</sprite>
         <sprite>sprites\spr_Bazza_Dash_L</sprite>
+        <sprite>sprites\spr_Bazza_Dash_R</sprite>
         <sprite>sprites\spr_Bazza_BackDash_L</sprite>
+        <sprite>sprites\spr_Bazza_BackDash_R</sprite>
         <sprite>sprites\spr_Bazza_Charge_L</sprite>
-        <sprite>sprites\spr_Bazza_ChargeAura</sprite>
+        <sprite>sprites\spr_Bazza_Charge_R</sprite>
         <sprite>sprites\spr_Bazza_Punch_L</sprite>
+        <sprite>sprites\spr_Bazza_Punch_R</sprite>
+        <sprite>sprites\spr_Bazza_Punch2_L</sprite>
+        <sprite>sprites\spr_Bazza_Punch2_R</sprite>
+        <sprite>sprites\spr_Bazza_Kick_L</sprite>
+        <sprite>sprites\spr_Bazza_Kick_R</sprite>
+        <sprite>sprites\spr_Bazza_ChargeAura</sprite>
       </sprites>
       <sprite>sprites\spr_Fighter_Misc_L</sprite>
     </sprites>
@@ -85,6 +94,12 @@
     <script>scripts\add_message.gml</script>
     <script>scripts\grid_empty_at.gml</script>
   </scripts>
+  <shaders name="shaders">
+    <shader type="GLSLES">shaders\ColorMask.shader</shader>
+    <shader type="GLSLES">shaders\OmniShaderBase.shader</shader>
+    <shader type="GLSLES">shaders\Outline.shader</shader>
+    <shader type="GLSLES">shaders\Scanline.shader</shader>
+  </shaders>
   <objects name="objects">
     <object>objects\obj_Omni_Control</object>
     <object>objects\obj_Omni_Solid</object>
@@ -112,10 +127,12 @@
       <object>objects\obj_TBS_Unit</object>
     </objects>
     <objects name="Fighter">
+      <object>objects\obj_Fighter_Control</object>
       <object>objects\obj_Bazza</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_Fighter</room>
     <room>rooms\rm_Minigame_TurnBased</room>
     <room>rooms\rm_Minigame_PointNClick</room>
     <room>rooms\rm_Minigame_Runner</room>

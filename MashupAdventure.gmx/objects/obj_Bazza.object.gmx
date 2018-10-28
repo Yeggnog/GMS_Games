@@ -28,15 +28,15 @@
             <string>/// set up variables
 
 // movement
-x_spd = 0; x_accel = 0;
-y_spd = 0; y_accel = 0;
+x_spd = 0; x_spd_base = 0; x_accel = 0;
+y_spd = 0; y_spd_base = 0; y_accel = 0;
 knocked = 0;
 move_dir = 0;
 facing = 0;
 
 // combat
 HP_actual = 10; HP_temp = 10; HP_max = 15;
-Ki_actual = 0; Ki_temp = 0; Ki_max = 5;
+ki_actual = 0; ki_temp = 0; ki_max = 50;
 combo_timer = 0; combo_timer_toggle = false;
 temp_combo = 0; atk_timer = 0;
 charging = 0;
@@ -66,32 +66,142 @@ charging = 0;
 
 // key inputs
 
-if(key_left){
+if(key_left &amp;&amp; !key_right){
     // move left
-    x_spd = -1;
+    x_spd_base = -1;
     facing = 180;
-}else if(key_right){
-    // move right
-    x_spd = 1;
-    facing = 0;
-}else{
-    // stand still
-    x_spd = 0;
-    x_accel = 0;
 }
-if(key_up){
+if(key_right &amp;&amp; !key_left){
+    // move right
+    x_spd_base = 1;
+    facing = 0;
+}
+if(key_left &amp;&amp; key_right){
+    x_spd_base = 0;
+}
+if(key_up &amp;&amp; !key_down){
     // move up
-    y_spd = -1;   
-}else if(key_down){
+    y_spd_base = -1;   
+}
+if(key_down &amp;&amp; !key_up){
     // move_down
-    y_spd = 1;
-}else{
+    y_spd_base = 1;
+}
+if(key_up &amp;&amp; key_down){
+    y_spd_base = 0;
+}
+if(!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down){
     // stand still
-    y_spd = 0;
+    x_spd_base = 0;
+    y_spd_base = 0;
+    x_accel = 0;
     y_accel = 0;
 }
+
 if(key_B){
-    // we stopped here
+    if(key_left || key_right || key_up || key_down){
+        // dash
+        // move direction
+        move_dir = point_direction(x,y,mouse_x,mouse_y);
+        if(x_accel == 0 &amp;&amp; y_accel == 0){
+            x_accel = round(lengthdir_x(16, move_dir));
+            y_accel = round(lengthdir_y(16, move_dir));
+            if(charging != 1){
+                charging = 1;
+            }
+        }
+    }
+}
+if(key_B_held){
+    if(!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down){
+        // ki charge
+        if(ki_actual &lt; ki_max){
+            if(charging != 2){
+                charging = 2;
+            }
+            ki_actual += 1;
+            // particle effects
+        }
+    }
+}else{
+    if(charging != 0){
+        charging = 0;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// update things
+
+// update coords
+x_spd = x_spd_base + x_accel;
+y_spd = y_spd_base + y_accel;
+if(x_spd &lt; 0 &amp;&amp; x &gt;= (abs(x_spd)+4)){
+    x += x_spd;
+}
+if(x_spd &gt; 0 &amp;&amp; x &lt;= (room_width-(abs(x_spd)+4))){
+    x += x_spd;
+}
+if(y_spd &lt; 0 &amp;&amp; y &gt;= (abs(y_spd)+6)){
+    y += y_spd;
+}
+if(y_spd &gt; 0 &amp;&amp; y &lt;= (room_height-(abs(y_spd)+6))){
+    y += y_spd;
+}
+
+// update accel
+if(x_accel &gt; 0){
+    x_accel -= 1;
+}else if(x_accel &lt; 0){
+    x_accel += 1;
+}
+if(y_accel &gt; 0){
+    y_accel -= 1;
+}else if(y_accel &lt; 0){
+    y_accel += 1;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_self();
+if(charging != 0){
+    draw_sprite(spr_Bazza_ChargeAura,ki_actual mod 2,x,y);
 }
 </string>
           </argument>

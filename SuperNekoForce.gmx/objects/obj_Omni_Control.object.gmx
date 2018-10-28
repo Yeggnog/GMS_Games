@@ -321,6 +321,9 @@ else if(input_style == 1){
             <string>if(instance_exists(obj_Battle_Control)){
     if(obj_Battle_Control.wait_for_input){
         // fill with combatants
+        var ind = instance_create(x,y,obj_Player_Fighter);
+        // set fighter values here
+        ds_list_add(obj_Battle_Control.fighters,ind);
         obj_Battle_Control.wait_for_input = false;
     }
 }
