@@ -25,16 +25,49 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// particles
+            <string>// other
+fnt_Fight = -1;
+
+// particles
 globalvar part_system_Fight;
 part_system_Fight = part_system_create();
 
+// ki bits
 globalvar type_ki;
 type_ki = part_type_create();
-part_type_life(type_ki,8,16);
+part_type_life(type_ki,30,32);
+part_type_colour_rgb(type_ki,0,0,128,128,192,192);
 part_type_shape(type_ki,pt_shape_square);
+part_type_size(type_ki,0.02,0.05,-0.01,0.0);
+part_type_speed(type_ki,2,2,0,0);
 part_type_orientation(type_ki,45,135,10,0,false);
 part_type_direction(type_ki,90,90,0,0);
+
+// stationary ki bits
+globalvar type_ki_stat;
+type_ki_stat = part_type_create();
+part_type_life(type_ki_stat,30,32);
+part_type_colour_rgb(type_ki_stat,0,0,128,128,192,192);
+part_type_shape(type_ki_stat,pt_shape_square);
+part_type_size(type_ki_stat,0.02,0.05,-0.01,0.0);
+part_type_orientation(type_ki_stat,45,135,10,0,false);
+
+// combo finisher "burst"
+globalvar type_burst;
+type_burst = part_type_create();
+part_type_life(type_burst,15,16);
+part_type_colour_rgb(type_burst,255,255,255,255,255,255);
+part_type_shape(type_burst,pt_shape_square);
+part_type_size(type_burst,0.02,0.05,0,0);
+part_type_speed(type_burst,2,4,-.05,0);
+part_type_orientation(type_burst,45,135,10,0,false);
+part_type_direction(type_burst,0,360,0,0);
+
+// physical hit burst
+globalvar type_hit;
+type_hit = part_type_create();
+part_type_life(type_hit,3,3);
+part_type_sprite(type_hit,spr_Particles_Fight,true,false,false);
 </string>
           </argument>
         </arguments>
@@ -57,7 +90,261 @@ part_type_direction(type_ki,90,90,0,0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>part_system_destroy(part_system_Fight);
+            <string>// clean up
+part_system_destroy(part_system_Fight);
+if(font_exists(fnt_Fight)){
+    font_delete(fnt_Fight);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(instance_exists(obj_Bazza)){
+    // update particle alpha
+    part_type_alpha1(type_ki,(obj_Bazza.ki_actual/obj_Bazza.ki_max));
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// UI drawing
+
+/*
+
+// HP (box len:64)
+draw_sprite(spr_UI_Fight,0,view_xview[0]+5,view_yview[0]+2);
+var hp_ratio = round(60*(obj_Bazza.HP_actual/obj_Bazza.HP_max));
+var hp_temp_ratio = round(60*(obj_Bazza.HP_temp/obj_Bazza.HP_max));
+if(hp_ratio &gt; 0){
+    if(hp_ratio &lt; 3){
+        for(var i=0; i&lt;hp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,2,9,1,4,6,view_xview[0]+6+i,view_yview[0]+3);
+        }
+    }else if(hp_ratio &lt; 60){
+        draw_sprite_part(spr_UI_Fight,1,1,1,hp_ratio,6,view_xview[0]+6,view_yview[0]+3);
+        draw_sprite_part(spr_UI_Fight,2,1,1,6,6,view_xview[0]+hp_ratio+3,view_yview[0]+3);
+    }else{
+        draw_sprite(spr_UI_Fight,1,view_xview[0]+5,view_yview[0]+2);
+    }
+}
+
+// ki (box len:56)
+draw_sprite(spr_UI_Fight,3,view_xview[0]+1,view_yview[0]+10);
+var ki_ratio = round(52*(obj_Bazza.ki_actual/obj_Bazza.ki_max));
+var ki_temp_ratio = round(52*(obj_Bazza.ki_temp/obj_Bazza.ki_max));
+if(ki_ratio &gt; 0){
+    if(ki_ratio &lt; 3){
+        for(var i=0; i&lt;ki_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,5,8,1,4,7,view_xview[0]+2+i,view_yview[0]+11);
+        }
+    }else if(ki_ratio &lt; 52){
+        draw_sprite_part(spr_UI_Fight,4,1,1,ki_ratio,6,view_xview[0]+2,view_yview[0]+11);
+        draw_sprite_part(spr_UI_Fight,5,1,1,6,6,view_xview[0]+ki_ratio-1,view_yview[0]+11);
+    }else{
+        draw_sprite(spr_UI_Fight,4,view_xview[0]+1,view_yview[0]+10);
+    }
+}
+
+// combo
+if(!font_exists(fnt_Fight)){
+    fnt_Fight = font_add_sprite(spr_Font_Fight,ord(' '),false,-1);
+    draw_set_font(fnt_Fight);
+}
+if(obj_Bazza.combo_temp &gt;= 3){
+    draw_text(view_xview[0]+1,view_yview[0]+view_hview[0]-(1+string_height(string(obj_Bazza.combo_temp))),string(obj_Bazza.combo_temp));
+    draw_sprite(spr_UI_Fight,6,view_xview[0]+3+string_width(string(obj_Bazza.combo_temp)),view_yview[0]+view_hview[0]-(3+ceil(string_height(string(obj_Bazza.combo_temp))/2)));
+}
+
+// reset
+draw_set_color(c_white);
+
+*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// UI drawing (new)
+
+// Overlay
+draw_sprite(spr_UI_Fight_Overlay,0,view_xview[0],view_yview[0]+1);
+draw_set_alpha(0.5);
+draw_sprite(spr_UI_Fight_Overlay,1,view_xview[0],view_yview[0]+1);
+draw_set_alpha(1.0);
+
+// HP (box len:64)
+var hp_ratio = round(60*(obj_Bazza.HP_actual/obj_Bazza.HP_max));
+var hp_temp_ratio = round(60*(obj_Bazza.HP_temp/obj_Bazza.HP_max));
+if(hp_ratio &gt; 0){
+if(obj_Bazza.HP_actual &lt;= obj_Bazza.HP_temp){
+    // temp
+    if(hp_temp_ratio &lt; 3){
+        for(var i=0; i&lt;hp_temp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,4,9,1,4,6,view_xview[0]+6+i,view_yview[0]+3);
+        }
+    }else if(hp_temp_ratio &lt; 60){
+        draw_sprite_part(spr_UI_Fight,3,1,1,hp_temp_ratio,6,view_xview[0]+6,view_yview[0]+3);
+        draw_sprite_part(spr_UI_Fight,4,1,1,6,6,view_xview[0]+hp_temp_ratio+3,view_yview[0]+3);
+    }else{
+        draw_sprite(spr_UI_Fight,3,view_xview[0]+5,view_yview[0]+2);
+    }
+    // actual
+    if(hp_ratio &lt; 3){
+        for(var i=0; i&lt;hp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,2,9,1,4,6,view_xview[0]+6+i,view_yview[0]+3);
+        }
+    }else if(hp_ratio &lt; 60){
+        draw_sprite_part(spr_UI_Fight,1,1,1,hp_ratio,6,view_xview[0]+6,view_yview[0]+3);
+        draw_sprite_part(spr_UI_Fight,2,1,1,6,6,view_xview[0]+hp_ratio+3,view_yview[0]+3);
+    }else{
+        draw_sprite(spr_UI_Fight,1,view_xview[0]+5,view_yview[0]+2);
+    }
+}else{
+    // actual
+    if(hp_ratio &lt; 3){
+        for(var i=0; i&lt;hp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,4,8,1,4,7,view_xview[0]+6+i,view_yview[0]+3);
+        }
+    }else if(hp_ratio &lt; 60){
+        draw_sprite_part(spr_UI_Fight,3,1,1,hp_ratio,6,view_xview[0]+6,view_yview[0]+3);
+        draw_sprite_part(spr_UI_Fight,4,1,1,6,6,view_xview[0]+hp_ratio+3,view_yview[0]+3);
+    }else{
+        draw_sprite(spr_UI_Fight,3,view_xview[0]+5,view_yview[0]+2);
+    }
+    // temp
+    if(hp_temp_ratio &lt; 3){
+        for(var i=0; i&lt;hp_temp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,2,8,1,4,7,view_xview[0]+6+i,view_yview[0]+3);
+        }
+    }else if(hp_temp_ratio &lt; 60){
+        draw_sprite_part(spr_UI_Fight,1,1,1,hp_temp_ratio,6,view_xview[0]+6,view_yview[0]+3);
+        draw_sprite_part(spr_UI_Fight,2,1,1,6,6,view_xview[0]+hp_temp_ratio+3,view_yview[0]+3);
+    }else{
+        draw_sprite(spr_UI_Fight,1,view_xview[0]+5,view_yview[0]+2);
+    }
+}
+}
+// box
+draw_sprite(spr_UI_Fight,0,view_xview[0]+5,view_yview[0]+2);
+
+// ki (box len:56)
+var ki_ratio = round(52*(obj_Bazza.ki_actual/obj_Bazza.ki_max));
+var ki_temp_ratio = round(52*(obj_Bazza.ki_temp/obj_Bazza.ki_max));
+if(ki_ratio &gt; 0){ //images 6 and 7
+if(obj_Bazza.ki_actual &lt;= obj_Bazza.ki_temp){
+    // temp
+    if(ki_temp_ratio &lt; 3){
+        for(var i=0; i&lt;ki_temp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,9,8,1,4,7,view_xview[0]+2+i,view_yview[0]+11);
+        }
+    }else if(ki_temp_ratio &lt; 52){
+        draw_sprite_part(spr_UI_Fight,8,1,1,ki_temp_ratio,6,view_xview[0]+2,view_yview[0]+11);
+        draw_sprite_part(spr_UI_Fight,9,1,1,6,6,view_xview[0]+ki_temp_ratio-1,view_yview[0]+11);
+    }else{
+        draw_sprite(spr_UI_Fight,8,view_xview[0]+1,view_yview[0]+10);
+    }
+    // actual
+    if(ki_ratio &lt; 3){
+        for(var i=0; i&lt;ki_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,7,8,1,4,7,view_xview[0]+2+i,view_yview[0]+11);
+        }
+    }else if(ki_ratio &lt; 52){
+        draw_sprite_part(spr_UI_Fight,6,1,1,ki_ratio,6,view_xview[0]+2,view_yview[0]+11);
+        draw_sprite_part(spr_UI_Fight,7,1,1,6,6,view_xview[0]+ki_ratio-1,view_yview[0]+11);
+    }else{
+        draw_sprite(spr_UI_Fight,6,view_xview[0]+1,view_yview[0]+10);
+    }
+}else{
+    // actual
+    if(ki_ratio &lt; 3){
+        for(var i=0; i&lt;ki_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,9,8,1,4,7,view_xview[0]+2+i,view_yview[0]+11);
+        }
+    }else if(ki_ratio &lt; 52){
+        draw_sprite_part(spr_UI_Fight,8,1,1,ki_ratio,6,view_xview[0]+2,view_yview[0]+11);
+        draw_sprite_part(spr_UI_Fight,9,1,1,6,6,view_xview[0]+ki_ratio,view_yview[0]+11);//ratio-1
+    }else{
+        draw_sprite(spr_UI_Fight,8,view_xview[0]+1,view_yview[0]+10);
+    }
+    // temp
+    if(ki_temp_ratio &lt; 3){
+        for(var i=0; i&lt;ki_temp_ratio; i++){
+            draw_sprite_part(spr_UI_Fight,7,8,1,4,7,view_xview[0]+2+i,view_yview[0]+11);
+        }
+    }else if(ki_temp_ratio &lt; 52){
+        draw_sprite_part(spr_UI_Fight,6,1,1,ki_temp_ratio,6,view_xview[0]+2,view_yview[0]+11);
+        draw_sprite_part(spr_UI_Fight,7,1,1,6,6,view_xview[0]+ki_temp_ratio,view_yview[0]+11);
+    }else{
+        draw_sprite(spr_UI_Fight,6,view_xview[0]+1,view_yview[0]+10);
+    }
+}
+}
+// box
+draw_sprite(spr_UI_Fight,5,view_xview[0]+1,view_yview[0]+10);
+
+// combo
+if(!font_exists(fnt_Fight)){
+    fnt_Fight = font_add_sprite(spr_Font_Fight,ord(' '),false,-1);
+    draw_set_font(fnt_Fight);
+}
+if(obj_Bazza.combo_temp &gt;= 3){
+    draw_text(view_xview[0]+1,view_yview[0]+view_hview[0]-(1+string_height(string(obj_Bazza.combo_temp))),string(obj_Bazza.combo_temp));
+    draw_sprite(spr_UI_Fight,10,view_xview[0]+3+string_width(string(obj_Bazza.combo_temp)),view_yview[0]+view_hview[0]-(3+ceil(string_height(string(obj_Bazza.combo_temp))/2)));
+}
+
+// reset
+draw_set_color(c_white);
 </string>
           </argument>
         </arguments>

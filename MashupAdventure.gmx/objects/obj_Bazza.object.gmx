@@ -30,16 +30,29 @@
 // movement
 x_spd = 0; x_spd_base = 0; x_accel = 0;
 y_spd = 0; y_spd_base = 0; y_accel = 0;
-knocked = 0;
+knocked = 0; dashing = false;
 move_dir = 0;
 facing = 0;
 
 // combat
-HP_actual = 10; HP_temp = 10; HP_max = 15;
-ki_actual = 0; ki_temp = 0; ki_max = 50;
-combo_timer = 0; combo_timer_toggle = false;
-temp_combo = 0; atk_timer = 0;
-charging = 0;
+HP_actual = 150; HP_temp = 100; HP_max = 150;
+ki_actual = 0; ki_temp = 0; ki_max = 100;
+combo_timer = 20; combo_timer_toggle = false;
+combo_temp = 0; atk_timer = 0; atk_wait = false;
+charging = 0; aura_frame = 0; chg_frame = 0;
+aura_f_temp = 0; aura_f_max = 1;
+chg_f_temp = 0; chg_f_max = 1;
+
+// beam
+beaming = false;
+beam_start[0] = 0; beam_start[1] = 0;
+beam = -1;
+// color layers for beam (In ascending brightness)
+color_layers[0,0] = 0;   color_layers[0,1] = 128; color_layers[0,2] = 192;
+color_layers[1,0] = 6;   color_layers[1,1] = 174; color_layers[1,2] = 255;
+color_layers[2,0] = 89;  color_layers[2,1] = 201; color_layers[2,2] = 255;
+color_layers[3,0] = 176; color_layers[3,1] = 230; color_layers[3,2] = 255;
+color_layers[4,0] = 255; color_layers[4,1] = 255; color_layers[4,2] = 255;
 </string>
           </argument>
         </arguments>
@@ -64,68 +77,329 @@ charging = 0;
             <kind>1</kind>
             <string>/// move and fight
 
-// key inputs
-
-if(key_left &amp;&amp; !key_right){
-    // move left
-    x_spd_base = -1;
-    facing = 180;
-}
-if(key_right &amp;&amp; !key_left){
-    // move right
-    x_spd_base = 1;
-    facing = 0;
-}
-if(key_left &amp;&amp; key_right){
-    x_spd_base = 0;
-}
-if(key_up &amp;&amp; !key_down){
-    // move up
-    y_spd_base = -1;   
-}
-if(key_down &amp;&amp; !key_up){
-    // move_down
-    y_spd_base = 1;
-}
-if(key_up &amp;&amp; key_down){
-    y_spd_base = 0;
-}
-if(!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down){
+if((!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down) || atk_wait){
     // stand still
     x_spd_base = 0;
     y_spd_base = 0;
     x_accel = 0;
     y_accel = 0;
+    dashing = false;
+    if(!atk_wait &amp;&amp; !dashing &amp;&amp; !beaming){
+        if(facing == 0){
+            if(sprite_index != spr_Bazza_R){
+                sprite_index = spr_Bazza_R;
+            }
+        }else{
+            if(sprite_index != spr_Bazza_L){
+                sprite_index = spr_Bazza_L;
+            }
+        }
+    }
 }
 
-if(key_B){
-    if(key_left || key_right || key_up || key_down){
-        // dash
-        // move direction
-        move_dir = point_direction(x,y,mouse_x,mouse_y);
-        if(x_accel == 0 &amp;&amp; y_accel == 0){
-            x_accel = round(lengthdir_x(16, move_dir));
-            y_accel = round(lengthdir_y(16, move_dir));
-            if(charging != 1){
-                charging = 1;
+// key inputs
+
+if(!atk_wait &amp;&amp; !beaming){
+        
+    //facing
+    var temp = point_direction(x,y,mouse_x,mouse_y);
+    if(temp &lt; 90 || temp &gt; 270){
+        // face right
+        facing = 0;
+    }else{
+        // face left
+        facing = 180;
+    }
+
+    if(key_left &amp;&amp; !key_right){
+        // move left
+        x_spd_base = -2;
+        //combo_temp = 0;
+        //combo_timer = 20;
+        if(facing == 0){
+            if(sprite_index != spr_Bazza_BackDash_R){
+                sprite_index = spr_Bazza_BackDash_R;
+            }
+        }else{
+            if(sprite_index != spr_Bazza_L){
+                sprite_index = spr_Bazza_L;
             }
         }
+    }
+    if(key_right &amp;&amp; !key_left){
+        // move right
+        x_spd_base = 2;
+        //combo_temp = 0;
+        //combo_timer = 20;
+        if(facing == 180){
+            if(sprite_index != spr_Bazza_BackDash_L){
+                sprite_index = spr_Bazza_BackDash_L;
+            }
+        }else{
+            /*if(sprite_index != spr_Bazza_R){
+                sprite_index = spr_Bazza_R;
+            }*/
+        }
+    }
+    if(key_left &amp;&amp; key_right){
+        x_spd_base = 0;
+        if(facing == 0){
+            if(sprite_index != spr_Bazza_R){
+                sprite_index = spr_Bazza_R;
+            }
+        }else{
+            if(sprite_index != spr_Bazza_L){
+                sprite_index = spr_Bazza_L;
+            }
+        }
+    }
+    
+    if(combo_temp &lt; 2){
+
+        if(key_up &amp;&amp; !key_down){
+            // move up
+            y_spd_base = -2;   
+        }
+        if(key_down &amp;&amp; !key_up){
+            // move_down
+            y_spd_base = 2;
+        }
+        if(key_up &amp;&amp; key_down){
+            y_spd_base = 0;
+        }
+
+        if(key_B){
+            if(key_left || key_right || key_up || key_down){
+                // dash
+                dashing = true;
+                // move direction
+                move_dir = point_direction(x,y,mouse_x,mouse_y);
+                if(x_accel == 0 &amp;&amp; y_accel == 0){
+                    x_accel = round(lengthdir_x(12, move_dir));
+                    y_accel = round(lengthdir_y(12, move_dir));
+                    if(charging != 1){
+                        charging = 1;
+                    }
+                }
+            }else{
+                dashing = false;
+            }
+        }
+        if(key_B_held){
+            if(!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down){
+                // ki charge
+                if(ki_actual &lt; ki_max){
+                    if(charging != 2){
+                        charging = 2;
+                    }
+                    ki_actual += 1;
+                    if(facing == 0){
+                        if(sprite_index != spr_Bazza_Charge_R){
+                            sprite_index = spr_Bazza_Charge_R;
+                        }
+                    }else{
+                        if(sprite_index != spr_Bazza_Charge_L){
+                            sprite_index = spr_Bazza_Charge_L;
+                        }
+                    }
+                    // particle effects
+                    part_particles_create(part_system_Fight,x+random_range(-6,6),y+random_range(0,8),type_ki,1);
+                }
+            }
+        }else{
+            if(charging != 0){
+                charging = 0;
+            }
+        }
+
     }
 }
-if(key_B_held){
-    if(!key_left &amp;&amp; !key_right &amp;&amp; !key_up &amp;&amp; !key_down){
-        // ki charge
-        if(ki_actual &lt; ki_max){
-            if(charging != 2){
-                charging = 2;
+
+if(key_A_held){
+    // track how long it's held
+    atk_timer += 1;
+    // update sprite
+    if(atk_timer &gt; 20){
+        if(facing == 0){
+            if(sprite_index != spr_Bazza_Cast_R){
+                sprite_index = spr_Bazza_Cast_R;
             }
-            ki_actual += 1;
-            // particle effects
+        }else{
+            if(sprite_index != spr_Bazza_Cast_L){
+                sprite_index = spr_Bazza_Cast_L;
+            }
         }
     }
+}else if(!atk_wait &amp;&amp; atk_timer &gt; 0){
+    // attack
+    if(atk_timer &gt; 40){
+        // Beam
+        if(ki_actual &gt;= 50){
+            beaming = true;
+            ki_temp = ki_actual;
+            ki_actual -= 50;
+            if(facing == 0){
+                sprite_index = spr_Bazza_Cast2_R;
+                beam = instance_create(x+17,y-1,obj_BeamEnd);
+                beam_start[0] = x+17;
+                if(point_direction(beam_start[0],y,mouse_x,mouse_y) &gt; 270){
+                    beam_start[1] = y+3;
+                }else{
+                    beam_start[1] = y-3;
+                }
+            }else{
+                sprite_index = spr_Bazza_Cast2_L;
+                beam = instance_create(x-17,y-1,obj_BeamEnd);
+                beam_start[0] = x-17;
+                if(point_direction(beam_start[0],y,mouse_x,mouse_y) &gt; 180){
+                    beam_start[1] = y+3;
+                }else{
+                    beam_start[1] = y-3;
+                }
+            }
+            var temp_dir = point_direction(beam_start[0],beam_start[1],mouse_x,mouse_y);
+            if(facing == 0){
+                if(temp_dir &gt; 180 &amp;&amp; temp_dir &lt; 270){
+                    temp_dir = 270;
+                }
+                if(temp_dir &lt;= 180 &amp;&amp; temp_dir &gt; 90){
+                    temp_dir = 90;
+                }
+            }else{
+                if(temp_dir &gt; 180 &amp;&amp; temp_dir &gt; 270){
+                    temp_dir = 270;
+                }
+                if(temp_dir &lt;= 180 &amp;&amp; temp_dir &lt; 90){
+                    temp_dir = 90;
+                }
+            }
+            beam.dir = temp;
+            atk_wait = true;
+            beam.dmg = 20;
+            beam.owner = id;
+            beam.side = 0;
+            beam.spd = 8;
+            combo_temp += 1;
+        }
+    }else if(atk_timer &gt; 20){
+        // Charge ball
+        if(ki_actual &gt;= 20){
+            var temp;
+            ki_temp = ki_actual;
+            ki_actual -= 20;
+            if(facing == 0){
+                sprite_index = spr_Bazza_Punch2_R;
+                temp = instance_create(x+5,y-1,obj_ShootingStar);
+            }else{
+                sprite_index = spr_Bazza_Punch_L;
+                temp = instance_create(x-5,y-1,obj_ShootingStar);
+            }
+            temp.dir = point_direction(x,y,mouse_x,mouse_y);
+            atk_wait = true;
+            temp.dmg = 6;
+            temp.owner = id;
+            temp.side = 0;
+            temp.spd = 12;
+            combo_temp += 1;
+        }
+    }else{
+        // check direction
+        if(key_up &amp;&amp; ki_actual &gt;= 5){
+            // ki blast
+            var temp;
+            ki_temp = ki_actual;
+            ki_actual -= 5;
+            if(facing == 0){
+                if(combo_temp mod 2 == 0){
+                    sprite_index = spr_Bazza_Punch_R;
+                }else{
+                    sprite_index = spr_Bazza_Punch2_R;
+                }
+                temp = instance_create(x+5,y-1,obj_KiBlast);
+                temp.dir = 0;
+            }else{
+                if(combo_temp mod 2 == 0){
+                    sprite_index = spr_Bazza_Punch_L;
+                }else{
+                    sprite_index = spr_Bazza_Punch2_L;
+                }
+                temp = instance_create(x-5,y-1,obj_KiBlast);
+                temp.dir = 180;
+            }
+            atk_wait = true;
+            temp.dmg = 2;
+            temp.owner = id;
+            temp.side = 0;
+            temp.spd = 6;
+            combo_temp += 1;
+        }else{
+            var temp;
+            if(key_down){
+                // kick
+                if(facing == 0){
+                    if(combo_temp mod 2 == 0){
+                        sprite_index = spr_Bazza_Kick_R;
+                    }else{
+                        sprite_index = spr_Bazza_Kick2_R;
+                    }
+                    temp = instance_create(x+4,y+2,obj_PhysHitbox);
+                    temp.offset[0] = 5;
+                    temp.offset[1] = 2;
+                }else{
+                    if(combo_temp mod 2 == 0){
+                        sprite_index = spr_Bazza_Kick_L;
+                    }else{
+                        sprite_index = spr_Bazza_Kick2_L;
+                    }
+                    temp = instance_create(x-4,y+2,obj_PhysHitbox);
+                    temp.offset[0] = -5;
+                    temp.offset[1] = 2;
+                }
+            }else{
+                // punch
+                if(facing == 0){
+                    if(combo_temp mod 2 == 0){
+                        sprite_index = spr_Bazza_Punch_R;
+                    }else{
+                        sprite_index = spr_Bazza_Punch2_R;
+                    }
+                    temp = instance_create(x+5,y-1,obj_PhysHitbox);
+                    temp.offset[0] = 5;
+                    temp.offset[1] = -1;
+                }else{
+                    if(combo_temp mod 2 == 0){
+                        sprite_index = spr_Bazza_Punch_L;
+                    }else{
+                        sprite_index = spr_Bazza_Punch2_L;
+                    }
+                    temp = instance_create(x-5,y-1,obj_PhysHitbox);
+                    temp.offset[0] = -5;
+                    temp.offset[1] = -1;
+                }
+            }
+            atk_wait = true;
+            temp.dmg = 2;
+            temp.owner = id;
+            temp.side = 0;
+            temp.life = 2;
+            if(combo_timer &gt; 10 &amp;&amp; combo_temp &gt;= 3){
+                // combo finisher
+                temp.dmg *= 2;
+                temp.knock = round(temp.dmg*(1+(2*(ki_actual/ki_max))));
+                combo_timer = 20;
+            }else{
+                combo_timer = 0;
+            }
+            combo_temp += 1;
+        }
+    }
+    atk_timer = 0;
 }else{
-    if(charging != 0){
-        charging = 0;
+    // update combo status
+    if(combo_timer &lt; 20 &amp;&amp; combo_temp &gt;= 1){
+        combo_timer += 1;
+    }else{
+        combo_temp = 0;
     }
 }
 </string>
@@ -162,7 +436,7 @@ if(x_spd &gt; 0 &amp;&amp; x &lt;= (room_width-(abs(x_spd)+4))){
 if(y_spd &lt; 0 &amp;&amp; y &gt;= (abs(y_spd)+6)){
     y += y_spd;
 }
-if(y_spd &gt; 0 &amp;&amp; y &lt;= (room_height-(abs(y_spd)+6))){
+if(y_spd &gt; 0 &amp;&amp; y &lt;= (room_height-(abs(y_spd)+13))){ //+6
     y += y_spd;
 }
 
@@ -176,6 +450,131 @@ if(y_accel &gt; 0){
     y_accel -= 1;
 }else if(y_accel &lt; 0){
     y_accel += 1;
+}
+
+// aura animation
+if(aura_f_temp &lt; aura_f_max){
+    aura_f_temp += 1;
+}else{
+    aura_f_temp = 0;
+    if(aura_frame &lt; 1){
+        aura_frame += 1;
+    }else{
+        aura_frame = 0;
+    }
+}
+
+// charge animation
+if(chg_f_temp &lt; chg_f_max){
+    chg_f_temp += 1;
+}else{
+    chg_f_temp = 0;
+    if(chg_frame &lt; 2){
+        chg_frame += 1;
+    }else{
+        chg_frame = 0;
+    }
+}
+
+
+// beam stuff
+/*if(beam != -1 &amp;&amp; instance_exists(obj_BeamEnd)){
+    if(beam.beam_rad &gt; 0){
+        if(facing == 0){
+            beam_start[0] = x-5-(beam.beam_rad);
+        }else{
+            beam_start[0] = x+5+(beam.beam_rad);
+        }
+    }
+}*/
+
+// temp variables
+if(HP_temp != HP_actual){
+    if(HP_temp &gt; HP_actual){
+        HP_temp -= 1;
+    }else if(HP_temp &lt; HP_actual){
+        HP_temp += 1;
+    }
+}
+
+if(ki_temp != ki_actual){
+    if(ki_temp &gt; ki_actual){
+        ki_temp -= 1;
+    }else if(ki_temp &lt; ki_actual){
+        ki_temp += 1;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// end attack wait
+if(sprite_index == spr_Bazza_Punch_R || sprite_index == spr_Bazza_Punch_L || sprite_index == spr_Bazza_Kick_R || sprite_index == spr_Bazza_Kick_L){
+    atk_wait = false;
+    if(facing == 0){
+        if(sprite_index != spr_Bazza_R){
+            sprite_index = spr_Bazza_R;
+        }
+    }else{
+        if(sprite_index != spr_Bazza_L){
+            sprite_index = spr_Bazza_L;
+        }
+    }
+}
+if(sprite_index == spr_Bazza_Punch2_R || sprite_index == spr_Bazza_Punch2_L || sprite_index == spr_Bazza_Kick2_R || sprite_index == spr_Bazza_Kick2_L){
+    atk_wait = false;
+    if(facing == 0){
+        if(sprite_index != spr_Bazza_R){
+            sprite_index = spr_Bazza_R;
+        }
+    }else{
+        if(sprite_index != spr_Bazza_L){
+            sprite_index = spr_Bazza_L;
+        }
+    }
+}
+if(beaming &amp;&amp; (sprite_index == spr_Bazza_Cast2_L || sprite_index == spr_Bazza_Cast2_R)){
+    if(instance_exists(obj_BeamEnd)){
+        if(beam.beam_rad &gt; 0){
+            // loop anim
+            var temp = image_speed;
+            image_speed = 0;
+            image_index = 3;
+            image_speed = temp;
+        }
+    }else{
+        // stop
+        atk_wait = false;
+        beaming = false;
+        beam = -1;
+        if(facing == 0){
+            if(sprite_index != spr_Bazza_R){
+                sprite_index = spr_Bazza_R;
+            }
+        }else{
+            if(sprite_index != spr_Bazza_L){
+                sprite_index = spr_Bazza_L;
+            }
+        }
+    }
 }
 </string>
           </argument>
@@ -199,9 +598,67 @@ if(y_accel &gt; 0){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-if(charging != 0){
-    draw_sprite(spr_Bazza_ChargeAura,ki_actual mod 2,x,y);
+            <string>// debug UI
+/*draw_text(view_xview[0]+4,view_yview[0]+4,"Ki:"+string(ki_actual)+"/"+string(ki_max));
+draw_text(view_xview[0]+4,view_yview[0]+16,"Combo:"+string(combo_temp));*/
+draw_set_color(c_white);
+if(combo_timer == 10){
+    // combo end flash
+    shader_set(ColorMask);
+    var temp = shader_get_uniform(ColorMask,"in_Colour_Actual");
+    shader_set_uniform_f(temp,255.0,255.0,255.0,1.0);
+    draw_self();
+    shader_reset();
+}else{
+    draw_self();
+}
+if((charging != 0 || ki_actual == ki_max) &amp;&amp; !dashing){
+    draw_set_alpha(0.5*(ki_actual/ki_max));
+    draw_sprite(spr_Bazza_ChargeAura,aura_frame,x,y-3);
+    if(y &gt;= (room_height-22)){
+        draw_sprite(spr_Particles_Fight,chg_frame,view_xview[0]+x-(27+(8*((y-(room_height-23))/16))),view_yview[0]+room_height-23);
+        draw_sprite(spr_Particles_Fight,3+chg_frame,view_xview[0]+x+(9+(8*((y-(room_height-23))/16))),view_yview[0]+room_height-23);
+    }
+    draw_set_alpha(1.0);
+}
+if(key_A_held){
+    if(atk_timer &gt; 40){
+        // charge 2
+        if(facing == 0){
+            draw_sprite(spr_Particles_Fight,9+chg_frame,x-13,y-6);
+        }else{
+            draw_sprite(spr_Particles_Fight,9+chg_frame,x-5,y-6);
+        }
+    }else if(atk_timer &gt; 20){
+        // charge 1
+        if(facing == 0){
+            draw_sprite(spr_Particles_Fight,6+chg_frame,x-13,y-6);
+        }else{
+            draw_sprite(spr_Particles_Fight,6+chg_frame,x-5,y-6);
+        }
+    }
+}
+if(dashing){
+    draw_sprite_ext(spr_Bazza_ChargeAura,aura_frame,x-lengthdir_x(3,move_dir),y-lengthdir_y(3,move_dir),1.0,1.0,90+move_dir,c_white,0.5*(ki_actual/ki_max));
+}
+if(beaming &amp;&amp; ki_actual &gt;= 50 &amp;&amp; beam != -1 &amp;&amp; instance_exists(obj_BeamEnd)){
+    var temmie = point_direction(x,y,beam.x,beam.y);
+    draw_sprite_ext(spr_Bazza_ChargeAura,aura_frame,x-lengthdir_x(3,temmie),y-lengthdir_y(3,temmie),1.0,1.0,90+temmie,c_white,0.5*(ki_actual/ki_max));
+}
+if(beaming &amp;&amp; beam != -1 &amp;&amp; instance_exists(obj_BeamEnd)){
+    var temp = depth;
+    depth = -1;
+    // draw color layers
+    for(var i=0; i&lt;array_height_2d(color_layers); i++){
+        if(beam.beam_rad-i &gt; 0){
+            draw_set_color(make_color_rgb(color_layers[i,0],color_layers[i,1],color_layers[i,2]));
+            draw_circle(beam_start[0],beam_start[1],beam.beam_rad-i,false);
+            draw_circle(beam.x,beam.y,beam.beam_rad-i,false);
+            draw_line_width(beam_start[0],beam_start[1],beam.x,beam.y,2*(beam.beam_rad-i));
+            draw_set_color(c_white);
+        }
+    }
+    depth = temp;
 }
 </string>
           </argument>

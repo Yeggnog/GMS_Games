@@ -12,6 +12,11 @@
       <sprite>sprites\spr_Misc_IntroLogo_2</sprite>
       <sprite>sprites\spr_Misc_Basement</sprite>
     </sprites>
+    <sprites name="Particles">
+      <sprite>sprites\spr_Part_HitBurst</sprite>
+      <sprite>sprites\spr_Part_Shockwave_L</sprite>
+      <sprite>sprites\spr_Part_Shockwave_R</sprite>
+    </sprites>
     <sprites name="Runner">
       <sprite>sprites\spr_Tiles_Runner</sprite>
       <sprite>sprites\spr_Particles_Runner</sprite>
@@ -64,23 +69,65 @@
     </sprites>
     <sprites name="Fighter">
       <sprites name="Player">
-        <sprite>sprites\spr_Bazza_L</sprite>
-        <sprite>sprites\spr_Bazza_R</sprite>
-        <sprite>sprites\spr_Bazza_Dash_L</sprite>
-        <sprite>sprites\spr_Bazza_Dash_R</sprite>
-        <sprite>sprites\spr_Bazza_BackDash_L</sprite>
-        <sprite>sprites\spr_Bazza_BackDash_R</sprite>
-        <sprite>sprites\spr_Bazza_Charge_L</sprite>
-        <sprite>sprites\spr_Bazza_Charge_R</sprite>
-        <sprite>sprites\spr_Bazza_Punch_L</sprite>
-        <sprite>sprites\spr_Bazza_Punch_R</sprite>
-        <sprite>sprites\spr_Bazza_Punch2_L</sprite>
-        <sprite>sprites\spr_Bazza_Punch2_R</sprite>
-        <sprite>sprites\spr_Bazza_Kick_L</sprite>
-        <sprite>sprites\spr_Bazza_Kick_R</sprite>
+        <sprites name="Right">
+          <sprite>sprites\spr_Bazza_R</sprite>
+          <sprite>sprites\spr_Bazza_Dash_R</sprite>
+          <sprite>sprites\spr_Bazza_BackDash_R</sprite>
+          <sprite>sprites\spr_Bazza_Charge_R</sprite>
+          <sprite>sprites\spr_Bazza_Cast_R</sprite>
+          <sprite>sprites\spr_Bazza_Cast2_R</sprite>
+          <sprite>sprites\spr_Bazza_Punch_R</sprite>
+          <sprite>sprites\spr_Bazza_Punch2_R</sprite>
+          <sprite>sprites\spr_Bazza_Kick_R</sprite>
+          <sprite>sprites\spr_Bazza_Kick2_R</sprite>
+          <sprite>sprites\spr_Bazza_Hit_R</sprite>
+        </sprites>
+        <sprites name="Left">
+          <sprite>sprites\spr_Bazza_L</sprite>
+          <sprite>sprites\spr_Bazza_Dash_L</sprite>
+          <sprite>sprites\spr_Bazza_BackDash_L</sprite>
+          <sprite>sprites\spr_Bazza_Charge_L</sprite>
+          <sprite>sprites\spr_Bazza_Cast_L</sprite>
+          <sprite>sprites\spr_Bazza_Cast2_L</sprite>
+          <sprite>sprites\spr_Bazza_Punch_L</sprite>
+          <sprite>sprites\spr_Bazza_Punch2_L</sprite>
+          <sprite>sprites\spr_Bazza_Kick_L</sprite>
+          <sprite>sprites\spr_Bazza_Kick2_L</sprite>
+          <sprite>sprites\spr_Bazza_Hit_L</sprite>
+        </sprites>
         <sprite>sprites\spr_Bazza_ChargeAura</sprite>
       </sprites>
+      <sprites name="Attack Hitboxes">
+        <sprite>sprites\spr_Physical_Hitbox</sprite>
+        <sprite>sprites\spr_ki_Hitbox_S</sprite>
+        <sprite>sprites\spr_kiBlast</sprite>
+        <sprite>sprites\spr_ki_Hitbox_L</sprite>
+        <sprite>sprites\spr_ShootingStar</sprite>
+        <sprite>sprites\spr_ki_Hitbox_XL</sprite>
+      </sprites>
+      <sprites name="Shooting Star">
+        <sprite>sprites\spr_Ari_L</sprite>
+        <sprite>sprites\spr_Ari_Hit_L</sprite>
+        <sprite>sprites\spr_Tana_L</sprite>
+        <sprite>sprites\spr_Tana_Hit_L</sprite>
+        <sprite>sprites\spr_Iban_L</sprite>
+        <sprite>sprites\spr_Iban_Hit_L</sprite>
+      </sprites>
+      <sprites name="Enemy">
+        <sprite>sprites\spr_PirateA_L</sprite>
+        <sprite>sprites\sprite85</sprite>
+        <sprite>sprites\spr_PirateB_L</sprite>
+        <sprite>sprites\sprite86</sprite>
+        <sprite>sprites\spr_PirateC_L</sprite>
+        <sprite>sprites\sprite87</sprite>
+        <sprite>sprites\spr_SS_Pose</sprite>
+      </sprites>
+      <sprite>sprites\spr_Particles_Fight</sprite>
+      <sprite>sprites\spr_UI_Fight</sprite>
+      <sprite>sprites\spr_UI_Fight_Overlay</sprite>
+      <sprite>sprites\spr_Font_Fight</sprite>
       <sprite>sprites\spr_Fighter_Misc_L</sprite>
+      <sprite>sprites\spr_BG_Jungle</sprite>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
     <sprite>sprites\sprite33</sprite>
@@ -99,6 +146,7 @@
     <shader type="GLSLES">shaders\OmniShaderBase.shader</shader>
     <shader type="GLSLES">shaders\Outline.shader</shader>
     <shader type="GLSLES">shaders\Scanline.shader</shader>
+    <shader type="GLSLES">shaders\Dither.shader</shader>
   </shaders>
   <objects name="objects">
     <object>objects\obj_Omni_Control</object>
@@ -128,6 +176,13 @@
     </objects>
     <objects name="Fighter">
       <object>objects\obj_Fighter_Control</object>
+      <object>objects\obj_Fight_BG</object>
+      <object>objects\obj_Fight_Atk_Parent</object>
+      <object>objects\obj_PhysHitbox</object>
+      <object>objects\obj_KiBlast</object>
+      <object>objects\obj_ShootingStar</object>
+      <object>objects\obj_BeamEnd</object>
+      <object>objects\obj_Enemy_Debug</object>
       <object>objects\obj_Bazza</object>
     </objects>
   </objects>
