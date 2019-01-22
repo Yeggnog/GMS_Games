@@ -138,7 +138,7 @@ if(key_A){
             <kind>1</kind>
             <string>// draw the cursor
 if(!obj_PNC_Control.tv_on){
-    shader_set(Outline);
+    /*shader_set(Outline);
     var tempid = shader_get_uniform(Outline,"in_Colour_actual");
     var pixelW = shader_get_uniform(Outline,"pixelW");
     var pixelH = shader_get_uniform(Outline,"pixelH");
@@ -146,9 +146,9 @@ if(!obj_PNC_Control.tv_on){
     shader_set_uniform_f(tempid,10.0,182.0,83.0,1.0);
     shader_set_uniform_f(pixelW,texture_get_texel_width(sprite_get_texture(sprite_index,0)));
     shader_set_uniform_f(pixelH,texture_get_texel_height(sprite_get_texture(sprite_index,0)));
-    //shader_set_uniform_f(spacing,1.0);
+    //shader_set_uniform_f(spacing,1.0);*/
     draw_sprite(spr_PNC_Cursor,0,view_xview[0]+x,view_yview[0]+y);
-    shader_reset();
+    //shader_reset();
 }
 </string>
           </argument>
