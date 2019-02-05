@@ -39,16 +39,18 @@ void main()
     float green = (in_Colour_actual.g/255.0);
     float blue = (in_Colour_actual.b/255.0);
     float alpha = in_Colour_actual.a;
-    vec3 Color = vec3(red,green,blue);
     
     // get pixel offsets
     vec2 offsetx = vec2(pixelW,0);
     vec2 offsety = vec2(0,pixelH);
     
     // perform operations on actual_color and such
-    actual_color = actual_color*vec4(Color.r,Color.g,Color.b,alpha);
+    actual_color.r = (actual_color.r*(1.0-alpha))+(red*alpha);
+    actual_color.g = (actual_color.g*(1.0-alpha))+(green*alpha);
+    actual_color.b = (actual_color.b*(1.0-alpha))+(blue*alpha);
+    //actual_color = vec4(red,green,blue,actual_color.a);
     //if(mod(v_vTexcoord.y+(spacing*offsety), spacing) != 0.0){
-    if(mod(floor(v_vTexcoord.y/(spacing*pixelH))+1.0,2.0) == 0.0 || mod(floor(v_vTexcoord.x/(spacing*pixelH))+1.0,2.0) == 0.0){
+    if(mod(floor(v_vTexcoord.y/pixelH),spacing) == 0.0 || mod(floor(v_vTexcoord.x/pixelW),spacing) == 0.0){
         actual_color.a = 0.0;
     }
     

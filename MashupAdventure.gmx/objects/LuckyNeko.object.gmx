@@ -85,6 +85,12 @@ combos[0,2]=3;    combos[1,2]=2;    combos[2,2]=4;    combos[3,2]=4;
 combos[0,3]=0;    combos[1,3]=4;
 combos[0,4]=1;
 combos[0,5]=4;
+// color layers for beam (In ascending brightness)
+color_layers[0,0] = 0;   color_layers[0,1] = 128; color_layers[0,2] = 192;
+color_layers[1,0] = 6;   color_layers[1,1] = 174; color_layers[1,2] = 255;
+color_layers[2,0] = 89;  color_layers[2,1] = 201; color_layers[2,2] = 255;
+color_layers[3,0] = 176; color_layers[3,1] = 230; color_layers[3,2] = 255;
+color_layers[4,0] = 255; color_layers[4,1] = 255; color_layers[4,2] = 255;
 </string>
           </argument>
         </arguments>
@@ -245,7 +251,9 @@ if(status == 1){
                     target_frame = 43;
                     current_frame = 42;
                     special_anim = 1;
-                    frame_delay = 3;
+                    spec_target_frame = 7;
+                    spec_current_frame = 1;
+                    frame_delay = 2;
                 }
                 if(cursor_y == 1){
                     // Avion (Rally)
@@ -258,9 +266,9 @@ if(status == 1){
                     target_frame = 28;
                     current_frame = 22;
                     special_anim = 1;
-                    spec_target_frame = 12;
+                    spec_target_frame = 18;
                     spec_current_frame = 9;
-                    frame_delay = 3;
+                    frame_delay = 2;
                 }
             }
             if(cursor_x == 2){
@@ -291,6 +299,9 @@ if(status == 1){
                 status = 2;
                 cursor_x = 0;
                 AT_timer = 20;
+                if(cursor_y == 1){
+                    combo = ds_list_create();
+                }
             }
         }
         }
@@ -413,6 +424,15 @@ if(status == 2){
         }else{
             eliminate_combos_neko(id,4);
             // add the respective move to the combo
+            var finalMove = -1;
+            for(var i=0; i&lt;array_length_1d(combo_options); i++){
+                if(combo_options[i]){
+                    finalMove = i;
+                }
+            }
+            if(finalMove != -1){
+                ds_list_add(combo,finalMove);
+            }
             cursor_x += 1;
             combo_prog = 0;
             for(var i=0; i&lt;4; i++){
@@ -513,6 +533,11 @@ if(frame_delay_temp &lt; frame_delay){
     }else{
         // end animation
         if(spec_current_frame &gt;= spec_target_frame){
+            if(cursor_y == 2 &amp;&amp; special_anim == 2 &amp;&amp; cursor_x &gt; 0){
+                current_frame = 33;
+            }/*else if(cursor_y == 2 &amp;&amp; special_anim == 1){
+                spec_current_frame = 
+            }*/else{
             animated = -1;
             current_frame = 0;
             target_frame = 0;
@@ -521,6 +546,7 @@ if(frame_delay_temp &lt; frame_delay){
             special_anim = 0;
             spec_target_frame = 0;
             spec_current_frame = 0;
+            }
             // end attack and do damage here
         }
     }
@@ -579,15 +605,68 @@ if(status == 2){
             // Lucca (none)
             
             // Avion
+            if(cursor_y == 1 &amp;&amp; cursor_x &gt; 0 &amp;&amp; animated == -1){
+                animated = 1;
+                switch(combo[|0]){
+                    case 0:
+                    // impact
+                    target_frame = 4;
+                    current_frame = 3;
+                    break;
+                    case 1:
+                    // rising
+                    target_frame = 6;
+                    current_frame = 5;
+                    break;
+                    case 2:
+                    // break
+                    target_frame = 13;
+                    current_frame = 11;
+                    break;
+                    case 3:
+                    // rolling
+                    target_frame = 10;
+                    current_frame = 7;
+                    break;
+                }
+                frame_delay = 1;
+                cursor_x -= 1;
+                ds_list_delete(combo,0);
+            }
             // Bazza
+            if(cursor_y == 2){
+                if(animated == -1){
+                    animated = 2;
+                    target_frame = 36;
+                    current_frame = 29; // 33
+                    special_anim = 2;
+                    //spec_target_frame = 15;
+                    //spec_current_frame = 0;
+                    frame_delay = 1;
+                }
+                if(cursor_x &gt; 0){
+                    cursor_x -= 2;
+                    AT_sub = 1;
+                    if(cursor_x &lt; 0){
+                        cursor_x = 0;
+                    }
+                }
+            }
             
             // alert the Omni Neko
             OmniNeko.after_turn_ping = true;
             OmniNeko.after_turn_id = cursor_y;
             
             // go back to menu
-            status = 1;
-            cursor_x = 0;
+            if(cursor_x == 0 || cursor_y == 0){
+                status = 1;
+                cursor_x = 0;
+                if(cursor_y == 1){
+                    if(ds_exists(combo,ds_type_list)){
+                        ds_list_destroy(combo);
+                    }
+                }
+            }
         }
     }
     if(mash_toggle &gt; 0){
@@ -699,6 +778,24 @@ for(var i=0; i&lt;3; i++){
                 draw_sprite(spr_Neko_Party,current_frame,view_xview[0]+24,view_yview[0]+5+(26*i)); 
                 if(special_anim == 1){
                     // heal
+                    if(spec_current_frame &lt;= 6){ // 5-6
+                    // &lt;shader stuff&gt;
+                    shader_set(SF3Box);
+                    var spac = shader_get_uniform(SF3Box,"spacing");
+                    var pixelW = shader_get_uniform(SF3Box,"pixelW");
+                    var pixelH = shader_get_uniform(SF3Box,"pixelH");
+                    var col = shader_get_uniform(SF3Box,"in_Colour_actual");
+                    shader_set_uniform_f(spac,5.0);
+                    shader_set_uniform_f(pixelW,texture_get_texel_width(sprite_get_texture(spr_Neko_Party,0)));
+                    shader_set_uniform_f(pixelH,texture_get_texel_height(sprite_get_texture(spr_Neko_Party,0)));
+                    shader_set_uniform_f(col,0,255,0,0.5);
+                    draw_sprite_part(spr_Neko_Party,current_frame,0,31-(floor(31*(spec_current_frame/6))),31,floor(31*(spec_current_frame/6)),view_xview[0]+24,view_yview[0]+5+(26*i)+(31-(floor(31*(spec_current_frame/6))))); 
+                    shader_reset();
+                    // &lt;/shader stuff&gt;
+                    }
+                    if(spec_current_frame &gt; 3){
+                    part_particles_create(part_system_Neko,view_xview[0]+24+irandom_range(4,27),view_yview[0]+5+(26*i)+irandom_range(0,31),type_heal,1);
+                    }
                 }
                 if(special_anim == 2){
                     // barrier
@@ -706,13 +803,36 @@ for(var i=0; i&lt;3; i++){
                 }
             }
             if(i == 1){
-                // avion's 2+ frame
-                // base on special_anim's value
+                if(special_anim != 0){
+                    // avion's 2+ frame
+                    special_anim = 0;
+                    frame_delay_temp = 0;
+                    current_frame = 2;
+                    draw_sprite(spr_Neko_Party,current_frame,view_xview[0]+24,view_yview[0]+5+(26*i));
+                }
             }
             if(i == 2){
-                draw_sprite(spr_Neko_Party,current_frame,view_xview[0]+24,view_yview[0]+5+(26*i)); 
-                // Ki Aura
-                draw_sprite_ext(spr_Neko_TechAnims,spec_current_frame,view_xview[0]+24,view_yview[0]+5+(26*i),1.0,1.0,0,c_white,0.6);
+                if(special_anim == 1){
+                    // Ki Aura
+                    draw_sprite(spr_Neko_Party,current_frame,view_xview[0]+24,view_yview[0]+5+(26*i)); 
+                    draw_sprite_ext(spr_Neko_TechAnims,spec_current_frame,view_xview[0]+24,view_yview[0]+5+(26*i),1.0,1.0,0,c_white,0.6);
+                }
+                if(special_anim == 2){
+                    // Beam
+                    draw_sprite(spr_Neko_Party,current_frame,view_xview[0]+24,view_yview[0]+5+(26*i));
+                    if(current_frame &gt; 32){
+                        var beam_rad = floor(15*(cursor_x/86));
+                        // draw color layers
+                        for(var b=0; b&lt;array_height_2d(color_layers); b++){
+                            if(beam_rad-b &gt; 0){
+                                draw_set_color(make_color_rgb(color_layers[b,0],color_layers[b,1],color_layers[b,2]));
+                                draw_circle(view_xview[0]+64-(beam_rad-b),view_yview[0]+24+(26*i),beam_rad-b,false);
+                                draw_line_width(view_xview[0]+64-(beam_rad-b),view_yview[0]+24+(26*i),view_xview[0]+view_wview[0],view_yview[0]+24+(26*i),2*(beam_rad-b));
+                                draw_set_color(c_white);
+                            }
+                        }
+                    }
+                }
             }
             }
         }
@@ -720,8 +840,26 @@ for(var i=0; i&lt;3; i++){
         draw_sprite(spr_Neko_Party,i*8,view_xview[0]+8,view_yview[0]+5+(26*i));
         if(special_anim == 1){
             // heal
+            if(spec_current_frame &lt;= 5){
+            // &lt;shader stuff&gt;
+            shader_set(SF3Box);
+            var spac = shader_get_uniform(SF3Box,"spacing");
+            var pixelW = shader_get_uniform(SF3Box,"pixelW");
+            var pixelH = shader_get_uniform(SF3Box,"pixelH");
+            var col = shader_get_uniform(SF3Box,"in_Colour_actual");
+            shader_set_uniform_f(spac,5.0);
+            shader_set_uniform_f(pixelW,texture_get_texel_width(sprite_get_texture(spr_Neko_Party,0)));
+            shader_set_uniform_f(pixelH,texture_get_texel_height(sprite_get_texture(spr_Neko_Party,0)));
+            shader_set_uniform_f(col,0,255,0,0.5);
+            draw_sprite_part(spr_Neko_Party,i*8,0,31-(floor(31*(spec_current_frame/6))),31,floor(31*(spec_current_frame/6)),view_xview[0]+8,view_yview[0]+5+(26*i)+(31-(floor(31*(spec_current_frame/6))))); 
+            shader_reset();
+            // &lt;/shader stuff&gt;
+            }
+            if(spec_current_frame &gt; 3 &amp;&amp; cursor_y == 0){
+            part_particles_create(part_system_Neko,view_xview[0]+8+irandom_range(4,27),view_yview[0]+5+(26*i)+irandom_range(0,31),type_heal,1);
+            }
         }
-        if(special_anim == 2){
+        if(special_anim == 2 &amp;&amp; cursor_y == 0){
             // barrier
             draw_sprite(spr_Neko_TechAnims,spec_current_frame,view_xview[0]+8,view_yview[0]+5+(26*i));
         }
@@ -783,7 +921,7 @@ for(var i=0; i&lt;4; i++){
 }
 
 // AT Menu
-if(status == 2){
+if(status == 2 &amp;&amp; AT_timer &gt; 0){
     var fnt = font_add_sprite(spr_PNC_Font,ord(' '),false,0);
     draw_set_font(fnt);
     // text

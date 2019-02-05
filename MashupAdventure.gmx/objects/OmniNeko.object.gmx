@@ -53,6 +53,16 @@ whose_turn = 0;
 after_turn_ping = false;
 after_turn_id = -1;
 alarm[0] = 1;
+
+// Particles
+globalvar part_system_neko;
+part_system_Neko = part_system_create();
+globalvar type_heal;
+type_heal = part_type_create();
+part_type_sprite(type_heal,spr_Neko_Particles,true,false,false);
+part_type_life(type_heal,5,5);
+part_type_direction(type_heal,90,90,0,false);
+part_type_speed(type_heal,2,2,0,false);
 </string>
           </argument>
         </arguments>

@@ -145,6 +145,7 @@
         <sprite>sprites\spr_KiBar</sprite>
         <sprite>sprites\spr_Neko_HPBar</sprite>
         <sprite>sprites\spr_Screen_Plan</sprite>
+        <sprite>sprites\spr_Neko_Particles</sprite>
       </sprites>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
