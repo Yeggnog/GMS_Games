@@ -10,6 +10,8 @@
       <sprite>sprites\spr_Cutscene_1</sprite>
       <sprite>sprites\spr_Misc_IntroLogo_1</sprite>
       <sprite>sprites\spr_Misc_IntroLogo_2</sprite>
+      <sprite>sprites\spr_GameOverSplash</sprite>
+      <sprite>sprites\spr_Screen_Transition</sprite>
       <sprite>sprites\spr_Misc_Basement</sprite>
     </sprites>
     <sprites name="Particles">
@@ -137,15 +139,18 @@
         <sprite>sprites\spr_Neko_SwordTechs</sprite>
         <sprite>sprites\spr_Neko_TechAnims</sprite>
         <sprite>sprites\spr_Neko_OW</sprite>
+        <sprite>sprites\spr_Neko_Boss</sprite>
       </sprites>
       <sprites name="UI">
         <sprite>sprites\spr_Neko_Blocks</sprite>
         <sprite>sprites\spr_Neko_Blocks_S</sprite>
         <sprite>sprites\spr_ButtonCode</sprite>
+        <sprite>sprites\spr_Neko_ColorFont</sprite>
         <sprite>sprites\spr_KiBar</sprite>
         <sprite>sprites\spr_Neko_HPBar</sprite>
         <sprite>sprites\spr_Screen_Plan</sprite>
         <sprite>sprites\spr_Neko_Particles</sprite>
+        <sprite>sprites\spr_Neko_Particles_1</sprite>
       </sprites>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
@@ -182,6 +187,8 @@
     <object>objects\obj_Omni_Control</object>
     <object>objects\obj_Omni_Solid</object>
     <object>objects\obj_Omni_Bullet</object>
+    <object>objects\obj_GameOver</object>
+    <object>objects\obj_ScreenTransition</object>
     <object>objects\obj_vfx</object>
     <objects name="Runner">
       <object>objects\obj_Runner_Control</object>
@@ -221,6 +228,7 @@
       <object>objects\OmniNeko</object>
       <object>objects\NekoNeko</object>
       <object>objects\OptionBox</object>
+      <object>objects\BattleTextNeko</object>
     </objects>
   </objects>
   <rooms name="rooms">

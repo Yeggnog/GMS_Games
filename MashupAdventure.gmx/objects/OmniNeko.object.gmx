@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-5</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -33,10 +33,10 @@ party_turns[0] = false;
 party_turns[1] = false;
 party_turns[2] = false;
 // Party's Stats
-// Lucca                Avion                   Bazza
+// Lucca                  Avion                     Bazza
 party_stats[0,0] = 150;   party_stats[1,0] = 200;   party_stats[2,0] = 150; // HP
-party_stats[0,1] = 40;   party_stats[1,1] = 30;   party_stats[2,1] = 50; // Attack
-party_stats[0,2] = 40;   party_stats[1,2] = 50;   party_stats[2,2] = 30; // Defense
+party_stats[0,1] = 40;    party_stats[1,1] = 30;    party_stats[2,1] = 50; // Attack
+party_stats[0,2] = 40;    party_stats[1,2] = 50;    party_stats[2,2] = 30; // Defense
 party_stats[0,3] = 150;   party_stats[1,3] = 200;   party_stats[2,3] = 150; // Max HP
 
 // The Enemy
@@ -53,6 +53,8 @@ whose_turn = 0;
 after_turn_ping = false;
 after_turn_id = -1;
 alarm[0] = 1;
+tea_break = 0;
+battle_neko = instance_create(0,0,LuckyNeko);
 
 // Particles
 globalvar part_system_neko;
@@ -63,6 +65,10 @@ part_type_sprite(type_heal,spr_Neko_Particles,true,false,false);
 part_type_life(type_heal,5,5);
 part_type_direction(type_heal,90,90,0,false);
 part_type_speed(type_heal,2,2,0,false);
+globalvar type_glitch;
+type_glitch = part_type_create();
+part_type_sprite(type_glitch,spr_Neko_Particles_1,false,false,true);
+part_type_life(type_glitch,5,5);
 </string>
           </argument>
         </arguments>
@@ -117,12 +123,25 @@ show_debug_message("Player Turn");
             <kind>1</kind>
             <string>/// THINGS. I'M BAD AT NAMING THEM.
 
+// a quick tea break
+if(!time_on){
+    if(tea_break &gt; 0){
+        tea_break -= 1;
+    }else{
+        time_on = true;
+    }
+}
+
 // update turns
-if(after_turn_ping){
+if(after_turn_ping &amp;&amp; time_on){
     after_turn_ping = false;
+    time_on = false;
+    tea_break = 24;
     if(after_turn_id != -1){
         if(whose_turn == 0){
+            //show_debug_message("Reset party_turns["+string(after_turn_id)+"] to true");
             party_turns[after_turn_id] = true;
+            after_turn_id = -1;
             var flag = false;
             for(var i=0; i&lt;array_length_1d(party_turns); i++){
                 if(!party_turns[i]){
@@ -134,23 +153,59 @@ if(after_turn_ping){
                 whose_turn = 1;
 show_debug_message("Enemy Turn");
                 for(var i=0; i&lt;array_length_1d(enemy_turns); i++){
-                    enemy_turns = false;
+                    enemy_turns[i] = false;
                 }
+                battle_neko.animated = -1;
+                accepting_input = false;
             }
         }else{
+            //show_debug_message("Reset enemy_turns["+string(after_turn_id)+"] to true");
             enemy_turns[after_turn_id] = true;
-            var flag = false;
+            after_turn_id = -1;
+            /*var flag = false;
             for(var i=0; i&lt;array_length_1d(enemy_turns); i++){
                 if(!enemy_turns[i]){
                     flag = true;
                 }
-            }
+            }*/
+            var flag = false;
             if(!flag){
                 // go to the next turn
+                if(enemy_HP[0] == 0){
+                    if(enemy_HP[1] &gt; 0){
+                        enemy_HP[0] = enemy_HP[1];
+                        enemy_HP[1] = 0;
+                    }else{
+                        // end battle
+show_debug_message("Battle End");
+                        room_goto_next();
+                    }
+                }
                 whose_turn = 0;
 show_debug_message("Player Turn");
-                for(var i=0; i&lt;array_length_1d(party_turns); i++){
-                    party_turns = false;
+                var count = 0;
+                for(var i=0; i&lt;3; i++){
+                    if(party_stats[i,0] &gt; 0){
+                        party_turns[i] = false;
+                    }else{
+                        count += 1;
+                    }
+                }
+                if(count == 3){
+                    // lose the battle
+                    instance_create(0,0,obj_GameOver);
+                    
+                }else{
+                battle_neko.cursor_y = 0;
+                battle_neko.animated = -1;
+                grid_fall_neko();
+                random_row_neko();
+                random_row_neko();
+                battle_neko.status = 0;
+                battle_neko.swaps_left = 4;
+                battle_neko.death_counter = 12;
+                battle_neko.dying = false;
+                accepting_input = true;
                 }
             }
         }

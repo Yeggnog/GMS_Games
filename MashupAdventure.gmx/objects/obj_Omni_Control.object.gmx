@@ -51,6 +51,8 @@ globalvar game_beaten;
 game_beaten = false;
 globalvar accepting_input;
 accepting_input = true;
+globalvar time_on;
+time_on = true;
 
 /*
 
