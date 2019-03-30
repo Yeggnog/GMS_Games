@@ -153,6 +153,70 @@
         <sprite>sprites\spr_Neko_Particles_1</sprite>
       </sprites>
     </sprites>
+    <sprites name="Duel">
+      <sprites name="Player">
+        <sprite>sprites\sprite111</sprite>
+        <sprite>sprites\sprite142</sprite>
+        <sprites name="Right">
+          <sprite>sprites\spr_Avion_R</sprite>
+          <sprite>sprites\spr_Avion_Run_R</sprite>
+          <sprite>sprites\spr_Avion_Jump_R</sprite>
+          <sprite>sprites\spr_Avion_Land_R</sprite>
+          <sprite>sprites\spr_Avion_Dash_R</sprite>
+          <sprite>sprites\spr_Avion_Slash1_R</sprite>
+          <sprite>sprites\spr_Avion_Slash2_R</sprite>
+          <sprite>sprites\spr_Avion_Slash3_R</sprite>
+          <sprite>sprites\spr_Avion_DashS_R</sprite>
+          <sprite>sprites\spr_Avion_AirS1_R</sprite>
+          <sprite>sprites\spr_Avion_AirS2_R</sprite>
+          <sprite>sprites\spr_Avion_AirS3_R</sprite>
+          <sprite>sprites\spr_Avion_Rising_R</sprite>
+          <sprite>sprites\spr_Avion_Kick_R</sprite>
+          <sprite>sprites\spr_Avion_Hurt_R</sprite>
+        </sprites>
+        <sprites name="Left">
+          <sprite>sprites\spr_Avion_L</sprite>
+          <sprite>sprites\spr_Avion_Run_L</sprite>
+          <sprite>sprites\spr_Avion_Jump_L</sprite>
+          <sprite>sprites\spr_Avion_Land_L</sprite>
+          <sprite>sprites\spr_Avion_Dash_L</sprite>
+          <sprite>sprites\spr_Avion_Slash1_L</sprite>
+          <sprite>sprites\spr_Avion_Slash2_L</sprite>
+          <sprite>sprites\spr_Avion_Slash3_L</sprite>
+          <sprite>sprites\spr_Avion_DashS_L</sprite>
+          <sprite>sprites\spr_Avion_AirS1_L</sprite>
+          <sprite>sprites\spr_Avion_AirS2_L</sprite>
+          <sprite>sprites\spr_Avion_AirS3_L</sprite>
+          <sprite>sprites\spr_Avion_Rising_L</sprite>
+          <sprite>sprites\spr_Avion_Kick_L</sprite>
+          <sprite>sprites\spr_Avion_Hurt_L</sprite>
+        </sprites>
+        <sprite>sprites\spr_Slash1Hitbox</sprite>
+        <sprite>sprites\spr_Slash2Hitbox</sprite>
+        <sprite>sprites\spr_Slash3Hitbox</sprite>
+        <sprite>sprites\spr_DSlashHitbox</sprite>
+        <sprite>sprites\spr_ASlash1Hitbox</sprite>
+        <sprite>sprites\spr_ASlash2Hitbox</sprite>
+        <sprite>sprites\spr_ASlash3Hitbox</sprite>
+        <sprite>sprites\spr_RSlashHitbox</sprite>
+        <sprite>sprites\spr_KickHitbox</sprite>
+      </sprites>
+      <sprites name="Enemy">
+        <sprite>sprites\spr_Enemy_R</sprite>
+        <sprite>sprites\spr_Enemy_Run_R</sprite>
+        <sprite>sprites\spr_Enemy_Slash1_R</sprite>
+        <sprite>sprites\spr_Enemy_Slash2_R</sprite>
+        <sprite>sprites\spr_Enemy_Slash3_R</sprite>
+        <sprite>sprites\spr_Enemy_Hurt_R</sprite>
+        <sprite>sprites\spr_Enemy_L</sprite>
+        <sprite>sprites\spr_Enemy_Run_L</sprite>
+        <sprite>sprites\spr_Enemy_Slash1_L</sprite>
+        <sprite>sprites\spr_Enemy_Slash2_L</sprite>
+        <sprite>sprites\spr_Enemy_Slash3_L</sprite>
+        <sprite>sprites\spr_Enemy_Hurt_L</sprite>
+      </sprites>
+      <sprite>sprites\spr_BG_Castle</sprite>
+    </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
     <sprite>sprites\spr_Mugshots</sprite>
   </sprites>
@@ -230,8 +294,15 @@
       <object>objects\OptionBox</object>
       <object>objects\BattleTextNeko</object>
     </objects>
+    <objects name="Duel">
+      <object>objects\obj_Duel_Control</object>
+      <object>objects\obj_Avion</object>
+      <object>objects\obj_Avion_Slash</object>
+      <object>objects\obj_Hittable</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_Duel</room>
     <room>rooms\rm_Minigame_NekoRPG</room>
     <room>rooms\rm_Minigame_Fighter</room>
     <room>rooms\rm_Minigame_TurnBased</room>
