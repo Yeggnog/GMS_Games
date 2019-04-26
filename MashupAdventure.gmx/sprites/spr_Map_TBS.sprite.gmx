@@ -38,5 +38,8 @@
     <frame index="15">images\spr_Map_TBS_15.png</frame>
     <frame index="16">images\spr_Map_TBS_16.png</frame>
     <frame index="17">images\spr_Map_TBS_17.png</frame>
+    <frame index="18">images\spr_Map_TBS_18.png</frame>
+    <frame index="19">images\spr_Map_TBS_19.png</frame>
+    <frame index="20">images\spr_Map_TBS_20.png</frame>
   </frames>
 </sprite>

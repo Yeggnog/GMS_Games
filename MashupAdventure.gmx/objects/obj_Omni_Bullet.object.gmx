@@ -32,6 +32,10 @@ y_spd = 0;
 system_id = -1;
 part_id = -1;
 destroy_flag = false;
+step_particle = false;
+part_count = 0;
+part_range[0] = 0;
+part_range[1] = 0;
 </string>
           </argument>
         </arguments>
@@ -60,6 +64,11 @@ if(destroy_flag == true){
     part_particles_create(system_id,x,y,part_id,1);
     ancestor.shots_on_screen -= 1;
     instance_destroy();
+}
+if(step_particle){
+    for(var i=0; i&lt;part_count; i++){
+        part_particles_create(system_id,x+random_range(-part_range[0],part_range[0]),y+part_range[1],part_id,1);
+    }
 }
 </string>
           </argument>

@@ -66,9 +66,42 @@
       <sprite>sprites\spr_RNG_Suit</sprite>
     </sprites>
     <sprites name="TurnBased">
-      <sprite>sprites\spr_Tiles_TBS</sprite>
-      <sprite>sprites\spr_Map_TBS</sprite>
-      <sprite>sprites\spr_BG_Space</sprite>
+      <sprites name="Map">
+        <sprite>sprites\spr_Tiles_TBS</sprite>
+        <sprite>sprites\spr_Map_TBS</sprite>
+        <sprite>sprites\spr_BG_Space</sprite>
+      </sprites>
+      <sprites name="Fight">
+        <sprites name="Player">
+          <sprite>sprites\spr_Pldn_RS</sprite>
+          <sprite>sprites\spr_Pldn_Dash_RS</sprite>
+          <sprite>sprites\spr_Pldn_Hurt_RS</sprite>
+          <sprite>sprites\spr_Pldn_RN</sprite>
+          <sprite>sprites\spr_Pldn_Dash_RN</sprite>
+          <sprite>sprites\spr_Pldn_Hurt_RN</sprite>
+          <sprite>sprites\spr_Pldn_LS</sprite>
+          <sprite>sprites\spr_Pldn_Dash_LS</sprite>
+          <sprite>sprites\spr_Pldn_Hurt_LS</sprite>
+          <sprite>sprites\spr_Pldn_LN</sprite>
+          <sprite>sprites\spr_Pldn_Dash_LN</sprite>
+          <sprite>sprites\spr_Pldn_Hurt_LN</sprite>
+          <sprite>sprites\spr_Slash_TBS</sprite>
+        </sprites>
+        <sprites name="Enemy">
+          <sprite>sprites\spr_Mob1_RS</sprite>
+          <sprite>sprites\spr_Mob1_Hurt_RS</sprite>
+          <sprite>sprites\spr_Mob1_LS</sprite>
+          <sprite>sprites\spr_Mob1_RN</sprite>
+          <sprite>sprites\spr_Mob1_LN</sprite>
+          <sprite>sprites\spr_Mob2_RS</sprite>
+          <sprite>sprites\spr_Mob2_Hurt_RS</sprite>
+          <sprite>sprites\spr_Mob2_LS</sprite>
+          <sprite>sprites\spr_Mob2_RN</sprite>
+          <sprite>sprites\spr_Mob2_LN</sprite>
+          <sprite>sprites\sprite184</sprite>
+        </sprites>
+        <sprite>sprites\spr_UI_TBS</sprite>
+      </sprites>
     </sprites>
     <sprites name="Fighter">
       <sprites name="Player">
@@ -216,6 +249,16 @@
         <sprite>sprites\spr_Enemy_Hurt_L</sprite>
       </sprites>
       <sprite>sprites\spr_BG_Castle</sprite>
+      <sprite>sprites\spr_UI_Duel</sprite>
+    </sprites>
+    <sprites name="Drago">
+      <sprite>sprites\spr_Drago</sprite>
+      <sprite>sprites\spr_Drago_Dash</sprite>
+      <sprite>sprites\spr_Drago_DashAura</sprite>
+      <sprite>sprites\spr_Drago_Bullet</sprite>
+      <sprite>sprites\sprite112</sprite>
+      <sprite>sprites\spr_BG_Drago</sprite>
+      <sprite>sprites\spr_Drago_UI</sprite>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
     <sprite>sprites\spr_Mugshots</sprite>
@@ -273,8 +316,13 @@
       <object>objects\obj_PNC_MessageBox</object>
     </objects>
     <objects name="TurnBased">
+      <object>objects\obj_TBS_Control_OLD</object>
       <object>objects\obj_TBS_Control</object>
       <object>objects\obj_TBS_Unit</object>
+      <object>objects\obj_Pldn</object>
+      <object>objects\obj_Slash_TBS</object>
+      <object>objects\obj_TBS_Mob</object>
+      <object>objects\obj_TBS_Camera</object>
     </objects>
     <objects name="Fighter">
       <object>objects\obj_Fighter_Control</object>
@@ -300,12 +348,18 @@
       <object>objects\obj_Avion_Slash</object>
       <object>objects\obj_Hittable</object>
     </objects>
+    <objects name="Drago">
+      <object>objects\obj_Drago_Control</object>
+      <object>objects\obj_Drago</object>
+      <object>objects\obj_Enemy_Drago</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Minigame_TurnBased</room>
     <room>rooms\rm_Minigame_Duel</room>
+    <room>rooms\rm_Minigame_Drago</room>
     <room>rooms\rm_Minigame_NekoRPG</room>
     <room>rooms\rm_Minigame_Fighter</room>
-    <room>rooms\rm_Minigame_TurnBased</room>
     <room>rooms\rm_Minigame_PointNClick</room>
     <room>rooms\rm_Minigame_Runner</room>
     <room>rooms\rm_Minigame_RunNGun</room>

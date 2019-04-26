@@ -34,8 +34,8 @@ hurt = false;
 hurt_timer = 0;
 hurt_flash = false;
 knock = 0;
-hp = 20;
-maxHP = 20;
+hp = 200;
+maxHP = 200;
 </string>
           </argument>
         </arguments>
@@ -193,11 +193,11 @@ if(hurt_flash){
 }
 
 // health bar?
-draw_set_color(c_black);
+/*draw_set_color(c_black);
 draw_rectangle(x-(maxHP/2),y+4,x+(maxHP/2),y+6,false);
 draw_set_color(c_red);
 draw_rectangle(x-(maxHP/2),y+4,x-(maxHP/2)+(20*(hp/maxHP)),y+6,false);
-draw_set_color(c_black);
+draw_set_color(c_black);*/
 </string>
           </argument>
         </arguments>

@@ -2,7 +2,7 @@
 <object>
   <spriteName>spr_Map_TBS</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
@@ -29,9 +29,12 @@
 
 HP = 20;
 atk = 5;
-type = "enemy";
+type = "none";
 move = 2;
 facing = 180;
+xpos = 0;
+ypos = 0;
+lvl = 1;
 </string>
           </argument>
         </arguments>

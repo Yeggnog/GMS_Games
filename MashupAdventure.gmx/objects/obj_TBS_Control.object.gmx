@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>2</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -27,58 +27,95 @@
             <kind>1</kind>
             <string>/// set up the grid and other such things
 
+// whether we're on the map or in a battle
+on_map = true;
+tea_break = 0;
+randomize();
+alphy = 0.0;
+tea_cookie = -1;
+
 // start the grid empty
 for(var i=0; i&lt;6; i++){
     for(var j=0; j&lt;8; j++){
-        grid_obj[i,j] = -1;
         grid_tile[i,j] = -1;
     }
 }
 
 // variables
-units = ds_list_create();
-selecting = true;
-curs_x = 0;
-curs_y = 0;
+whose_turn = 0; // 0-&gt;player, 1-&gt;enemy
+curs_x = 2;
+curs_y = 1;
+curs_offset[0] = 0;
+curs_offset[1] = 0;
 frame_id = 0;
 frame_id_temp = 0;
 frame_id_temp_inc = 0.5;
 
+// unit moving
+transition = false;
+unit_being_moved = -1;
+unit_offset[0] = 0;
+unit_offset[1] = 0;
+
 // add tiles
 
 // ship
-grid_tile[0,1] = 5;
-grid_tile[0,2] = 6;
-grid_tile[1,1] = 7;
+grid_tile[1,1] = 5;
 grid_tile[1,2] = 8;
+grid_tile[2,2] = 7;
+grid_tile[2,1] = 6;
 // portal
-grid_tile[5,7] = 4;
+grid_tile[4,6] = 4;
 
 // add objects
 
 // player
-var ind = instance_create(32,16,obj_TBS_Unit);
-ind.type = "player";
-ind.xpos = 2;
-ind.ypos = 1;
-ind.HP = 25;
-ind.atk = 4;
-ds_list_add(units,ind);
-grid_obj[1,2] = ind;
+player = instance_create(32,16,obj_TBS_Unit);
+player.type = "player";
+player.xpos = 2;
+player.ypos = 1;
+player.HP = 25;
+player.atk = 4;
+
 // enemies
-for(var i=0; i&lt;4; i++){
-    var tempx = grid_obj[1,2].xpos;
-    var tempy = grid_obj[1,2].ypos;
-    while(!grid_empty_at(tempx,tempy)){
+enemies = ds_list_create();
+enemy_turns = ds_list_create();
+for(var i=0; i&lt;7; i++){
+    var tempx = 0;
+    var tempy = 0;
+    var flag = false;
+    while(!flag){
         tempx = irandom_range(0,7);
         tempy = irandom_range(0,5);
+        flag = true;
+        for(var i=0; i&lt;ds_list_size(enemies); i++){
+            var ind = ds_list_find_value(enemies,i);
+            if(ind.xpos == tempx &amp;&amp; ind.ypos == tempy){
+                flag = false;
+            }
+        }
     }
     var temp = instance_create(tempx*16,tempy*16,obj_TBS_Unit);
+    temp.type = "enemy";
     temp.xpos = tempx;
     temp.ypos = tempy;
-    ds_list_add(units,temp);
-    grid_obj[tempy,tempx] = temp;
+    if(i &gt; 3){
+        temp.lvl = 2;
+        temp.HP = 10;
+    }else{
+        temp.lvl = 1;
+        temp.HP = 5;
+    }
+    ds_list_add(enemies,temp);
+    ds_list_add(enemy_turns,0);
 }
+
+// fight &lt;-&gt; map transitions
+battle_enem = -1;
+battle_play = -1;
+battle_enemies[0] = -1;
+battle_enemies[1] = -1;
+battle_enemies[2] = -1;
 </string>
           </argument>
         </arguments>
@@ -101,8 +138,9 @@ for(var i=0; i&lt;4; i++){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// use this when the game ends to prevent memory leaks
-ds_list_destroy(units);
+            <string>/// no memory leaks
+ds_list_destroy(enemies);
+ds_list_destroy(enemy_turns);
 </string>
           </argument>
         </arguments>
@@ -125,7 +163,9 @@ ds_list_destroy(units);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// update animation
+            <string>/// Control the TBS Map
+
+// update animation
 if(frame_id_temp &lt; 1){
     frame_id_temp += frame_id_temp_inc;
 }else if(frame_id &lt; 2){
@@ -134,6 +174,252 @@ if(frame_id_temp &lt; 1){
 }else{
     frame_id = 0;
     frame_id_temp = 0;
+}
+
+// update EVERYTHING ELSE
+if(tea_break == 0){
+    if(!transition){
+        if(on_map){
+            // map
+            if(whose_turn == 0){
+                // player turn
+                if(curs_offset[0] == 0 &amp;&amp; curs_offset[1] == 0){
+                    // cursor controls
+                    if(key_left){
+                        // left
+                        if(curs_x &gt; 0){
+                            curs_x -= 1;
+                            curs_offset[0] = 16;
+                        }else{
+                            curs_x = array_length_2d(grid_tile,0)-1;
+                            curs_offset[0] = -(array_length_2d(grid_tile,0)-1)*16;
+                        }
+                    }
+                    if(key_right){
+                        // right
+                        if(curs_x &lt; array_length_2d(grid_tile,0)-1){
+                            curs_x += 1;
+                            curs_offset[0] = -16;
+                        }else{
+                            curs_x = 0;
+                            curs_offset[0] = (array_length_2d(grid_tile,0)-1)*16;
+                        }
+                    }
+                    if(key_up){
+                        // up
+                        if(curs_y &gt; 0){
+                            curs_y -= 1;
+                            curs_offset[1] = 16;
+                        }else{
+                            curs_y = array_height_2d(grid_tile)-1;
+                            curs_offset[1] = -(array_height_2d(grid_tile)-1)*16;
+                        }
+                    }
+                    if(key_down){
+                        // down
+                        if(curs_y &lt; array_height_2d(grid_tile)-1){
+                            curs_y += 1;
+                            curs_offset[1] = -16;
+                        }else{
+                            curs_y = 0;
+                            curs_offset[1] = (array_height_2d(grid_tile)-1)*16;
+                        }
+                    }
+                    if(key_A){
+                        // select
+                        if(curs_x != player.xpos || curs_y != player.ypos){
+                            // move
+                            transition = true;
+                            unit_being_moved = player;
+                            unit_offset[0] = (player.xpos - curs_x)*16;
+                            unit_offset[1] = (player.ypos - curs_y)*16;
+                            player.xpos = curs_x;
+                            player.ypos = curs_y;
+                            whose_turn = 1;
+                        }
+                    }
+                }else{
+                    // lerp offsets
+                    if(curs_offset[0] &gt; 0){
+                        curs_offset[0] -= 2;
+                    }
+                    if(curs_offset[0] &lt; 0){
+                        curs_offset[0] += 2;
+                    }
+                    if(curs_offset[1] &gt; 0){
+                        curs_offset[1] -= 2;
+                    }
+                    if(curs_offset[1] &lt; 0){
+                        curs_offset[1] += 2;
+                    }
+                }
+            }else{
+                // enemy turns
+                if(ds_list_size(enemies) &gt; 0){
+                var pos = -1;
+                var flg = false;
+                for(var i=0; i&lt;ds_list_size(enemy_turns); i++){
+                    if(ds_list_find_value(enemy_turns,i) == 0){
+                        if(!flg){
+                            pos = i;
+                            flg = true;
+                        }
+                    }
+                }
+                if(pos != -1){
+                    var ind = ds_list_find_value(enemies,pos);
+                    // choose a random location
+                    var targ_x = 0;
+                    var targ_y = 0;
+                    var flag = false;
+                    while(!flag){
+                        // redo the random
+                        targ_x = irandom_range(0,7);
+                        targ_y = irandom_range(0,5);
+                        flag = true;
+                        for(var i=0; i&lt;ds_list_size(enemies); i++){
+                            var ind2 = ds_list_find_value(enemies,i);
+                            if(ind2.xpos == targ_x &amp;&amp; ind2.ypos == targ_y){
+                                flag = false;
+                            }
+                        }
+                    }
+                    transition = true;
+                    unit_being_moved = ind;
+                    unit_offset[0] = (ind.xpos - targ_x)*16;
+                    unit_offset[1] = (ind.ypos - targ_y)*16;
+                    ind.xpos = targ_x;
+                    ind.ypos = targ_y;
+                    ds_list_set(enemy_turns,pos,1);
+                }
+                }else{
+                    // no more enemies
+                    whose_turn = 0;
+                }
+            }
+        }else{
+            // battle
+            if(battle_enemies[0] == -1 &amp;&amp; battle_enemies[1] == -1 &amp;&amp; battle_enemies[2] == -1){
+                // end battle
+                tea_break = 30;
+                player.HP = battle_play.HP;
+                battle_play.x = 128;
+                battle_play.y = 96;
+                with(battle_play){
+                    instance_destroy();
+                }
+                tea_cookie = 1;
+                ds_list_delete(enemy_turns,ds_list_find_index(enemies,battle_enem));
+                ds_list_delete(enemies,ds_list_find_index(enemies,battle_enem));
+                with(battle_enem){
+                    instance_destroy();
+                }
+                battle_play = -1;
+                battle_enem = -1;
+                if(whose_turn == 0){
+                    whose_turn = 1;
+                }
+            }
+        }
+    }else{
+        // update transition
+        if(unit_offset[0] != 0 || unit_offset[1] != 0){
+            if(unit_offset[0] &gt; 0){
+                unit_offset[0] -= 1;
+            }
+            if(unit_offset[0] &lt; 0){
+                unit_offset[0] += 1;
+            }
+            if(unit_offset[1] &gt; 0){
+                unit_offset[1] -= 1;
+            }
+            if(unit_offset[1] &lt; 0){
+                unit_offset[1] += 1;
+            }
+        }else{
+            // logic for after transition
+            transition = false;
+            if(whose_turn == 0){
+                // player logic
+                if(curs_x == 6 &amp;&amp; curs_y == 4 &amp;&amp; ds_list_size(enemies) == 0){
+                    // portal transition
+                    room_goto_next();
+                }
+                whose_turn = 1;
+            }else{
+                // enemy logic
+                var pos = -1;
+                for(var i=0; i&lt;ds_list_size(enemy_turns); i++){
+                    if(ds_list_find_value(enemy_turns,i) == 0){
+                        pos = i;
+                    }
+                }
+                if(pos == -1){
+                    // swap back to player turn
+                    whose_turn = 0;
+                    for(var i=0; i&lt;ds_list_size(enemy_turns); i++){
+                        ds_list_set(enemy_turns,i,0);
+                    }
+                }
+            }
+            // encounters
+            var enem = -1;
+            var flag = false;
+            for(var i=0; i&lt;ds_list_size(enemies); i++){
+                var ind = ds_list_find_value(enemies,i);
+                if(ind.xpos == player.xpos &amp;&amp; ind.ypos == player.ypos){
+                    if(!flag){
+                        enem = ind;
+                        flag = true;
+                    }
+                }
+            }
+            if(enem != -1){
+                // enter battle
+                tea_break = 30;
+                tea_cookie = 0;
+                battle_enem = enem;
+                // used to be here
+            }
+        }
+    }
+}else{
+    tea_break -= 1;
+    // tea break logic
+    if(tea_break &gt; 20){
+        // fade to black
+        alphy = ((30-tea_break)/10);
+    }else if(tea_break &gt; 10){
+        if(tea_cookie != -1){
+            if(tea_cookie == 0){
+                // entering battle
+                on_map = false;
+                // player
+                if(instance_exists(obj_Pldn)){
+                    with(obj_Pldn){
+                        instance_destroy();
+                    }
+                }
+                battle_play = instance_create(128,96,obj_Pldn);
+                battle_play.HP = player.HP;
+                // generate enemies
+                for(var i=0; i&lt;3; i++){
+                    var temp = instance_create(128+lengthdir_x(80,120*i),96+lengthdir_y(80,120*i),obj_TBS_Mob);
+                    temp.array_ind = i;
+                    temp.lvl = battle_enem.lvl;
+                    temp.HP = battle_enem.HP;
+                    battle_enemies[i] = temp;
+                }
+            }else{
+                on_map = true;
+            }
+            tea_cookie = -1;
+        }
+        alphy = 1.0;
+    }else{
+        // fade from black
+        alphy = (tea_break/10);
+    }
 }
 </string>
           </argument>
@@ -157,40 +443,68 @@ if(frame_id_temp &lt; 1){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// tiles and such
+            <string>/// Draw things
 
-// background
+// BG
 draw_sprite(spr_BG_Space,0,view_xview[0],view_yview[0]);
 
-// tiles
-
-
-// grid (if selecting)
-draw_sprite_tiled(spr_Tiles_TBS,9,view_xview[0],view_yview[0]);
-
-// units
-for(var i=0; i&lt;array_height_2d(grid_obj); i++){
-    for(var j=0; j&lt;array_length_2d(grid_obj,i); j++){
-        if(grid_obj[i,j] != -1){
-            var temp = grid_obj[i,j];
-            if(temp.type == "player"){
-                if(temp.facing == 0){ // 11, 12, 13
-                    draw_sprite(spr_Map_TBS,11+frame_id,temp.xpos*16,temp.ypos*16);
-                }else{ // 8, 9, 10
-                    draw_sprite(spr_Map_TBS,8+frame_id,temp.xpos*16,temp.ypos*16);
-                }
-            }else if(temp.type == "enemy"){
-                if(temp.facing == 0){ // 5, 6, 7
-                    draw_sprite(spr_Map_TBS,5+frame_id,temp.xpos*16,temp.ypos*16);
-                }else{ // 2, 3, 4
-                    draw_sprite(spr_Map_TBS,2+frame_id,temp.xpos*16,temp.ypos*16);
-                }
+if(on_map){
+    // Tiles and grid
+    for(var i=0; i&lt;array_height_2d(grid_tile); i++){
+        for(var j=0; j&lt;array_length_2d(grid_tile,i); j++){
+            if(grid_tile[i,j] != -1){
+                // tiles
+                draw_sprite(spr_Tiles_TBS,grid_tile[i,j],(j*16),(i*16));
+            }
+            if(!transition &amp;&amp; whose_turn == 0){
+                // grid
+                draw_sprite(spr_Tiles_TBS,9,(j*16),(i*16));
             }
         }
     }
-}
 
-// cursor (if selecting)
+    // Enemies
+    for(var i=0; i&lt;ds_list_size(enemies); i++){
+        var ind = ds_list_find_value(enemies,i);
+        var temp_offset_x = 0;
+        var temp_offset_y = 0;
+        if(ind == unit_being_moved){
+            temp_offset_x = unit_offset[0];
+            temp_offset_y = unit_offset[1];
+        }
+        if(ind.lvl == 2){
+            // elite enemy
+            if(ind.facing == 0){
+                draw_sprite(spr_Map_TBS,12+frame_id,(ind.xpos*16)+temp_offset_x,(ind.ypos*16)+temp_offset_y);
+            }else{
+                draw_sprite(spr_Map_TBS,15+frame_id,(ind.xpos*16)+temp_offset_x,(ind.ypos*16)+temp_offset_y);
+            }
+        }else if(ind.lvl == 1){
+            // normal enemy
+            if(ind.facing == 0){
+                draw_sprite(spr_Map_TBS,6+frame_id,(ind.xpos*16)+temp_offset_x,(ind.ypos*16)+temp_offset_y);
+            }else{
+                draw_sprite(spr_Map_TBS,9+frame_id,(ind.xpos*16)+temp_offset_x,(ind.ypos*16)+temp_offset_y);
+            }
+        }
+    }
+
+    // Player
+    var temp_offset_x = 0;
+    var temp_offset_y = 0;
+    if(player == unit_being_moved){
+        temp_offset_x = unit_offset[0];
+        temp_offset_y = unit_offset[1];
+    }
+    if(player.facing == 0){
+        draw_sprite(spr_Map_TBS,frame_id,(player.xpos*16)+temp_offset_x,(player.ypos*16)+temp_offset_y);
+    }else{
+        draw_sprite(spr_Map_TBS,3+frame_id,(player.xpos*16)+temp_offset_x,(player.ypos*16)+temp_offset_y);
+    }
+
+    // Cursor
+    draw_sprite(spr_Map_TBS,18,(curs_x*16)-1+curs_offset[0],(curs_y*16)-1+curs_offset[1]);
+}
 </string>
           </argument>
         </arguments>

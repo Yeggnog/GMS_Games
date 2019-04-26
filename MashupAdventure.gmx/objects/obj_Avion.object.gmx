@@ -50,6 +50,8 @@ atk_hitbox = -1;
 slashing = false;
 attack = -1;
 combo_timer = 0;
+hp = 200;
+maxHP = 200;
 </string>
           </argument>
         </arguments>
@@ -156,7 +158,7 @@ if(key_A){
         if(key_up){
             // rising
             attack = 3;
-            y_spd = -8;
+            y_spd = -10;
             atk_hitbox.sprite_index = spr_RSlashHitbox;
             atk_hitbox.offset[1] = -1;
             if(facing == 0){
@@ -534,6 +536,42 @@ if(attack != -1 &amp;&amp; attack != 4){
         atk_hitbox = -1;
     }
     slashing = false;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// UI and oneself
+draw_self();
+
+// UI
+
+// player HP bar
+draw_sprite(spr_UI_Duel,0,view_xview[0]+1,view_yview[0]+1);
+draw_sprite_part(spr_UI_Duel,1,2,0,round(52*(hp/maxHP)),11,view_xview[0]+3,view_yview[0]+1);
+
+// enemy HP bar
+draw_sprite(spr_UI_Duel,2,view_xview[0]+view_wview[0]-57,view_yview[0]+1);
+if(instance_exists(obj_Hittable)){
+    draw_sprite_part(spr_UI_Duel,3,2+(52-round(52*(obj_Hittable.hp/obj_Hittable.maxHP))),0,round(52*(obj_Hittable.hp/obj_Hittable.maxHP)),11,view_xview[0]+view_wview[0]+(52-round(52*(obj_Hittable.hp/obj_Hittable.maxHP)))-55,view_yview[0]+1);
 }
 </string>
           </argument>
