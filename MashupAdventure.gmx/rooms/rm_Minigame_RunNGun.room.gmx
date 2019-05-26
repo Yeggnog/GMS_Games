@@ -41,7 +41,7 @@
     <background visible="0" foreground="0" name="" x="0" y="0" htiled="-1" vtiled="-1" hspeed="0" vspeed="0" stretch="0"/>
   </backgrounds>
   <views>
-    <view visible="-1" objName="obj_RNG_Lucca" xview="0" yview="0" wview="128" hview="96" xport="0" yport="0" wport="1280" hport="960" hborder="64" vborder="48" hspeed="-1" vspeed="-1"/>
+    <view visible="-1" objName="obj_Lucca" xview="0" yview="0" wview="128" hview="96" xport="0" yport="0" wport="1280" hport="960" hborder="64" vborder="48" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
@@ -100,7 +100,6 @@
     <instance objName="obj_RNG_Solid" x="320" y="16" name="inst_1403ED15" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="320" y="0" name="inst_0817C001" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="304" y="0" name="inst_1F39C72C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Lucca" x="48" y="80" name="inst_222204A6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="0" y="64" name="inst_1824C77F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="0" y="48" name="inst_409FC982" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="0" y="32" name="inst_5AE46FBF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -526,14 +525,6 @@
     <instance objName="obj_RNG_Solid" x="976" y="560" name="inst_95EDA755" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="992" y="560" name="inst_1FA7AAEC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="1008" y="560" name="inst_ED9BF06C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="544" name="inst_42C9DD9C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="528" name="inst_C8246A89" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="512" name="inst_228A990F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="480" name="inst_4742F0C4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="496" name="inst_DFE0C604" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="464" name="inst_CE51720F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="448" name="inst_D87134F3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Solid" x="1008" y="432" name="inst_14F1A306" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Control" x="32" y="16" name="inst_BE45038C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="448" y="288" name="inst_978F92BB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Solid" x="464" y="320" name="inst_3AA01BC9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -569,6 +560,20 @@
     <instance objName="obj_RNG_Crate" x="608" y="528" name="inst_D47B09BA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Crate" x="576" y="528" name="inst_AB7E5B8B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Crate" x="832" y="544" name="inst_FC33406A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_Enemy1" x="192" y="240" name="inst_9C5DD6AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Lucca" x="48" y="80" name="inst_0FAE6261" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="432" name="inst_76AA23B1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="448" name="inst_0FA9E796" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="464" name="inst_D8AA07C2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="480" name="inst_78688AE2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="496" name="inst_8C08969C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="512" name="inst_6A947373" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="528" name="inst_BE6C5564" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_InvisSolid" x="1008" y="544" name="inst_36D6F837" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_HP_RNG" x="880" y="192" name="inst_823C4167" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_HP_RNG" x="912" y="192" name="inst_CBDB3ED4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_HP_RNG" x="944" y="192" name="inst_CD1F0A7E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_HP_RNG" x="976" y="192" name="inst_9F823AAF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bg_Tiles_RNG" x="16" y="64" w="16" h="16" xo="0" yo="0" id="10000001" name="inst_EBBDE086" depth="10" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

@@ -55,6 +55,10 @@ hit = false;
         HP -= 1;
     }else{
         // death particles
+        var temp = irandom_range(0,5);
+        if(temp &lt;= 4){
+            instance_create(x,y,obj_HP_RNG);
+        }
         instance_destroy();
     }
 }

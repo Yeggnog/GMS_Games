@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-3</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -62,7 +62,6 @@ part_range[1] = 0;
 y += y_spd;
 if(destroy_flag == true){
     part_particles_create(system_id,x,y,part_id,1);
-    ancestor.shots_on_screen -= 1;
     instance_destroy();
 }
 if(step_particle){
@@ -118,8 +117,7 @@ if(other.object_index == obj_RNG_Crate){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ancestor.shots_on_screen -= 1;
-instance_destroy();
+            <string>instance_destroy();
 </string>
           </argument>
         </arguments>

@@ -47,6 +47,7 @@
           <sprite>sprites\spr_Lucca_Hurt_R</sprite>
           <sprite>sprites\spr_Lucca_Hide_R</sprite>
           <sprite>sprites\spr_Lucca_Win</sprite>
+          <sprite>sprites\spr_Lucca_Land_R</sprite>
         </sprites>
         <sprites name="Left">
           <sprite>sprites\spr_Lucca_L</sprite>
@@ -57,13 +58,21 @@
           <sprite>sprites\spr_Lucca_Shoot_L</sprite>
           <sprite>sprites\spr_Lucca_Hurt_L</sprite>
           <sprite>sprites\spr_Lucca_Hide_L</sprite>
+          <sprite>sprites\spr_Lucca_Land_L</sprite>
         </sprites>
       </sprites>
       <sprite>sprites\spr_Tiles_RNG</sprite>
       <sprite>sprites\spr_Particles_RNG</sprite>
+      <sprite>sprites\spr_Particles_RNG_Enemy</sprite>
       <sprite>sprites\spr_UI_RNG</sprite>
       <sprite>sprites\spr_Bullet_RNG</sprite>
       <sprite>sprites\spr_RNG_Suit</sprite>
+      <sprite>sprites\sprite198</sprite>
+      <sprite>sprites\sprite199</sprite>
+      <sprite>sprites\sprite201</sprite>
+      <sprite>sprites\sprite200</sprite>
+      <sprite>sprites\sprite202</sprite>
+      <sprite>sprites\spr_HP_RNG</sprite>
     </sprites>
     <sprites name="TurnBased">
       <sprites name="Map">
@@ -259,6 +268,7 @@
       <sprite>sprites\sprite112</sprite>
       <sprite>sprites\spr_BG_Drago</sprite>
       <sprite>sprites\spr_Drago_UI</sprite>
+      <sprite>sprites\sprite203</sprite>
     </sprites>
     <sprite>sprites\spr_Omni_Solid</sprite>
     <sprite>sprites\spr_Mugshots</sprite>
@@ -306,8 +316,12 @@
     <objects name="RunNGun">
       <object>objects\obj_RNG_Control</object>
       <object>objects\obj_RNG_Solid</object>
+      <object>objects\obj_RNG_InvisSolid</object>
       <object>objects\obj_RNG_Crate</object>
       <object>objects\obj_RNG_Lucca</object>
+      <object>objects\obj_HP_RNG</object>
+      <object>objects\obj_RNG_Enemy1</object>
+      <object>objects\obj_Lucca</object>
     </objects>
     <objects name="TextAdventure">
       <object>objects\obj_PNC_Control</object>
@@ -355,14 +369,14 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Minigame_TurnBased</room>
-    <room>rooms\rm_Minigame_Duel</room>
-    <room>rooms\rm_Minigame_Drago</room>
-    <room>rooms\rm_Minigame_NekoRPG</room>
-    <room>rooms\rm_Minigame_Fighter</room>
-    <room>rooms\rm_Minigame_PointNClick</room>
-    <room>rooms\rm_Minigame_Runner</room>
     <room>rooms\rm_Minigame_RunNGun</room>
+    <room>rooms\rm_Minigame_PointNClick</room>
+    <room>rooms\rm_Minigame_TurnBased</room>
+    <room>rooms\rm_Minigame_Fighter</room>
+    <room>rooms\rm_Minigame_Runner</room>
+    <room>rooms\rm_Minigame_Drago</room>
+    <room>rooms\rm_Minigame_Duel</room>
+    <room>rooms\rm_Minigame_NekoRPG</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

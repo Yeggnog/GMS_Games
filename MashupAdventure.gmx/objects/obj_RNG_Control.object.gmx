@@ -46,6 +46,41 @@ globalvar type_LuccaShot;
 type_LuccaShot = part_type_create();
 part_type_life(type_LuccaShot,8,16);
 part_type_sprite(type_LuccaShot,spr_Particles_RNG,true,1,false);
+
+globalvar type_EnemyShot;
+type_EnemyShot = part_type_create();
+part_type_life(type_EnemyShot,8,16);
+part_type_sprite(type_EnemyShot,spr_Particles_RNG_Enemy,true,1,false);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(HP_diff_temp &gt; 0){
+    HP_diff_temp -= 1;
+}else{
+    HP_diff_temp = 4;
+    if(HP_diff &gt; 0){
+        HP_diff -= 1;
+    }
+}
 </string>
           </argument>
         </arguments>

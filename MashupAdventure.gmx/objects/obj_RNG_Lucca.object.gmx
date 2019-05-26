@@ -38,6 +38,7 @@ saved_img = -1;
 facing = 0;
 shots_on_screen = 0;
 hiding = false;
+hit_flash = 0;
 </string>
           </argument>
         </arguments>
@@ -78,7 +79,7 @@ if(key_up &amp;&amp; place_meeting(x,y+1,obj_Omni_Solid)){
 hiding = false;
 
 // control input
-if(key_A){
+if(key_B){
     // jump
     if(jump == 0){
         jump = 1;
@@ -88,7 +89,7 @@ if(key_A){
     }
 }
 
-if(key_B &amp;&amp; shots_on_screen &lt; 3){
+if(key_A &amp;&amp; shots_on_screen &lt; 3){
     // shoot
     // make shot object and set params here
     shoot_decay = 8;
@@ -106,6 +107,8 @@ if(key_B &amp;&amp; shots_on_screen &lt; 3){
     temp_id.ancestor = id;
     temp_id.system_id = part_system_RNG;
     temp_id.part_id = type_square;
+}else if(key_A){
+    show_debug_message("shots_on_screen = "+string(shots_on_screen));
 }
 if(key_right){
     if(!place_meeting(x+3,y-1,obj_Omni_Solid)){
@@ -133,6 +136,34 @@ if(key_left){
                 sprite_index = spr_Lucca_Run_L;
             }
         }
+    }
+}
+
+// hit flash
+if(hit_flash &gt; 0){
+    hit_flash -= 1;
+}
+
+// collision
+if(place_meeting(x,y,obj_Omni_Bullet)){
+    var ind = instance_place(x,y,obj_Omni_Bullet);
+    if(ind.ancestor.object_index == obj_RNG_Enemy1){
+        obj_RNG_Control.HP -= ind.dmg;
+        hit_flash = 30;
+    }
+    with(ind){
+        instance_destroy();
+    }
+}
+
+// health pickup
+if(place_meeting(x,y,obj_HP_RNG)){
+    ind = instance_place(x,y,obj_HP_RNG);
+    with(ind){
+        instance_destroy();
+    }
+    if(obj_RNG_Control.HP &lt; obj_RNG_Control.max_HP){
+        obj_RNG_Control.HP += 1;
     }
 }
 
@@ -234,17 +265,21 @@ for(var i=0; i&lt;obj_RNG_Control.max_HP; i++){
 for(var i=0; i&lt;obj_RNG_Control.HP; i++){
     draw_sprite(spr_UI_RNG,1,view_xview[0]+1+(i*11),view_yview[0]+1);
 }
-if(obj_RNG_Control.HP_diff_temp &gt; 0){
-    draw_sprite_part(spr_UI_RNG,2,0,0,4+(9*(obj_RNG_Control.HP/obj_RNG_Control.max_HP)),9,view_xview[0]+1+(obj_RNG_Control.HP*11),view_yview[0]+1);
+if(obj_RNG_Control.HP_diff &gt; 0 &amp;&amp; obj_RNG_Control.HP &lt; obj_RNG_Control.max_HP){
+    draw_sprite_part(spr_UI_RNG,2,0,0,4+(9*((obj_RNG_Control.HP+obj_RNG_Control.HP_diff)/obj_RNG_Control.max_HP)),9,view_xview[0]+1+(obj_RNG_Control.HP*11),view_yview[0]+1);
 }
 
 // draw self
-if(obj_RNG_Control.HP_diff_temp == obj_RNG_Control.HP_diff){
-    d3d_set_fog(true,c_white,0,1);
-    d3d_start();
+if(hit_flash == 30 || hit_flash == 29){
+    shader_set(ColorMask);
+    var col = shader_get_uniform(ColorMask,"in_Colour_actual");
+    shader_set_uniform_f(col,255.0,255.0,255.0,1.0);
     draw_self();
-    d3d_end();
-    d3d_set_fog(false,c_white,0,1);
+    shader_reset();
+}else if(hit_flash &gt; 0){
+    draw_set_alpha(0.6);
+    draw_self();
+    draw_set_alpha(1.0);
 }else{
     draw_self();
 }
