@@ -74,6 +74,7 @@ if(key_up &amp;&amp; place_meeting(x,y+1,obj_Omni_Solid)){
     }else{
         sprite_index = spr_Lucca_Hide_L;
     }
+    x_spd = 0;
 }else{
 
 // reset hiding
@@ -82,19 +83,15 @@ hiding = false;
 // movement
 if(key_left &amp;&amp; !key_right){
     // move left
-    if(x_spd &lt; 4){
-        x_spd = -4;
-    }
+    x_spd = -4;
     facing = 180;
 }
 if(key_right &amp;&amp; !key_left){
     // move right
-    if(x_spd &lt; 4){
-        x_spd = 4;
-    }
+    x_spd = 4;
     facing = 0;
 }
-if(!key_right &amp;&amp; !key_left){
+if((key_right &amp;&amp; key_left) || (!key_right &amp;&amp; !key_left)){
     // stop
     x_spd = 0;
 }
@@ -149,7 +146,7 @@ if(hit_flash &gt; 0){
 // enemy bullets
 if(place_meeting(x,y,obj_Omni_Bullet)){
     var othr = instance_place(x,y,obj_Omni_Bullet);
-    if(othr.ancestor.object_index == obj_RNG_Enemy1 &amp;&amp; !hiding){
+    if(othr.ancestor.object_index == obj_RNG_Enemy1 &amp;&amp; !hiding &amp;&amp; hit_flash == 0){
         // take damage
         HP -= 1;
         hit_flash = 30;
@@ -171,6 +168,12 @@ if(place_meeting(x,y,obj_HP_RNG)){
     with(ind){
         instance_destroy();
     }
+}
+
+// death
+if(HP &lt;= 0){
+    var temp = instance_create(0,0,obj_ScreenTransition);
+    temp.nextRoom = room;
 }
 
 // ---- updates ----
@@ -205,7 +208,6 @@ if(place_meeting(x,y+y_spd,obj_Omni_Solid)){
     }
     if(place_meeting(x,y+1,obj_Omni_Solid)){
         image_speed = 1;
-        show_debug_message("I landed");
         // sprite update
         if(facing == 0 &amp;&amp; sprite_index != spr_Lucca_Land_R){
             sprite_index = spr_Lucca_Land_R;
@@ -406,7 +408,8 @@ if(hit_flash == 30 || hit_flash == 29){
     shader_reset();
 }else if(hit_flash &gt; 0){
     draw_set_alpha(0.6);
-    draw_self();
+    //draw_self();
+    draw_sprite(sprite_index,image_index,x,y);
     draw_set_alpha(1.0);
 }else{
     draw_self();

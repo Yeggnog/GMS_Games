@@ -52,7 +52,11 @@ nextRoom = -1;
             <string>if(image_index == 27){
     // go to next room
     if(nextRoom != -1){
-        room_goto(nextRoom);
+        if(nextRoom == room){
+            room_restart();
+        }else{
+            room_goto(nextRoom);
+        }
     }
 }
 </string>

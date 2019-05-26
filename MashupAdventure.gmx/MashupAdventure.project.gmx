@@ -67,11 +67,12 @@
       <sprite>sprites\spr_UI_RNG</sprite>
       <sprite>sprites\spr_Bullet_RNG</sprite>
       <sprite>sprites\spr_RNG_Suit</sprite>
-      <sprite>sprites\sprite198</sprite>
-      <sprite>sprites\sprite199</sprite>
+      <sprite>sprites\spr_RNG_Enemy1</sprite>
+      <sprite>sprites\spr_RNG_Enemy2</sprite>
+      <sprite>sprites\spr_RNG_Enemy3</sprite>
       <sprite>sprites\sprite201</sprite>
-      <sprite>sprites\sprite200</sprite>
-      <sprite>sprites\sprite202</sprite>
+      <sprite>sprites\spr_RNG_Boss</sprite>
+      <sprite>sprites\spr_RNG_Missile</sprite>
       <sprite>sprites\spr_HP_RNG</sprite>
     </sprites>
     <sprites name="TurnBased">
@@ -321,6 +322,9 @@
       <object>objects\obj_RNG_Lucca</object>
       <object>objects\obj_HP_RNG</object>
       <object>objects\obj_RNG_Enemy1</object>
+      <object>objects\obj_RNG_Enemy2</object>
+      <object>objects\obj_RNG_Enemy3</object>
+      <object>objects\obj_RNG_Boss</object>
       <object>objects\obj_Lucca</object>
     </objects>
     <objects name="TextAdventure">

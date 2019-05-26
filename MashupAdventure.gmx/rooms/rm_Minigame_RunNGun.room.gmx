@@ -559,9 +559,9 @@
     <instance objName="obj_RNG_Crate" x="592" y="528" name="inst_3AB9B117" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Crate" x="608" y="528" name="inst_D47B09BA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Crate" x="576" y="528" name="inst_AB7E5B8B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_RNG_Crate" x="832" y="544" name="inst_FC33406A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_Crate" x="720" y="544" name="inst_FC33406A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_Enemy1" x="192" y="240" name="inst_9C5DD6AA" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Lucca" x="48" y="80" name="inst_0FAE6261" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Lucca" x="912" y="544" name="inst_0FAE6261" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_InvisSolid" x="1008" y="432" name="inst_76AA23B1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_InvisSolid" x="1008" y="448" name="inst_0FA9E796" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_RNG_InvisSolid" x="1008" y="464" name="inst_D8AA07C2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -574,6 +574,9 @@
     <instance objName="obj_HP_RNG" x="912" y="192" name="inst_CBDB3ED4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_HP_RNG" x="944" y="192" name="inst_CD1F0A7E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_HP_RNG" x="976" y="192" name="inst_9F823AAF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_Enemy2" x="224" y="64" name="inst_37AF068A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_Enemy3" x="208" y="544" name="inst_95690887" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_RNG_Boss" x="976" y="480" name="inst_DFCD5623" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="bg_Tiles_RNG" x="16" y="64" w="16" h="16" xo="0" yo="0" id="10000001" name="inst_EBBDE086" depth="10" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
