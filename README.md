@@ -26,3 +26,9 @@ Chibi Blaster (Platform_03)
 NetBuster
 - A melee-based top-down shooter with a dash mechanic.
 - Dash afterimages
+
+3D Roguelike Test (RL_3D_Test)
+- A dungeon-crawling test of GMS v1.4x's 3D functionality.
+- Camera-facing sprite rotation
+- Grid-based movement and facing
+- Smooth camera lerping
